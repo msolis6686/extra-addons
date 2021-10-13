@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="product_feature_accordion">
+        <div class="container">
+            <div id="product_feature">
+                <t t-foreach="product.valid_product_template_attribute_line_ids" t-as="variant_id">
+                    <div class="variant_wrapper">
+                        <div class="v_name" t-attf-id="heading_#{variant_id.attribute_id.name}">
+                            <h6 class="mb-0">
+                                <span t-field="variant_id.attribute_id.name"/><span class="colon">:</span>
+                            </h6>
+                        </div>
+
+                        <div class="attribute_value_name">
+                            <ul class="">
+                                <t t-foreach="variant_id.product_template_value_ids" t-as="value_id">
+                                    <li t-esc="value_id.name"/><span class="comma">,</span>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="optional_product_switch" inherit_id="website_sale.products_item" customize_show="True" active="False" name="Alternative &amp;
+        Accessory Products">
+        <xpath expr="//div[hasclass('oe_product_image')]" position="inside">
+            <div class="optional_products" t-if="len(product.accessory_product_ids.ids + product.alternative_product_ids.ids) > 0">
+                <span class="accessory" title="Accessory Products"><i class="accessory optional_product fa fa-archive" data-type="a" t-att-data-p_id="product.id" t-if="product.accessory_product_ids"/></span>
+                <span class="alternative" title="Alternative Products"><i class="alternative optional_product fa fa-clone" data-type="b" t-att-data-p_id="product.id" t-if="product.alternative_product_ids"/></span>
+            </div>
+        </xpath>
+        <xpath expr="//div[@class='o_wsale_product_btn']" position="inside">
+            <a class="accessory optional_product" title="Accessory Products" data-type="a" t-att-data-p_id="product.id" t-if="product.accessory_product_ids"><span ><i class="fa fa-archive accessory" data-type="a" t-att-data-p_id="product.id" /></span></a>
+            <a t-if="product.alternative_product_ids" title="Alternative Products" data-type="b" t-att-data-p_id="product.id" class="alternative optional_product"><span ><i class="fa fa-clone alternative" data-type="b" t-att-data-p_id="product.id" /></span></a>
+        </xpath>
+    </template>
+
+    <template id="quick_view" inherit_id="website_sale.products_item" customize_show="True" active="False" name="Quick View">
+        <xpath expr="//div[hasclass('o_wsale_product_btn')]" position="inside">
+            <a t-att-data-product-id='product.id' class="shopoint-zoom-img" title="Quick View"><i class="fa fa-eye"/></a>
+        </xpath>
+    </template>
+
+    <template id="shopoint_price_range_filter" name="Price Range Filter" customize_show="True" active="False" inherit_id="website_sale.products">
+        <xpath expr="//div[@id='products_grid_before']" position="inside">
+            <div class="sp-price-range-filter">
+                <!-- <h6>Price<i t-attf-class="fa #{'fa-plus' if not price_filter_on and not sp_filter_category_fixed_view else 'fa-minus'}"></i></h6> -->
+                <h6>Price<i t-attf-class="fa #{ '' if sp_filter_category_fixed_view else 'fa-minus'}"></i></h6>
+                <!-- <div t-attf-class="price-range-wrapper #{'d-none' if not price_filter_on else 'sp-price-active'}"> -->
+                <div t-attf-class="price-range-wrapper sp-price-active ">
+                    <input class="default-range-slider" type="hidden" t-attf-value="#{default_min_price},#{default_max_price}"/>
+                    <input class="range-slider" type="hidden" t-attf-value="#{min_price if min_price else default_min_price} , #{max_price if max_price else default_max_price}"/>
+                    <span><h6>OR</h6>you can enter the range here</span>
+                    <div class="sp-custom-price-range">
+                        <div class="d-flex align-items-center justify-content-between inputs">
+                            <div>
+                                <input name="min-price" class="sp-min-price" type="text" size="20"/>
+                                <span t-esc="request.website.currency_id.symbol"/>
+                            </div>
+                            <b>-</b>
+                            <div>
+                                <input name="max-price" class="sp-max-price" type="text" size="20"/>
+                                <span t-esc="request.website.currency_id.symbol"/>
+                            </div>
+                        </div>
+                        <div class="go_btn">
+                            <a class="price-filter-action" href="/shop" type="submit">Go</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='products_grid_before']" position="attributes">
+            <attribute name="class">col-lg-3 d-none d-md-block</attribute>
+        </xpath>
+    </template>
+
+
+
+    <template id="sp_filter_category_fixed_view" customize_show="True" active="True" name="Switch Filter &amp; Category View" inherit_id="website_sale.products">
+        <xpath expr="//div[hasclass('row','o_wsale_products_main_row')]" position="attributes">
+            <attribute name="class">row o_wsale_products_main_row category_slider</attribute>
+        </xpath>
+    </template>
+
+    <template id="shopoint_product_filter" name="Shopoint Product Filters">
+        <div id="sp-product-filter" t-if="( category or attrib_values or search or min_price or max_price)">
+            <h6 class="sp-filter-title">Filters</h6>
+            <t t-set="filter_count" t-value="0"/>
+            <div class="sp-product-filters">
+                <t t-if="search">
+                    <t t-set="filter_count" t-value="filter_count + 1"/>
+                    <span class="sp-product-filters-item" t-att-data-search="search" data-filter-type='search' t-esc='search'/>
+                </t>
+                <t t-if="category">
+                    <t t-set="filter_count" t-value="filter_count + 1"/>
+                    <span class="sp-product-filters-item" data-filter-type='category' t-esc='category.name'/>
+                </t>
+                <t t-if="min_price or max_price">
+                    <t t-set="filter_count" t-value="filter_count + 1"/>
+                    <t t-set="min_price" t-value="min_price"/>
+                    <t t-set="max_price" t-value="max_price"/>
+                    <span class="sp-product-filters-item" t-att-data-min="min_price" t-att-data-max="max_price" data-filter-type='price_filter'>
+                        Min:<t t-esc="min_price"/><span>,</span>
+                        Max:<t t-esc="max_price"/>
+                    </span>
+                </t>
+                <t t-if="attrib_values">
+                    <t t-set="filter_count" t-value="filter_count + 1"/>
+                </t>
+                <t t-foreach="attributes" t-as="a">
+                    <t t-if='a.value_ids'>
+                        <t t-foreach="a.value_ids" t-as="v">
+                            <span class="sp-product-filters-item" data-filter-type="attributes" t-attf-data-attrib-value='attrib=#{a.id}-#{v.id}' t-if="list((a.id,v.id)) in attrib_values" t-esc='v.name'/>
+                        </t>
+                    </t>
+                </t>
+                <t t-if="filter_count > 1">
+                    <span class="sp-product-filters-item clear_all" data-filter-type='clear_all'>Clear All</span>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="sp_filters" customize_show="True" active="True" name="Filter's" inherit_id="website_sale.products">
+        <xpath expr="//div[@id='products_grid_before']" position="inside">
+            <t t-call="support_theme_shopoint.shopoint_product_filter"/>
+            <div class="js_close_mobile d-none"/>
+        </xpath>
+    </template>
+
+    <template id="nav_tabs_spec_prod" inherit_id="website_sale.product" customize_show="True" active="True" name="Description &amp; Other Contents">
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <section class="oe_structure"/>
+            <div id="sp-product-menu" class="container">
+                <div class="card bg-white">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                    id="nav_tabs_link_1"
+                                    data-toggle="tab"
+                                    href="#nav_tabs_content_1"
+                                    role="tab"
+                                    aria-controls="nav_tabs_content_1"
+                                    aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    id="nav_tabs_link_2"
+                                    data-toggle="tab"
+                                    href="#nav_tabs_content_2"
+                                    role="tab"
+                                    aria-controls="nav_tabs_content_2"
+                                    aria-selected="false">Features</a>
+                            </li>
+                            <li class="nav-item" t-if="is_product_comment">
+                                <a class="nav-link"
+                                    id="nav_tabs_link_3"
+                                    data-toggle="tab"
+                                    href="#nav_tabs_content_3"
+                                    role="tab"
+                                    aria-controls="nav_tabs_content_3"
+                                    aria-selected="false">Review</a>
+                            </li>
+                            <li class="nav-item" t-if="is_recommended_products and len(product.alternative_product_ids) > 0">
+                                <a class="nav-link"
+                                    id="nav_tabs_link_4"
+                                    data-toggle="tab"
+                                    href="#nav_tabs_content_4"
+                                    role="tab"
+                                    aria-controls="nav_tabs_content_4"
+                                    aria-selected="false">Alternative </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body tab-content">
+                        <div class="tab-pane fade show active"
+                            id="nav_tabs_content_1"
+                            role="tabpanel"
+                            aria-labelledby="nav_tabs_link_1">
+                            <div class="sp-product-tabs-description">
+                                <div class="oe_structure"/>
+                                <p t-if="product.description_sale != False" t-esc="product.description_sale"/>
+                                <p t-else="">Currently No description Available</p>
+                                <div class="oe_structure"/>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade product_attributes"
+                            id="nav_tabs_content_2"
+                            role="tabpanel"
+                            aria-labelledby="nav_tabs_link_2">
+                            <t t-call="support_theme_shopoint.product_feature_accordion"/>
+                        </div>
+                        <div class="tab-pane fade"
+                            id="nav_tabs_content_3"
+                            role="tabpanel"
+                            aria-labelledby="nav_tabs_link_3"
+                            t-if="is_product_comment">
+                            <div class="o_shop_discussion_rating">
+                                <section class="container mt16 mb16">
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-lg-8 offset-lg-2">
+                                            <t t-call="portal.message_thread">
+                                                <t t-set="object" t-value="product"/>
+                                                <t t-set="display_rating" t-value="True"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade"
+                            id="nav_tabs_content_4"
+                            role="tabpanel"
+                            aria-labelledby="nav_tabs_link_4"
+                            t-if="is_recommended_products and len(product.alternative_product_ids) > 0">
+                            <div class="container sp-alternative-products-wrapper" >
+                                <t t-set="product_variant" t-value="product_variant or product._create_first_product_variant()"/>
+                                <t t-set="id_list" t-value="[product_variant.id] if product_variant else []"/>
+                                <t t-foreach="product.alternative_product_ids" t-as="alt_product">
+                                    <t t-set="alt_product_variant_id" t-value="alt_product._create_first_product_variant().id"/>
+                                    <t t-if="alt_product_variant_id" t-set="id_list" t-value="id_list + [alt_product_variant_id]"/>
+                                </t>
+                                <t t-set="ids" t-value="','.join([str(id) for id in id_list])"/>
+                                <div class="sp-alternative-products mt16 owl-carousel owl-theme">
+                                    <t t-foreach="product.alternative_product_ids" t-as="alt_product">
+                                        <div class="text-center sp-alternative-product">
+                                            <t t-set="combination_info" t-value="alt_product._get_combination_info()"/>
+                                            <t t-set="product_variant" t-value="alt_product.env['product.product'].browse(combination_info['product_id'])"/>
+                                            <a class="img-wrapper" t-if="product_variant" t-attf-href="/shop/product/#{ slug(alt_product) }">
+                                                <span t-field="product_variant.image_1920" t-options="{'widget': 'image', 'resize': '300x300'}"/>
+                                            </a>
+                                            <div t-else="" t-field="alt_product.image_1920" t-options="{'widget': 'image', 'resize': '300x300'}" />
+                                            <h6>
+                                                <a t-attf-href="/shop/product/#{ slug(alt_product) }" style="display: block">
+                                                    <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;" />
+                                                </a>
+                                            </h6>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="acessory_products" inherit_id="support_theme_shopoint.nav_tabs_spec_prod" customize_show="True" name="Accessory Products">
+        <xpath expr="//a[@id='nav_tabs_link_4']/.." position="after">
+            <li class="nav-item" t-if="product.accessory_product_ids">
+               <a class="nav-link"
+                   id="nav_tabs_link_5"
+                   data-toggle="tab"
+                   href="#nav_tabs_content_5"
+                   role="tab"
+                   aria-controls="nav_tabs_content_5"
+                   aria-selected="false">Accessory </a>
+           </li>
+        </xpath>
+        <xpath expr="//div[@id='nav_tabs_content_4']" position="after">
+            <div class="tab-pane fade"
+                id="nav_tabs_content_5"
+                role="tabpanel"
+                t-if="product.accessory_product_ids"
+                aria-labelledby="nav_tabs_link_5">
+                <div class="container sp-accessory-products-wrapper" t-if="product.accessory_product_ids">
+                    <div class="sp-accessory-products mt16 owl-carousel owl-theme">
+                        <t t-foreach="product.accessory_product_ids" t-as="alt_product">
+                            <div class="text-center sp-accessory-product">
+                                <div class="img-wrapper" t-field="alt_product.image_1920" t-options="{'widget': 'image', 'resize': '300x300'}" />
+                                <h6>
+                                    <a t-attf-href="/shop/product/#{ slug(alt_product) }" style="display: block">
+                                        <span t-att-title="alt_product.name" t-field="alt_product.name"     class="o_text_overflow" style="display: block;"/>
+                                    </a>
+                                </h6>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sp_support_show_quantity" inherit_id="website_sale_wishlist.product_wishlist" customize_show="True" name="Show Stock Quantity" active="False">
+        <xpath expr="//table//th[hasclass('td-cart-button')]" position="before">
+            <th class="th-status">Stock</th>
+        </xpath>
+        <xpath expr="//table[@id='o_comparelist_table']//td[hasclass('td-wish-btn')]" position="before">
+            <td class="td-status" t-esc="int(wish.product_id.sudo().qty_available)"/>
+        </xpath>
+    </template>
+
+</odoo>
