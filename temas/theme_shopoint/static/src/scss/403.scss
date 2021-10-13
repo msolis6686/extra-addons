@@ -1,0 +1,24 @@
+#sp-403 {
+    position: relative;
+    .sp-403-content {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        & > * {
+            margin-top: 10px;
+            color: skyblue;
+        }
+        h3 {
+            font-size: 100px;
+            font-weight: bolder;
+        }
+        h4 {
+            font-weight: bold
+        }
+
+    }
+}

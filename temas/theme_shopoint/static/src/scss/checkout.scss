@@ -1,0 +1,62 @@
+.sp-checkout-dropdown {
+    position: relative;
+}
+.sp-checkout-dropdown:after {
+    content: "\f0d7";
+    font-family: fontAwesome;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 10px;
+    width: 10px;
+}
+
+#wrap {
+    .oe_website_sale {
+        #sp-checkout.oe_cart {
+            flex-basis: 0 !important;
+            flex-grow: 1 !important;
+            max-width: 100% !important;
+            #sp-checkout-ls {
+                display: flex;
+                flex-wrap: wrap;
+                .sp-checkout-signup, .sp-checkout-login {
+                    flex: 0 0 50%;
+                    padding: 0 20px;
+                    align-items: baseline;
+
+                }
+                .sp-checkout-login {
+                    .sp-signup-login-form-heading {
+                        h3 {
+                            font-weight: bold;
+                        }
+                    }
+                    @include login-sigup-form;
+                    .form-group {
+                        margin-bottom: 2px;
+                    }
+                }
+                .sp-checkout-signup {
+                    .sp-signup-form-heading {
+                        h3 {
+                            font-weight: bold;
+                        }
+                    }
+                    @include login-sigup-form;
+                    .form-group {
+                        margin-bottom: 4px;
+                    }
+                }
+            }
+            .one_kanban {
+                .border-primary {
+                    border: 1px solid #eee !important;
+                }
+                .fa-edit {
+                    color: $color-primary;
+                }
+            }
+        }
+    }
+}

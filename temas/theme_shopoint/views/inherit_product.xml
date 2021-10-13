@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <template id="sp_availability_messages" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_option_block']" position="after">
+            <div class="availability_messages o_not_editable"/>
+        </xpath>
+    </template>
+
+    <template id="sp_inherit_sale_variants" inherit_id="sale.variants">
+        <xpath expr="//li[@t-att-data-attribute_id='ptal.attribute_id.id']" position="attributes">
+            <attribute name="t-att-data-attribute_type">ptal.attribute_id.display_type</attribute>
+        </xpath>
+    </template>
+
+    <template id="sp_website_sale_stock_cart_lines" inherit_id="website_sale.shop_product_carousel">
+        <xpath expr="//ol[hasclass('carousel-indicators')]" position="attributes">
+            <attribute name="class">carousel-indicators owl-carousel owl-theme</attribute>
+        </xpath>
+    </template>
+
+    <!-- <template id="sp_inherit_product_carousel" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='o-carousel-product']//ol[hasclass('carousel-indicators')]" position="attributes">
+            <attribute name="class">carousel-indicators owl-carousel owl-theme</attribute>
+        </xpath>
+    </template> -->
+
+    <template id="shopoint_inherit_breadcumb" inherit_id="website_sale.product">
+
+        <xpath expr="//section/div[1]" position="before">
+            <t t-call="theme_shopoint.shopoint_breadcumb"/>
+        </xpath>
+
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <section class="oe_structure"/>
+        </xpath>
+
+        <xpath expr="//div[hasclass('col-md-6')][1]" position="attributes">
+            <attribute name="class">col-md-6 sp-carousel-modif</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='product_details']/h1" position="replace">
+            <div class="replace_sp_name">
+                <h1 itemprop="name" t-field="product.name">Product Name</h1>
+                <div class="wrapper">
+                    <t t-call="theme_shopoint.theme_shopoint_price"/>
+                    <t t-call="theme_shopoint.shopoint_rating" t-if="is_product_comment"/>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>

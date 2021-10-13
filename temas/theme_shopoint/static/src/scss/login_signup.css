@@ -1,0 +1,330 @@
+main[data-is_login='login'] {
+  position: relative;
+  min-height: 500px;
+}
+
+main[data-is_login='login'] .oe_website_login_container:not([data-sp-page='signup']) {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background-size: cover;
+}
+
+[data-sp-page='login'].oe_website_login_container {
+  width: 1140px;
+  margin: 0 auto;
+  border-right: 15px solid #FFFF;
+  position: relative;
+  height: auto;
+  padding: 0 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 60%;
+          flex: 0 0 60%;
+  text-align: center;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading h5, [data-sp-page='login'].oe_website_login_container .sp-login-heading h3 {
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading h3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-animation-name: fadeIn;
+          animation-name: fadeIn;
+  -webkit-animation-duration: 1.2s;
+          animation-duration: 1.2s;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading span {
+  font-size: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading h5 {
+  -webkit-animation: fadeIn2 1s linear 1.2s;
+          animation: fadeIn2 1s linear 1.2s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading span:first-of-type {
+  color: #fddd1c;
+  padding-right: 10px;
+}
+
+[data-sp-page='login'].oe_website_login_container .sp-login-heading span:nth-child(2) {
+  color: #c72c9e;
+  padding-left: 10px;
+}
+
+[data-sp-page='login'].oe_website_login_container form[data-is_bck_img=False] {
+  -webkit-box-shadow: 0 0 10px 6px #eee;
+          box-shadow: 0 0 10px 6px #eee;
+}
+
+[data-sp-page='login'].oe_website_login_container .oe_login_form {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 40%;
+          flex: 0 0 40%;
+  padding: 20px;
+  background-color: white;
+  max-width: 400px;
+  width: 400px;
+  opacity: .8;
+}
+
+[data-sp-page='login'].oe_website_login_container .oe_login_form .sp-login-form-heading {
+  text-align: center;
+}
+
+[data-sp-page='login'].oe_website_login_container .oe_login_form .oe_login_buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+[data-sp-page='login'].oe_website_login_container .oe_login_form .oe_login_buttons > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify !important;
+      -ms-flex-pack: justify !important;
+          justify-content: space-between !important;
+  margin-top: 0 !important;
+  padding: 0 10px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+}
+
+[data-sp-page='login'].oe_website_login_container .oe_login_form .oe_login_buttons > div .sp-signup {
+  font-weight: bold;
+  padding: 6px 20px;
+}
+
+@media screen and (max-width: 1140px) {
+  [data-sp-page='login'].oe_website_login_container {
+    width: 100vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  [data-sp-page='login'].oe_website_login_container .oe_login_form, [data-sp-page='login'].oe_website_login_container .sp-login-heading {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 0 100% !important;
+            flex: 0 0 100% !important;
+  }
+  [data-sp-page='login'].oe_website_login_container .oe_login_form h3 span, [data-sp-page='login'].oe_website_login_container .sp-login-heading h3 span {
+    padding: 0;
+  }
+  [data-sp-page='login'].oe_website_login_container .sp-login-heading {
+    margin-top: 40px;
+  }
+}
+
+[data-sp-page='signup'].oe_website_login_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border-radius: unset;
+}
+
+[data-sp-page='signup'].oe_website_login_container:active, [data-sp-page='signup'].oe_website_login_container:focus {
+  -webkit-box-shadow: 0px 1px 3px 1px;
+          box-shadow: 0px 1px 3px 1px;
+}
+
+[data-sp-page='signup'].oe_website_login_container form {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+  max-width: 380px;
+  padding: 20px;
+  background-color: white;
+  opacity: .8;
+  border-radius: 5px;
+}
+
+[data-sp-page='signup'].oe_website_login_container form .sp-signup-login-form-heading h3, [data-sp-page='signup'].oe_website_login_container form .sp-signup-form-heading h3 {
+  font-weight: bold;
+}
+
+[data-sp-page='signup'].oe_website_login_container form:first-of-type {
+  -webkit-box-ordinal-group: 11;
+      -ms-flex-order: 10;
+          order: 10;
+}
+
+[data-sp-page='signup'].oe_website_login_container form:last-of-type {
+  -webkit-box-ordinal-group: 6;
+      -ms-flex-order: 5;
+          order: 5;
+}
+
+[data-sp-page='signup'].oe_website_login_container form:last-of-type .oe_login_buttons > a {
+  display: none;
+}
+
+@media screen and (max-width: 1140px) {
+  [data-sp-page='signup'].oe_website_login_container {
+    width: 100vw;
+  }
+  [data-sp-page='signup'].oe_website_login_container form {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  [data-sp-page='signup'].oe_website_login_container form {
+    max-width: 300px;
+  }
+}
+
+.sp_login_bck_img {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.sp_login_bck_img img {
+  width: 100%;
+  height: 100%;
+}
+
+.sp_signup_bck_img {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.sp_signup_bck_img img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.oe_reset_password_form #login {
+  border-radius: unset;
+}
+
+.oe_reset_password_form #login:focus {
+  -webkit-box-shadow: unset;
+          box-shadow: unset;
+}
+
+.oe_reset_password_form .oe_login_buttons button {
+  padding: 6px 14px;
+}
+
+.oe_reset_password_form .oe_login_buttons a {
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+  80% {
+    -webkit-transform: translateX(2%);
+            transform: translateX(2%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+  80% {
+    -webkit-transform: translateX(2%);
+            transform: translateX(2%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+@-webkit-keyframes fadeIn2 {
+  0% {
+    -webkit-transform: translateY(60%);
+            transform: translateY(60%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+
+@keyframes fadeIn2 {
+  0% {
+    -webkit-transform: translateY(60%);
+            transform: translateY(60%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+/*# sourceMappingURL=login_signup.css.map */

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_payment" inherit_id="website_sale.payment">
+
+        <xpath expr="//div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="id">sp_payment</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="id">sp_payment</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_cart')]/div[hasclass('card')]" position="attributes">
+            <attribute name="id">addresses</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='shipping_and_billing']" position="before">
+            <div id="sp_billing"><h3 class="mb24">Billing Address</h3></div>
+        </xpath>
+
+    </template>
+
+    <template id="sp_cart_lines" inherit_id="website_sale.cart_lines">
+
+        <xpath expr="//table[@id='cart_products']/tbody/t[@t-foreach='website_sale_order.website_order_line']" position="before">
+            <tr class="sp-order-summary">
+                <td>Order Summary</td>
+            </tr>
+        </xpath>
+
+    </template>
+
+</odoo>

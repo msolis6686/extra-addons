@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_403" inherit_id="website.403">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="container" id="sp-403">
+                <img src='/theme_shopoint/static/src/images/403.jpg' alt="403"/>
+                <div class='sp-403-content'>
+                    <h3>403</h3>
+                    <h4>Access Denied</h4>
+                    <span>The page you are trying to reach is absolutely forbidden for some reasons.</span>
+                    <a role="button" class="btn btn-primary js_disable_on_click" href="/">Go Back To Home</a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

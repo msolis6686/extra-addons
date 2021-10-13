@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_pager" inherit_id="portal.pager">
+
+        <xpath expr="//li[1]" position="replace">
+            <li t-attf-class="page-item sp-pager-prev #{'disabled' if pager['page']['num'] == 1 else ''}">
+                <a t-att-href=" pager['page_previous']['url'] if pager['page']['num'] != 1 else None" class="page-link"/>
+            </li>
+        </xpath>
+
+        <xpath expr="//li[2]" position="replace">
+            <li t-attf-class="page-item sp-pager-next #{'disabled' if pager['page']['num'] == pager['page_count'] else ''}">
+                <a t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None" class="page-link"/>
+            </li>
+        </xpath>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <template id="sp_page_404" inherit_id="http_routing.404">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="container" id="sp_page_404">
+                <div class="oe_structure"/>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <img src='/theme_shopoint/static/src/images/404.png' alt="404"/>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class='sp-404-content'>
+                            <span><h3>Oops!</h3>Something went wrong here. The page you are looking for can not be found.</span>
+                        </div>
+                        <div class='sp-404-btn'>
+                            <a role="button" class="btn btn-primary js_disable_on_click" href="/">Go Back Home</a>
+                            <a role="button" class="btn btn-primary js_disable_on_click" t-attf-href="/website/add/#{ path }#{ from_template and '?template=%s' % from_template }">Create Page</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

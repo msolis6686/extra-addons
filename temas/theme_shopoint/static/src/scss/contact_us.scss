@@ -1,0 +1,102 @@
+.zzz {
+    background-image: url('../static/src/images/2.jpg');
+}
+.sp-contactus-wrapper {
+    & > .oe_structure {
+        // section.sp-contactus {
+        //     background-image: url('../images/contactus.png');
+        //     background-repeat: no-repeat;
+        //     background-size: cover;
+        //     min-height: 230px;
+        //     background-position: left;
+        //     padding-top: 32px;
+        //     padding-bottom: 32px;
+        //     h1 {
+        //         text-align: right;
+        //         color: white;
+        //     }
+        // }
+    }
+    & > .container {
+        & > .row {
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0px 3px 16px 0px $box-shadow-1;
+            .col-lg-8:not(.comp_des) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 20px 0;
+                form {
+                    margin: 0 !important;
+                    .form-group:last-of-type {
+                        text-align: right;
+                    }
+                    & > div {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+                p {
+                    font-weight: bold;
+                    text-align: center;
+                    font-size: 18px;
+                    padding: 20px 0;
+                }
+            }
+            .col-lg-4 {
+                flex: 0 0 50%;
+                max-width: 50%;
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0px;
+                section {
+                    height: 100% !important;
+                    width: 100%;
+                    background-size: cover;
+                }
+                & > address {
+                    font-weight: bold;
+                }
+                & > div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    & > * {
+                        flex: 0 0 50%;
+                    }
+                    span[itemprop='streetAddress'], span[itemprop='telephone'], span[itemprop='email'] {
+                        word-spacing: 5px;
+                        line-height: 25px;
+                        &:before {
+                            background-image: url('../images/logo.png');
+                            height: 10px;
+                            width: 10px;
+                        }
+                    }
+                    span[itemprop='streetAddress'] {
+                        &:after {
+                            background-image: url('../images/logo.png');
+                            height: 10px;
+                            width: 10px;
+                        }
+                    }
+                }
+                .fa {
+                    display: none;
+                }
+            }
+            .comp_des {
+                & > address {
+                    text-align: center;
+                }
+                & > div {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}

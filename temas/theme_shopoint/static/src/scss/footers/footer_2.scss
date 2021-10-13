@@ -1,0 +1,101 @@
+.o_footer {
+    padding: 0;
+    border-top: 1px solid $border-color;
+    position: relative;
+    #footer {
+        .dynamic_bck_img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            img {
+                width: 100%;
+                height: auto;
+                max-height: 100%;
+                object-fit: cover;
+            }
+        }
+        section {
+            background-image: linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.8)), url('/theme_shopoint/static/src/images/big_banner_7.jpeg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+            a, p, i, span, h5 {
+                color: #ababab;
+            }
+        }
+        ul li a, h5 {
+            display: block;
+            transition: transform .4s;
+            &:hover {
+                transform: translateX(10px);
+            }
+        }
+    }
+    .row {
+        #connect {
+            flex: 0 0 22.22%;
+            max-width: 22.22%;
+            h5 {
+                margin-bottom: 24px !important;
+            }
+        }
+        #company_details {
+            display: flex;
+            flex-flow: column;
+            .about {
+                padding: 12px 0px;
+                margin-right: 12px;
+                p {
+                    word-spacing: 6px;
+                }
+            }
+            .social_icons {
+                a {
+                    color: $color-text;
+                    &:first-of-type {
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+        #navigation_links {
+            flex: 0 0 22.22%;
+            max-width: 22.22%;
+        }
+        #usefull_links {
+            flex: 0 0 22.22%;
+            max-width: 22.22%;
+        }
+        .col-lg-4 {
+            h5 {
+                margin-bottom: 20px;
+            }
+            ul {
+                line-height: 25px;
+            }
+        }
+    }
+    @include respond-to(small) {
+        #footer {
+            section {
+                .container {
+                    .row {
+                        text-align: center;
+                        & > * {
+                            flex: 100%;
+                            max-width: 100%;
+                            & > h5 {
+                                margin-bottom: 8px !important;
+                                margin-top: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

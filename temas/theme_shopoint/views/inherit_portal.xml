@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="account_settings">
+        <li class='sp-user-link nav-link dropdown' t-if="not request.website.is_public_user()">
+            <!-- <i class="dropdown-toggle" data-toggle="dropdown" style="background-image:url('/theme_shopoint/static/src/images/svg/icon-user-gray.svg'); height: 20px; width: 18px;"/> -->
+            <img class="dropdown-toggle" data-toggle="dropdown" src="/theme_shopoint/static/src/images/svg/icon-user-gray.svg"/>
+            <div class="dropdown-menu" >
+                <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+                <a class="dropdown-item" href="/my/orders">Orders</a>
+                <a class="dropdown-item" href="/shop/compare">Comparison List</a>
+                <a class="dropdown-item" href="/shop/wishlist">Wishlist</a>
+                <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
+            </div>
+        </li>
+        <t t-set="allow_signIn" t-value="request.env['ir.ui.view'].search([('key','=','portal.portal_show_sign_in'),('website_id','=',request.website.id)])"/>
+        <t t-set="allow" t-value="False"/>
+        <t t-if="len(allow_signIn) > 0">
+            <t t-set="allow" t-value="allow_signIn.active"/>
+        </t>
+        <t t-if="not allow_signIn">
+            <t t-set="allow_signIn" t-value="request.env['ir.ui.view'].search([('key','=','portal.portal_show_sign_in'),('website_id','=',False)])"/>
+            <t t-set="allow" t-value="allow_signIn.active"/>
+        </t>
+        <t t-set="allow_signup" t-value="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope', 'b2b')"/>
+        <li class='sp-user-link nav-link dropdown' t-if="request.website.is_public_user() and allow">
+            <img class="dropdown-toggle" data-toggle="dropdown" src="/theme_shopoint/static/src/images/svg/icon-user-gray.svg"/>
+            <div class="dropdown-menu sign-in-out" t-if="allow_signup == 'b2c'">
+                <a href="/web/login">Sign In</a>Or
+                <a href="/web/signup">Register</a>
+            </div>
+            <div class="dropdown-menu sign-in-out" t-if="allow_signup == 'b2b'">
+                <a href="/web/login">Sign In</a>
+            </div>
+        </li>
+    </template>
+
+    <template id="sp_frontend_layout" inherit_id="portal.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']//div[hasclass('container')][1]" position='after'>
+            <div id='sp_top_menu'>
+                <div class="container sp-menu-collapse">
+                    <!-- FIXME We want menu to open to the right by default (except cases handled in JS) -->
+                    <ul class="nav navbar-nav ml-auto text-right sp_c_top_menu" id="top_menu">
+                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                            <t t-call="website.submenu">
+                                <t t-set="item_class" t-value="'nav-item'"/>
+                                <t t-set="link_class" t-value="'nav-link'"/>
+                            </t>
+                        </t>
+                    </ul>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']//div[hasclass('container')][1]" position='after'>
+            <div id='sp_sub_header'>
+                <div class="container header_2">
+                    <div class="dropdown lang">
+                        <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown">Language:</button>
+                        <div class="dropdown-menu" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))" >
+                            <a t-foreach="languages" t-as="lg" t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                                class="dropdown-item js_change_lang"
+                                t-att-data-default-lang="(editable or translatable) and 'true' if website and lg[0] == website.default_lang_id.name else None"
+                                t-att-data-lang="lg[0]">
+                                <t t-esc="lg[1].split('/').pop()"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown cur">
+                        <button type="button" class="btn btn-header dropdown-toggle" data-toggle="dropdown">Currency:</button>
+                        <t t-set="website_sale_pricelists" t-value="website.get_pricelist_available(show_visible=True)" />
+                        <div t-attf-class="dropdown-menu #{'' if website_sale_pricelists and len(website_sale_pricelists)&gt;1 else 'd-none'} #{_classes}">
+                            <t t-set="curr_pl" t-value="website.get_current_pricelist()"  />
+                            <t t-foreach="website_sale_pricelists" t-as="pl">
+                                <a t-att-href="'/shop/change_pricelist/%s' % pl.id" class="dropdown-item">
+                                    <span class="switcher_pricelist" t-att-data-pl_id="pl.id" t-esc="pl.name" />
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="sp-search-link form-inline justify-content-center">
+                        <form t-att-action="(keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)) if keep else '/shop'" method="get" t-att-class="o_website_sale_search">
+                            <t t-if="attrib_values">
+                                <t t-foreach="attrib_values" t-as="a">
+                                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])" />
+                                </t>
+                            </t>
+                            <div class="input-group">
+                                <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search">
+                                        <img src="/theme_shopoint/static/src/images/svg/icon-search-gray.svg"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                        <div t-field="res_company.partner_id" t-options='{
+                            "widget": "contact",
+                            "fields": ["phone"]}'/>
+                    </address>
+                    <ul class="sp-user-link account dropdown">
+                        <img class="dropdown-toggle" data-toggle="dropdown" src="/theme_shopoint/static/src/images/svg/icon-user-gray.svg"/>
+                        <div class="dropdown-menu">
+                            <a href="/my/home" role="menuitem" t-if="not request.website.is_public_user()" class="dropdown-item">My Account</a>
+                            <a class="dropdown-item" t-if="not request.website.is_public_user()" href="/my/quotes">Quotations</a>
+                            <a class="dropdown-item" t-if="not request.website.is_public_user()" href="/my/orders">Orders</a>
+                            <a class="dropdown-item" t-if="not request.website.is_public_user()" href="/my/invoices">Invoices</a>
+                            <a class="dropdown-item" t-if="not request.website.is_public_user()" href="/shop/compare">Comparison List</a>
+                            <a class="dropdown-item" t-if="not request.website.is_public_user()" href="/shop/wishlist">Wishlist</a>
+                            <a id="o_logout" class="dropdown-item" t-if="not request.website.is_public_user()" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
+                            <div class="sign-in-out" t-if="request.website.is_public_user()">
+                                <a href="/web/login">Sign In</a>
+                                <span>Or</span>
+                                <a href="/web/signup">Register</a>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="container shopoint_social_icons">
+                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link"><i class="fa fa-2x fa-facebook-square"/></a>
+                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link"><i class="fa fa-2x fa-twitter"/></a>
+                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link"><i class="fa fa-2x fa-linkedin"/></a>
+                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-2x fa-youtube-play"/></a>
+                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-2x fa-github"/></a>
+                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-2x fa-instagram"/></a>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//header//div[hasclass('container')]" position='inside'>
+            <address class="address" itemscope="itemscope" itemtype="http://schema.org/Organization">
+                <div t-field="res_company.partner_id" t-options='{
+                    "widget": "contact",
+                    "fields": ["mobile"]}'/>
+            </address>
+
+        </xpath>
+    </template>
+
+    <template id="header_3" inherit_id="portal.frontend_layout">
+        <xpath expr="//header//div[hasclass('container')]" position="inside">
+            <div class="sp-search-link form-inline justify-content-center">
+                <form t-att-action="(keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)) if keep else '/shop'" method="get" t-att-class="o_website_sale_search">
+                    <t t-if="attrib_values">
+                        <t t-foreach="attrib_values" t-as="a">
+                            <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])" />
+                        </t>
+                    </t>
+                    <div class="input-group">
+                        <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search">
+                                <img src="/theme_shopoint/static/src/images/svg/icon-search-gray.svg"/>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sp_header" inherit_id="website_sale.header">
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]/a" position='after'>
+            <div class="sp-search-link form-inline justify-content-center">
+                <form t-att-action="(keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)) if keep else '/shop'" method="get" t-att-class="o_website_sale_search">
+                    <t t-if="attrib_values">
+                        <t t-foreach="attrib_values" t-as="a">
+                            <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])" />
+                        </t>
+                    </t>
+                    <div class="input-group">
+                        <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search">
+                                <img src="/theme_shopoint/static/src/images/svg/icon-search-gray.svg"/>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <a href="/shop/cart" class="sp-link nav-link sp-cart-link">
+                <img src="/theme_shopoint/static/src/images/svg/icon-cart-gray.svg"/>
+                <sup t-attf-class="my_cart_quantity o_animate_blink badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or '0'" /><sup>Item(s)</sup>
+            </a>
+        </xpath>
+
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]" position='attributes'>
+            <attribute name="t-attf-class" add='nav-item' separate=" "></attribute>
+        </xpath>
+
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]" position="before">
+            <div class='sp-link sp-setting-link nav-link dropdown' t-if="not request.website.is_public_user()">
+                <!-- <i class="fa fa-cog dropdown-toggle" data-toggle="dropdown"/> -->
+                <!-- <i class="dropdown-toggle" data-toggle="dropdown" style="background-image: url('/theme_shopoint/static/src/images//svg/cog-gray.svg')"/> -->
+                <img class="dropdown-toggle" data-toggle="dropdown" src="/theme_shopoint/static/src/images//svg/cog-gray.svg" />
+                <div class="dropdown-menu" >
+                    <ul>
+                        <li>
+                            <span>Language:</span>
+                            <ul class="js_language_selector mb0 list-inline" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+                                <li class="list-inline-item" t-foreach="languages" t-as="lg">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                                        class="dropdown-item js_change_lang"
+                                        t-att-data-default-lang="(editable or translatable) and 'true' if website and lg[0] == website.default_lang_id.name else None"
+                                        t-att-data-lang="lg[0]">
+                                        <t t-esc="lg[1].split('/').pop()"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>Currency:</span>
+                            <t t-set="website_sale_pricelists" t-value="website.get_pricelist_available(show_visible=True)" />
+                            <ul t-attf-class="list-inline #{'' if website_sale_pricelists and len(website_sale_pricelists)&gt;1 else 'd-none'} #{_classes}">
+                                <t t-set="curr_pl" t-value="website.get_current_pricelist()" />
+                                <!-- <a role="button" href="#" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown">
+                                    <t t-esc="curr_pl and curr_pl.name or ' - '" />
+                                </a> -->
+                                <li class="list-inline-item" t-foreach="website_sale_pricelists" t-as="pl">
+                                    <a t-att-href="'/shop/change_pricelist/%s' % pl.id" class="dropdown-item">
+                                        <span class="switcher_pricelist" t-att-data-pl_id="pl.id" t-esc="pl.name" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <t t-call="theme_shopoint.account_settings"/>
+        </xpath>
+
+    </template>
+
+    <template id="sp_back_to_top" inherit_id='portal.frontend_layout'>
+        <xpath expr="//footer" position="before">
+            <div class="sp_back_to_top">
+                <i class="fa fa-chevron-up"></i>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

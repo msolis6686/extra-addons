@@ -1,0 +1,114 @@
+#wrapwrap {
+    header {
+        .dropdown {
+            &:hover {
+                .dropdown-menu {
+                    display: block;
+                }
+            }
+        }
+        nav {
+            & > .container:first-of-type {
+                #top_menu {
+                    // & > li:not(#my_cart) {
+                    & > li:not(.o_wsale_my_cart) {
+                        display: none ;
+                    }
+                    & > .o_wsale_my_cart {
+                        .fa-shopping-bag {
+                            &:before {
+                                display: none;
+                            }
+                        }
+                    }
+                    & > li.o_wsale_my_wish {
+                        display: block !important;
+                        .fa-heart {
+                            &:before {
+                                display: none;
+                            }
+
+                            font-size: 22px;
+                        }
+                        .my_wish_quantity {
+                            background-color: $color-primary;
+                            color: white;
+                        }
+                    }
+                    & > li.sp-user-link {
+                        display: block !important;
+                    }
+                }
+            }
+        }
+    }
+}
+.navbar-brand.logo {
+    @include respond-to(small) {
+        max-width: 100%;
+        img {
+            float: unset !important;
+            margin: 0 auto;
+        }
+    }
+}
+header.o_affix_enabled {
+    @include respond-to(small) {
+        border-bottom: 1px solid $border-color;
+    }
+}
+.sp-user-link {
+    cursor: pointer;
+}
+.sp-search-active {
+    display: block !important;
+}
+.o_affix_enabled {
+    .navbar {
+        padding: 0;
+        .sp-menu-collapse {
+            #top_menu {
+                margin-left: unset !important;
+                text-align: center !important;
+            }
+        }
+    }
+}
+//Remove me
+.o_header_affix {
+    // display: none;
+    nav {
+        background-color: $color-white;
+        padding: 0;
+        & > div.container:first-of-type, #sp_sub_header {
+            display: none !important;
+        }
+        #sp_top_menu {
+            ul {
+                justify-content: center;
+            }
+        }
+    }
+}
+.mm {
+    padding: 10px 50px;
+    li {
+        a {
+            transition: all .4s !important;
+            &:hover {
+                transform: translateX(10px);
+                color: $color-primary;
+            }
+        }
+    }
+}
+.sp-setting-link {
+    li {
+        a {
+            color: $color-text !important;
+            &:active {
+                background-color: #eee;
+            }
+        }
+    }
+}

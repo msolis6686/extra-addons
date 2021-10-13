@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_products_list_view" name="Shopoint Products list view" inherit_id="website_sale.products" active="True">
+        <xpath expr="//div[@id='products_grid_before']" position="before">
+            <t t-call="theme_shopoint.shopoint_breadcumb"/>
+            <div class="wk-shopoint-setting col-lg-12">
+                <div class="dropdown wk-shopoint-ppg">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="shopoint_ppg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div t-if='ppg'>
+                            <span t-esc="ppg"/>
+                            <span>Per Page</span>
+                        </div>
+                        <div t-if='not ppg'><span>Select Products Per Page</span></div>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="shopoint_ppg" >
+                        <a class="dropdown-item" t-att-href="keep('/shop', ppg=9, order=order, max_price=max_price, min_price=min_price)">9 Per Page</a>
+                        <a class="dropdown-item" t-att-href="keep('/shop', ppg=18, order=order, max_price=max_price, min_price=min_price)">18 Per Page</a>
+                        <a class="dropdown-item" t-att-href="keep('/shop', ppg=27, order=order, max_price=max_price, min_price=min_price)">27 Per Page</a>
+                    </div>
+                </div>
+
+                <div class="dropdown ml-2 dropdown_sorty_by wk-shopoint-shortby">
+                    <a role="button" href="#" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown">
+                        <t t-if='len(website_sale_sortable_current)'>
+                            <t t-raw='website_sale_sortable_current[0][0]'/>
+                        </t>
+                        <t t-else='1'>
+                            <span>Select Sorting</span>
+                        </t>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <t t-foreach="website_sale_sortable" t-as="sortby">
+                            <a role="menuitem" t-att-href="keep('/shop', order=sortby[1], ppg=ppg, max_price=max_price, min_price=min_price)" class="dropdown-item">
+                              <span t-raw="sortby[0]"/>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="wk-shopoint-views">
+                    <span data-sp-format='shopoint_view_main' class="active"><i class="fa fa-th"/></span>
+                    <span data-sp-format='shopoint_view_table'><i class="fa fa-th-list"/></span>
+                    <span data-sp-format='shopoint_view_list'><i class="fa fa-bars"/></span>
+                </div>
+
+                <div class="switch_category_filter_fixed_view" t-if="sp_filter_category_fixed_view">
+                    <i class="fa fa-filter" title="Switch Filter's"></i>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='products_grid']" position="attributes">
+            <attribute name="t-attf-class" add="{{ request.session.get('sp_view_type', 'shopoint_view_main') }}" separator=" "></attribute>
+        </xpath>
+
+        <xpath expr='//tbody//td[contains(@t-attf-class, "oe_product")]' position='attributes'>
+            <attribute name='t-attf-class'>oe_product #{td_product['class']} flex_#{len(tr_product)} </attribute>
+        </xpath>
+
+    </template>
+
+    <template id="sp_categories_recursive" name="Category list">
+        <t t-set="c" t-value="category"/>
+        <span t-if="c.parent_id" class="sp-breadcumb-menu">
+            <t t-set="category" t-value="c.parent_id"/>
+            <t t-call="theme_shopoint.sp_categories_recursive" />
+        </span>
+        <span class="sp-breadcumb-menu">
+            <a t-att-href="keep('/shop/category/' + slug(c), category=0)">
+                <span t-field="c.name"/>
+            </a>
+            <span>/</span>
+        </span>
+    </template>
+
+    <template id="shopoint_breadcumb" name="Shopoint Breadcumb">
+        <div id="shopoint_breadcumb" class="col-lg-12">
+            <div>
+                <a href="/shop">
+                    <i class="fa fa-home"></i>
+                    <span>/</span>
+                </a>
+                <t t-if="category" t-call="theme_shopoint.sp_categories_recursive" />
+                <span t-else="">All Products</span>
+            </div>
+        </div>
+    </template>
+
+    <template id="theme_shopoint_price">
+        <div class="theme-shopoint-price">
+            <b>
+                <t t-if="True">
+                    <del t-attf-class="mr8 text-danger {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                </t>
+                <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                <span titemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+            </b>
+        </div>
+    </template>
+
+      <template id="shoppoint_products_item" name="Shopoint Product Item" inherit_id="website_sale.products_item">
+
+        <xpath expr="//div/h6[hasclass('o_wsale_products_item_title')]" position="after">
+            <t t-call="theme_shopoint.theme_shopoint_price"/>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_product_image')]//span" position="attributes">
+            <attribute name="class">product-original-image</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_product_image')]//a[hasclass('d-block','h-100')]//span" position="after">
+            <t t-if="product.image_hover">
+                <span class="product-extra-image" t-field="product.image_hover" t-options="{'widget': 'image', 'resize': None if product_image_big else '256x256'}"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//div/h6[hasclass('o_wsale_products_item_title')]" position="inside">
+            <t t-call="theme_shopoint.shopoint_rating" t-if="product_comment"/>
+        </xpath>
+
+        <xpath expr="//div[hasclass('o_wsale_product_information')]" position="inside">
+            <t t-call="theme_shopoint.shopoint_rating" t-if="product_comment"/>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_product_image')]" position="inside">
+            <div class="sp-discount-price" t-att-style="'' if combination_info['has_discounted_price'] else 'display:none !important'" t-if="combination_info['list_price']">
+                <del t-attf-class="{{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="int(round((combination_info['list_price'] - combination_info['price'])/combination_info['list_price'],2) * 100)"/>
+                <span class="per">%</span>
+                <span class="off">OFF</span>
+            </div>
+
+        </xpath>
+
+    </template>
+
+    <template id="product_details">
+        <t t-set="product_href" t-value="'/shop/product/%s' % slug(product)"/>
+        <t t-set="first_possible_combination" t-value="product._get_first_possible_combination()"/>
+        <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+        <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+        <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
+            <section t-attf-class="container py-2 #{'discount' if combination_info['has_discounted_price'] else ''}" id="product_detail">
+                <div class="row">
+                        <div class="col-md-6">
+                            <t t-set="variant_img" t-value="product_variant and product_variant.image_variant"/>
+                            <t t-set="image_ids"  t-value="product.product_template_image_ids"/>
+                            <div id="o-carousel-product" class="carousel slide" data-ride="carousel" data-interval="0">
+                                <div class="carousel-outer">
+                                    <div class="carousel-inner">
+                                        <div t-if="variant_img" class="carousel-item active" itemprop="image" t-field="product_variant.image" t-options="{'widget': 'image', 'class': 'product_detail_img js_variant_img', 'alt-field': 'name', 'zoom': 'image', 'unique': str(product['__last_update']) + (str(product_variant['__last_update']) or '')}"/>
+                                        <div t-attf-class="carousel-item#{'' if variant_img else ' active'}" itemprop="image" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'product_detail_img', 'alt-field': 'name', 'zoom': 'image', 'unique': product['__last_update']}"/>
+                                        <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                        <div class="carousel-item" t-field="pimg.image_1920" t-options='{"widget": "image", "class": "product_detail_img", "alt-field": "name", "zoom": "image" }'/>
+                                        </t>
+                                    </div>
+
+                                    <t t-if="len(image_ids) or variant_img">
+                                        <a class="carousel-control-prev" href="#o-carousel-product" role="button" data-slide="prev" >
+                                            <span class="d-none fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"/>
+                                        </a>
+                                        <a class="carousel-control-next" href="#o-carousel-product" role="button" data-slide="next">
+                                            <span class="d-none fa fa-chevron-right" role="img" aria-label="Next" title="Next"/>
+                                        </a>
+                                    </t>
+                                </div>
+
+                                <ol class="carousel-indicators owl-carousel owl-theme" t-if="len(image_ids) or variant_img">
+                                    <li t-if="variant_img" data-target="#o-carousel-product" data-slide-to="0" class="active">
+                                        <img class="img img-fluid js_variant_img_small" t-attf-src="/website/image/ product.product/{{product_variant.id}}/image/90x90" t-att-alt="product.name"/>
+                                    </li>
+                                    <li data-target="#o-carousel-product" t-att-data-slide-to="1 if variant_img else '0'" t-att-class="'' if variant_img else 'active'">
+                                        <img class="img img-fluid" t-attf-src="/website/image/product.template/{{product.id}}/image_1920" t-att-alt="product.name"/>
+                                    </li>
+                                    <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                        <li data-target="#o-carousel-product" t-att-data-slide-to="pimg_index +     (variant_img and 2 or 1)">
+                                            <img class="img img-fluid" t-attf-src="/website/image/product.image/{{pimg.id}}/image_1920" t-att-alt="pimg.name"/>
+                                        </li>
+                                    </t>
+                                </ol>
+                            </div>
+                        </div>
+                         <div class="col-md-6 col-xl-4 offset-xl-2" id="product_details">
+                            <div class="wrapper">
+                                <h1 itemprop="name" t-field="product.name">Product Name</h1>
+                                <t t-call="theme_shopoint.shopoint_rating" t-if="product_comment"/>
+                                <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+                                    <h4 class="oe_price_h4 css_editable_mode_hidden">
+                                        <span t-attf-class="text-danger oe_default_price {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="text-decoration: line-through; white-space: nowrap;"
+                                    t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                        <b class="oe_price" style="white-space: nowrap;" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                        <span itemprop="price" style="display:none;" t-esc="combination_info['price']"/>
+                                        <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                                    </h4>
+                                    <h4 class="css_non_editable_mode_hidden decimal_precision" t-att-data-precision="str(website.currency_id.decimal_places)">
+                                        <span t-field="product.list_price"
+                                            t-options='{
+                                            "widget": "monetary",
+                                            "display_currency": product.currency_id,
+                                        }'/>
+                                    </h4>
+                                    <h4 class="d-none oe_not_available bg-warning">Option not available</h4>
+                            </div>
+                        </div>
+                        <span itemprop="url" style="display:none;" t-esc="product.website_url"/>
+                        <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update" method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                            <div class="js_product js_main_product">
+                                <t t-placeholder="select">
+                                    <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id" />
+                                    <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id" />
+                                    <t t-if="combination" t-call="sale.variants">
+                                        <t t-set="ul_class" t-value="'flex-column'" />
+                                        <t t-set="parent_combination" t-value="None" />
+                                    </t>
+                                    <t t-else="">
+                                        <ul class="d-none js_add_cart_variants" t-att-data-attribute_exclusions="{'exclusions: []'}"/>
+                                    </t>
+                                </t>
+                                <t t-call="website_sale.product_price" />
+                                <p t-if="True" class="css_not_available_msg alert alert-warning">This combination does not exist.</p>
+                                <a role="button" id="add_to_cart" class="btn btn-primary btn-lg mt16 js_check_product a-submit d-block d-sm-inline-block" href="#"><i class="fa fa-shopping-cart"/> Add To Cart</a>
+
+                                <t t-set="in_wish" t-value="product._is_in_wishlist()"/>
+                                <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+                                <button t-if="product_variant_id" type="button" role="button" class="btn btn-lg mt16 btn-secondary o_add_wishlist" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="product.id" t-att-data-product-product-id="product_variant_id" data-action="o_wishlist"><span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span> Add To Wishlist</button>
+
+                                <div id="product_option_block"/>
+                            </div>
+                        </form>
+                        <p t-elif="not product.active" class="alert alert-warning">This product is no longer available.</p>
+                        <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+                        <hr t-if="product.description_sale" />
+                        <div>
+                            <p t-field="product.description_sale" class="text-muted mt-3" placeholder="A short description that will also appear on documents." />
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </div>
+  </template>
+
+
+        <template id='wk_product_add_to_compare' inherit_id='website_sale_comparison.product_add_to_compare'>
+            <xpath expr='//t//button[hasclass("o_add_compare_dyn")]' position='replace'>
+                <button t-if="product_variant" type="button" role="button" class="d-none d-md-inline-block btn btn-link mt16 o_add_compare_dyn" aria-label="Compare" t-att-data-product-product-id="product_variant.id" data-action="o_comparelist"><span class="fa fa-exchange"></span></button>
+            </xpath>
+        </template>
+
+        <template id='wk_product_add_to_wishlist' inherit_id='website_sale_wishlist.product_add_to_wishlist'>
+            <xpath expr='//t//button[hasclass("o_add_wishlist_dyn")]' position='replace'>
+                <button t-if="product_variant" type="button" role="button" class="btn btn-link mt16 o_add_wishlist_dyn" t-att-disabled='in_wish or None' t-att-data-product-template-id="product.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist"><span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span> </button>
+            </xpath>
+        </template>
+
+    <template id="modal_other_products">
+        <div class="modal fade" id="optionalProducts">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" t-esc="type_name"/>
+                        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div t-attf-class="optional_products_wrapper owl-carousel owl-theme #{type}">
+                            <div t-foreach="products" t-as="product" class="optional_product_item item">
+                                <div t-if="type=='product'" t-attf-class='type_#{type}'>
+                                    <a t-attf-href="/shop/product/#{product.product_tmpl_id.id}">
+                                        <span t-field="product.image_1920" t-options='{"widget":"image", "resize": "300x300"}'/>
+                                    </a>
+                                    <h6 t-esc="product.name"/>
+                                </div>
+                                <div t-else='' t-attf-class='type_#{type}'>
+                                    <t t-call="theme_shopoint.product_details">
+                                        <t t-set="product" t-value="product"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+  <template id="sp_eye_view_modal">
+      <div class="modal fade" id="sp_eye_view_modal" tabindex="-1" role="dialog" aria-labelledby="quickView" aria-hidden="true">
+          <div class="modal-dialog" role="document" id="sp_eye_view">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="quickView">Quick View</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span><i class="fa fa-times"></i></span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <t t-set="additional_title" t-value="product.name" />
+                      <t t-call="theme_shopoint.product_details"/>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </template>
+
+    <template id="sp_stock_qty" inherit_id="website_sale.option_collapse_categories_recursive">
+        <xpath expr="//li/a" position="after">
+            <span class='sp-stock-qty'></span>
+
+        </xpath>
+    </template>
+
+    <template id="shopoint_rating" name="Shopoint Rating">
+        <t t-set="arr_rating" t-value="product.get_rating()"/>
+        <t t-set="val_integer" t-value="arr_rating[0]"/>
+        <t t-set="val_decimal" t-value="arr_rating[1]"/>
+        <t t-set="empty_star" t-value="arr_rating[2]"/>
+        <div class="o_website_rating_static">
+            <t t-foreach="range(0, val_integer)" t-as="num">
+                <i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+            </t>
+            <t t-if="val_decimal">
+                <i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
+            </t>
+            <t t-foreach="range(0, empty_star)" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
+                <i class="fa fa-star-o"></i>
+            </t>
+        </div>
+    </template>
+
+    <template id="sp_inherit_product_attributes" inherit_id="website_sale.products_attributes">
+        <xpath expr="//form[hasclass('js_attributes')]" position="attributes">
+            <attribute name="t-attf-class">js_attributes #{'' if len(attributes.mapped('value_ids')) > 0 else 'd-none'}</attribute>
+        </xpath>
+        <xpath expr="//t[@t-foreach='attributes']/li/div" position="attributes">
+            <!-- <attribute name="t-att-class">'wk-dropdown-active' if sp_filter_category_fixed_view or len(attrib_values) > 0 else 'wk-dropdown'</attribute> -->
+            <attribute name="t-att-class">'' if sp_filter_category_fixed_view else 'wk-dropdown-active' if len(attrib_values) > 0 else 'wk-dropdown'</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if=&quot;a.display_type == 'radio'&quot;]/ul" position="attributes">
+            <!-- <attribute name="t-attf-class">nav nav-pills flex-column #{'wk-filters-active' if sp_filter_category_fixed_view or len(attrib_values) > 0 else 'd-none'}</attribute> -->
+            <attribute name="t-attf-class">nav nav-pills flex-column #{'' if sp_filter_category_fixed_view else 'wk-filters-active' if len(attrib_values) > 0 else 'd-none'}</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if=&quot;a.display_type == 'color'&quot;]//label" position="attributes">
+            <!-- <attribute name="t-attf-class">css_attribute_color #{'wk-filters-active-label' if sp_filter_category_fixed_view or len(attrib_values) > 0 else 'd-none'} #{'active' if v.id in attrib_set else ''}</attribute> -->
+            <attribute name="t-attf-class">css_attribute_color #{'' if sp_filter_category_fixed_view else 'wk-filters-active-label' if len(attrib_values) > 0 else 'd-none'} #{'active' if v.id in attrib_set else ''}</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if=&quot;a.display_type == 'select'&quot;]/select" position="attributes">
+            <!-- <attribute name="t-attf-class">form-control #{'wk-filters-active' if sp_filter_category_fixed_view or len(attrib_values) > 0 else 'd-none'}</attribute> -->
+            <attribute name="t-attf-class">form-control #{'' if sp_filter_category_fixed_view else 'wk-filters-active' if len(attrib_values) > 0 else 'd-none'}</attribute>
+        </xpath>
+    </template>
+
+    <template id="sp_inherit_product_comparison_1" inherit_id="website_sale.recommended_products">
+        <xpath expr="//div[@t-if='product.alternative_product_ids']" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+    </template>
+
+</odoo>

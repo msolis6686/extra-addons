@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_confirmation" name="SP Confirmation Page" inherit_id='website_sale.confirmation'>
+        <xpath expr="//div[hasclass('oe_website_sale')]" position="before">
+            <div class="oe_structure"/>
+            <div class="container sp-confirmation">
+                <div class="img-content-wrapper">
+                    <div class="confirmation_images">
+                        <img src="/theme_shopoint/static/src/images/Order-success-illustration.png" alt="Illustration"/>
+                    </div>
+                    <div class="content">
+                        <h6>Thank You!!</h6>
+                        <p>Your order is successfully placed.</p>
+                        <div class="d-flex">
+                            <button class="show-so-details" type="btn">Order Details</button>
+                            <a href="/shop" class="continue_shop btn btn-secondary" type="btn">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="id">sp_confirmation_page</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-call='website_sale.payment_confirmation_status']" position="after">
+            <div class="sp-shipping-billing-main">
+                <div class='sp-bs-heading'>
+                    <p>Address</p>
+                </div>
+                <div class='sp-shipping-billing'>
+                    <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
+
+                    <!-- <b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span t-esc='order.partner_id' t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')" class="address-inline"/> -->
+
+
+                    <div groups="sale.group_delivery_invoice_address">
+                        <b>Billing Address: </b>
+                        <t t-esc="order.partner_id" t-options="dict(widget='contact', fields=['name', 'address'], no_marker=True)"/>
+                    </div>
+
+                    <div groups="sale.group_delivery_invoice_address">
+                        <b>Shipping Address: </b>
+                        <span t-esc='order.partner_shipping_id' t-options="dict(widget='contact', fields=['name','address'], no_marker=True)" />
+                    </div>
+
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>

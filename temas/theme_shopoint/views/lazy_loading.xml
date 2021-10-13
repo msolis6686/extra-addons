@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="wk_lazy_list_product_item" name="Lazy Loading List View">
+        <t t-foreach="products" t-as="product">
+
+
+            <!-- <t t-if="td_product"> -->
+                <!-- <t t-set="product" t-value="td_product['product']" /> -->
+                <td t-attf-class="oe_product">
+                    <div>
+                        <t t-call="website_sale.products_item">
+                            
+                        </t>
+                    </div>
+                </td>
+            <!-- </t> -->
+            <!-- <div class="oe_product oe_list oe_product_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+                <t t-call="website_sale.products_item">
+                    <t t-set="show_publish" t-value="True" />
+                </t>
+            </div> -->
+        </t>
+    </template>
+
+    <template id="theme_products_grid_view" inherit_id="website_sale.products" name="Inherit Product grid View">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+            <div class="products_pager form-inline justify-content-center mt-3" t-if="len(products)">
+                <div id="sp_loader" t-att-data-loading='json.dumps({"page": page, "page_count": pager.get("page_count")})'>
+                    <i class="fa"></i>Load More...
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

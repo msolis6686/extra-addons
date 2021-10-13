@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_sub_menu_recursive">
+        <ul class="mega-menu-sub-category mmsc-child ">
+            <t t-foreach="categ.child_id" t-as="sub_categ">
+                <li t-attf-class="mmsc #{'mmsub-sep' if flag else ''}">
+                    <a t-attf-href="/shop/category/#{ slug(sub_categ) }" t-field='sub_categ.name'/>
+                    <t t-call="theme_shopoint.sp_sub_menu_recursive" t-if="sub_categ.child_id">
+                        <t t-set="categ" t-value="sub_categ"/>
+                        <t t-set="flag" t-value="1"/>
+                    </t>
+                </li>
+            </t>
+        </ul>
+    </template>
+
+    <!-- <template id="mega_menu_type_1">
+        <div class="mmx mm1 mmcon mm-wrapper card-columns">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <div class="mmcateg card">
+                    <div class="card-body">
+                        <span t-field="categ.image" t-options='{"widget": "image"}'/>
+                        <a t-att-href="categ.url" t-field="categ.name"/>
+                        <ul class="mega-menu-sub-category">
+                            <t t-foreach="categ.child_id" t-as="sub_categ">
+                                <li class="mmsc">
+                                    <a t-att-href="sub_categ.url" t-field='sub_categ.name'/>
+                                    <t t-call="theme_shopoint.sp_sub_menu_recursive" t-if="sub_categ.child_id">
+                                        <t t-set="categ" t-value="sub_categ"/>
+                                    </t>
+                                </li>
+                            </t>
+                        </ul>
+
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template> -->
+
+    <!-- Stable -->
+    <!-- <template id="mega_menu_type_1">
+        <div class="mmx mm1 mmcon mm-wrapper card-columns">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <div class="mmcateg card">
+                    <div class="card-body">
+                        <a t-att-href="categ.url" t-field="categ.name"/>
+                        <ul class="mega-menu-sub-category">
+                            <t t-foreach="categ.child_id" t-as="sub_categ">
+                                <li class="mmsc">
+                                    <a t-att-href="sub_categ.url" t-field='sub_categ.name'/>
+                                    <t t-call="theme_shopoint.sp_sub_menu_recursive" t-if="sub_categ.child_id">
+                                        <t t-set="categ" t-value="sub_categ"/>
+                                    </t>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template> -->
+
+    <template id="mega_menu_type_1">
+        <div class="mm mm1 mmcon mm-wrapper dropdown-menu o_mega_menu dropdown-menu-right">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <div class="mmcateg">
+                    <!-- <span t-field="categ.image" t-options='{"widget": "image"}'/> -->
+                    <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                    <ul class="mega-menu-sub-category">
+                        <t t-foreach="categ.child_id" t-as="sub_categ">
+                            <li class="mmsc">
+                                <a t-attf-href="/shop/category/#{ slug(sub_categ) }" t-field='sub_categ.name'/>
+                                <!-- <t t-call="theme_shopoint.sp_sub_menu_recursive" t-if="sub_categ.child_id">
+                                    <t t-set="categ" t-value="sub_categ"/>
+                                </t> -->
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="mobile_mega_menu_type_1">
+        <ul class="mm1 mm_mobile">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <li>
+                    <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                    <ul t-if='categ.child_id'>
+                        <t t-foreach="categ.child_id" t-as="sub_categ">
+                            <li class="mmsc">
+                                <a t-attf-href="/shop/category/#{ slug(sub_categ) }" t-field='sub_categ.name'/>
+                            </li>
+                        </t>
+                    </ul>
+                </li>
+            </t>
+        </ul>
+    </template>
+
+    <template id="mobile_mega_menu_type_2">
+        <ul class="mm2 mm_mobile">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <li>
+                    <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                </li>
+            </t>
+        </ul>
+    </template>
+
+    <template id="mobile_mega_menu_type_3">
+        <ul class="mm mm3 mmcon mm-wrapper">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <li>
+                    <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                </li>
+            </t>
+            <div class="mmcol-2">
+                <img src="/theme_shopoint/static/src/images/img-9.png"/>
+            </div>
+        </ul>
+    </template>
+
+    <template id="mobile_mega_menu_type_4">
+        <ul>
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <li>
+                    <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                    <t t-call="theme_shopoint.sp_sub_menu_recursive" t-if="categ.child_id">
+                        <t t-set="categ" t-value="categ"/>
+                    </t>
+                </li>
+            </t>
+        </ul>
+    </template>
+
+    <template id="mega_menu_type_2">
+        <div class="mm mm2 mmcon mm-wrapper dropdown-menu o_mega_menu dropdown-menu-right">
+            <t t-foreach="submenu.category_ids" t-as="categ">
+                <div class="mmcateg">
+                    <div class="mm-img-con">
+                        <!-- <a t-attf-href="/shop/category/#{ slug(categ) }"><span t-field="categ.image_1920" t-options='{"widget": "image"}'/></a> -->
+                        <h6><a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/></h6>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="mega_menu_type_3">
+        <div class="mm mm3 mmcon mm-wrapper dropdown-menu o_mega_menu dropdown-menu-right">
+            <div class="mmcol-1">
+                <t t-foreach="submenu.category_ids" t-as="categ">
+                    <div class="mmcateg">
+                        <a t-attf-href="/shop/category/#{ slug(categ) }"><span t-field="categ.image_1920" t-options='{"widget": "image"}'/></a>
+                        <div class="mmcategcon">
+                            <h6><a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/></h6>
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots</p>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <div class="mmcol-2">
+                <img src="/theme_shopoint/static/src/images/img-9.png"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="mega_menu_type_4">
+        <div class="mm mm4 mmcon mm-wrapper dropdown-menu o_mega_menu dropdown-menu-right">
+            <div class="mmcateg">
+                <t t-set="count" t-value="0"/>
+                <t t-foreach="submenu.category_ids" t-as="categ">
+                    <div class="mmcateg-content">
+                        <div class="mm-img-text">
+                            <a t-attf-href="/shop/category/#{ slug(categ) }"><span t-field="categ.image_1920" t-options='{"widget": "image"}'/></a>
+                            <a t-attf-href="/shop/category/#{ slug(categ) }" t-field="categ.name"/>
+                            <i class="fa fa-caret-down js_trigger_submenu"></i>
+                        </div>
+                        <div t-attf-class="mmsubcateg #{'sub-categ-active' if count == 0 else ''}">
+                            <t t-call="theme_shopoint.sp_sub_menu_recursive">
+                                <t t-set="categ" t-value="categ"/>
+                            </t>
+                        </div>
+                    </div>
+                    <t t-set="count" t-value="count + 1"/>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="submenu">
+        <t t-set="has_visible_submenu" t-value="submenu.child_id.filtered(lambda menu: menu.is_visible)"/>
+        <li t-if="submenu.is_visible and not has_visible_submenu" t-attf-class="#{item_class or ''}">
+            <a t-att-href="submenu.clean_url()"
+                t-attf-class="#{link_class or ''} #{'active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else ''}"
+                role="menuitem"
+                t-ignore="true"
+                t-att-target="'_blank' if submenu.new_window else None">
+                <span t-field="submenu.name"/>
+            </a>
+            <t t-call="theme_shopoint.mobile_mega_menu_type_1" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_1"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mobile_mega_menu_type_2" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_2"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mobile_mega_menu_type_3" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_3"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mobile_mega_menu_type_4" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_4"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+        </li>
+        <li t-if="has_visible_submenu" t-attf-class="#{item_class or ''} dropdown #{
+            (submenu.clean_url() and submenu.clean_url() != '/' and any([request.httprequest.path == child.url for child in submenu.child_id if child.url]) or
+            (submenu.clean_url() and request.httprequest.path == submenu.clean_url())) and 'active'
+            }">
+            <a t-attf-class="#{link_class or ''} dropdown-toggle" data-toggle="dropdown" href="#">
+                <span t-field="submenu.name"/>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <t t-foreach="submenu.child_id" t-as="submenu">
+                    <t t-call="website.submenu">
+                        <t t-set="item_class" t-value="None"/>
+                        <t t-set="link_class" t-value="'dropdown-item'"/>
+                    </t>
+                </t>
+            </ul>
+        </li>
+    </template>
+
+    <template id="sp_mobile_menu" inherit_id='portal.frontend_layout'>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="after">
+            <button class="ma5menu__toggle d-none" type="button">
+                <span class="ma5menu__icon-toggle"></span><span class="ma5menu__sr-only">Menu</span>
+            </button>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="after">
+            <div class="mobile_sub_menu_wrapper d-none">
+                <ul class="mobile_sub_menu">
+                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                        <t t-call="theme_shopoint.submenu">
+                            <t t-set="item_class" t-value="'nav-item'"/>
+                            <t t-set="link_class" t-value="'nav-link'"/>
+                        </t>
+                    </t>
+                </ul>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sp_mega_menu" inherit_id='website.submenu'>
+        <!-- <xpath expr="//li[@t-if='submenu.is_visible and not has_visible_submenu']" position="attributes">
+            <attribute name="t-attf-class">#{item_class or ''} #{'mega-menu' if submenu.is_mega_menu else ''}</attribute>
+            <attribute name="t-att-data-mm-type">submenu.mega_menu_type if submenu.is_mega_menu else ''</attribute>
+        </xpath> -->
+        <!-- <xpath expr="//li[@t-if='submenu.is_visible and not has_visible_submenu']/a" position="after">
+            <i t-if="submenu.is_mega_menu" class="fa fa-caret-down js_render_mm"></i>
+        </xpath> -->
+        <!-- <xpath expr="//li[@t-if='submenu.is_visible and not has_visible_submenu']" position="inside">
+            <t t-call="theme_shopoint.mega_menu_type_1" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_1"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mega_menu_type_2" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_2"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mega_menu_type_3" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_3"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+            <t t-call="theme_shopoint.mega_menu_type_4" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_4"'>
+                <t t-set="submenu" t-value="submenu"/>
+            </t>
+        </xpath> -->
+        <xpath expr="//div[@t-if='submenu.is_mega_menu']" position="replace">
+                <div t-if="submenu.is_mega_menu"
+                    t-attf-class="dropdown-menu o_mega_menu #{submenu.mega_menu_classes}"
+                    data-name="Mega Menu">
+                    <t t-call="theme_shopoint.mega_menu_type_1" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_1"'>
+                        <t t-set="submenu" t-value="submenu"/>
+                    </t>
+                    <t t-call="theme_shopoint.mega_menu_type_2" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_2"'>
+                        <t t-set="submenu" t-value="submenu"/>
+                    </t>
+                    <t t-call="theme_shopoint.mega_menu_type_3" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_3"'>
+                        <t t-set="submenu" t-value="submenu"/>
+                    </t>
+                    <t t-call="theme_shopoint.mega_menu_type_4" t-if='submenu.is_mega_menu and submenu.mega_menu_type=="type_4"'>
+                        <t t-set="submenu" t-value="submenu"/>
+                    </t>
+                </div>
+        </xpath>
+    </template>
+
+</odoo>

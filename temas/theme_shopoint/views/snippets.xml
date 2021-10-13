@@ -1,0 +1,1143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_carousel" name="Banner Slider">
+        <section class="container sp_carousel_section pt32 pb32">
+            <div id="spCarouselMain" class="s_carousel s_carousel_default carousel slide" data-interval="100000000">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#spCarouselMain" data-slide-to='0' class="active"/>
+                    <li data-target="#spCarouselMain" data-slide-to="1"/>
+                    <li data-target="#spCarouselMain" data-slide-to="2"/>
+                </ol>
+                <!-- Content -->
+                <div class="carousel-inner">
+                    <!-- #  01 -->
+                    <div class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152" style="background-image:url('/theme_shopoint/static/src/images/multi-1.jpg')" data-name="Slide">
+                        <div class="container">
+                            <div class="row content">
+                                <div class="carousel-content col-lg-7">
+                                    <p class="s_title_default">freshen up your wardrobe</p>
+                                    <h2>new arrivals</h2>
+                                    <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                                        <a href="#" class="btn btn-secondary flat">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item oe_custom_bg oe_img_bg pt152 pb152" style="background-image:url('/theme_shopoint/static/src/images/multi-2.png')" data-name="Slide">
+                        <div class="container">
+                            <div class="row content">
+                                <div class="carousel-content col-lg-7">
+                                    <p class="s_title_default">freshen up your wardrobe</p>
+                                    <h2>new arrivals</h2>
+                                    <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                                        <a href="#" class="btn btn-secondary flat">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item oe_custom_bg oe_img_bg pt152 pb152" style="background-image:url('/theme_shopoint/static/src/images/multi-3.png')" data-name="Slide">
+                        <div class="container">
+                            <div class="row content">
+                                <div class="carousel-content col-lg-7">
+                                    <p class="s_title_default">freshen up your wardrobe</p>
+                                    <h2>new arrivals</h2>
+                                    <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                                        <a href="#" class="btn btn-secondary flat">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Controls -->
+                <div class="carousel-control-prev" data-target="#spCarouselMain" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                    <span class="carousel-control-prev-icon"/>
+                    <span class="sr-only">Previous</span>
+                </div>
+                <div class="carousel-control-next" data-target="#spCarouselMain" data-slide="next" role="img" aria-label="Next" title="Next">
+                    <span class="carousel-control-next-icon"/>
+                    <span class="sr-only">Next</span>
+                </div>
+            </div>
+            <div class="sp-right-panel">
+                <div class='sub-banner-container'>
+                    <div>
+                        <img src="/theme_shopoint/static/src/images/multi-4.jpg"/>
+                    </div>
+                    <div class="sub-banner-content">
+                        <p class="s_title_default">Freshen up your wardrobe</p>
+                        <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                            <a href="#" class="btn btn-secondary flat">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class='sub-banner-container'>
+                    <div>
+                        <img src="/theme_shopoint/static/src/images/multi-5.jpg"/>
+                    </div>
+                    <div class="sub-banner-content">
+                        <p class="s_title_default">Freshen up your wardrobe</p>
+                        <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                            <a href="#" class="btn btn-secondary flat">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </template>
+
+    <!-- <template id="sp_categories" name="Categories">
+        <section class='container sp_multi_func' value='1'>
+            <a class="set-category" href='1'>fff</a>
+            <input type="text" class='d-none'/>
+            <div class='sp_home_categories'>
+                <t t-call='theme_shopoint.sp_categories_products'/>
+            </div>
+        </section>
+    </template> -->
+
+    <template id="sp_testimonial" name="Testimonial">
+        <div id="testimonialCarousel" class="s_carousel s_carousel_default carousel slide testimonial_carousel" data-interval="10000">
+            <!-- <span class="overlay"/> -->
+            <div class="carousel-inner">
+                <div class="carousel-item active oe_custom_bg oe_img_bg pt64 pb64" style="background-image: url('/theme_shopoint/static/src/images/testimonial_3.jpeg');" data-name="Slide">
+                    <div class="container">
+                        <div class="row content">
+                            <div class="carousel-content col-lg-6">
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                                <div class="wrapper">
+                                  <img src='/theme_shopoint/static/src/images/testimonial.png' alt='shopoint testimonial'/>
+                                  <div class="name">
+                                    <span class="hyphen">-</span>
+                                    <span>Jhon Doe</span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item oe_custom_bg oe_img_bg pt64 pb64" style="background-image: url('/theme_shopoint/static/src/images/testimonial_3.jpeg');" data-name="Slide">
+                    <div class="container">
+                        <div class="row content">
+                            <div class="carousel-content col-lg-6">
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium</p>
+                                <div class="wrapper">
+                                  <img src='/theme_shopoint/static/src/images/member-2.png' alt='shopoint testimonial'/>
+                                  <div class="name">
+                                    <span class="hyphen">-</span>
+                                    <span>Jane Doe</span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-control-prev" data-target="#testimonialCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                <span class="carousel-control-prev-icon"/>
+                <span class="sr-only">Previous</span>
+            </div>
+            <div class="carousel-control-next" data-target="#testimonialCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                <span class="carousel-control-next-icon"/>
+                <span class="sr-only">Next</span>
+            </div>
+        </div>
+        <!-- <section class="container sp-testimonial pt32 pb32">
+            <div class='testimonial-main'>
+                <h3>What they say about us</h3>
+                <div class="testimonial-wrapper">
+                    <div class="sub-testimonial-wrapper">
+                        <div class="testimonial-img-content">
+                            <img src='/theme_shopoint/static/src/images/testimonial.png' alt='shopoint testimonial'/>
+                            <span>Peter Andreson</span>
+                        </div>
+                        <div class="testimonial-main-content">
+                            <div class="header">
+                                <span>Peter Andreson</span><span>|</span><span>From - Germany</span>
+                            </div>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="sub-testimonial-wrapper">
+                        <div class="testimonial-img-content">
+                            <img src='/theme_shopoint/static/src/images/testimonial_2.jpg' alt='shopoint testimonial'/>
+                            <span>Peter Andreson</span>
+                        </div>
+                        <div class="testimonial-main-content">
+                            <div class="header">
+                                <span>Peter Andreson</span><span>|</span><span>From - Germany</span>
+                            </div>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section> -->
+
+    </template>
+
+  <template id="sp_dynamic_blogs">
+    <h3 class="text-center">Latest Blogs</h3>
+    <div class="row owl-carousel owl-theme d-flex align-items-stretch">
+      <t t-foreach="posts" t-as="p">
+        <t t-set="properties" t-value="json.loads(p.cover_properties)"/>
+        <div class="col-lg-4 s_col_no_bgcolor pt16 pb16">
+            <div class="card bg-white">
+                <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}"><div class="o_blog_cover_component o_blog_cover_image" t-attf-style="background-image: #{properties.get('background-image')};"/></a>
+                <div class="card-body">
+                    <h3 class="card-title" t-field="p.name">Feature One</h3>
+                    <p class="card-text" t-field="p.subtitle">Adapt these three columns to fit you design need. To duplicate, delete or move columns, select the column and use the top icons to perform your action.</p>
+                    <div class="s_btn text-left pb0 pt16 sp-blog-btn" data-name="Button">
+                        <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}" class="btn btn-primary btn-sm">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </t>
+    </div>
+  </template>
+
+    <template id="sp_blogs" name="Sp Blogs">
+        <section class="sp_blogs container s_three_columns pt32 pb32">
+          <!-- sp_dynamic_blogs -->
+        </section>
+    </template>
+
+    <template id="sp_background_img_banner" name="Big Banner">
+        <section class="sp_big_banner s_banner parallax s_parallax_is_fixed pt96 pb96" data-scroll-background-ratio="1">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/theme_shopoint/static/src/images/hero-banner.jpg'); background-position: 50% 0;"/>
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-7 bg-white sp-jumbotron jumbotron rounded pt32 pb32" data-name="Box">
+                        <div class="row">
+                            <div class="col-lg-12 s_title s_col_no_bgcolor" data-name="Title">
+                                <h1 class="s_title_thin"><font style="font-size: 62px;"><b>Superb.</b> Deals.</font></h1>
+                            </div>
+                            <div class="col-lg-12 pt8 pb32 s_col_no_bgcolor" data-name="Text">
+                                <p class="lead">This is a simple hero unit, a simple jumbotron-style component <br/>for calling extra attention to featured content or information.</p>
+                            </div>
+                            <div class="col-lg-12 s_btn text-left pt16 pb16" data-name="Button">
+                                <a href="#" class="btn btn-epsilon rounded-circle">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="snippet_big_banner_opt" name="Snippet Big Banner" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="before">
+            <div data-selector=".sp-jumbotron"> <!-- Options group -->
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="dropdown-item" data-choose-image="true" data-no-preview="true"><i class="fa fa-picture-o"/>Opacity</a>
+                    <div class="dropdown-menu"> <!-- Options list -->
+                        <t t-foreach="range(10)" t-as='opacity'>
+                            <a class="dropdown-item sp-bigbanner-opacity" t-attf-data-select-class='opacity_#{opacity}' t-esc='round(opacity * .1, 2)'/>
+                        </t>
+                        <a class="dropdown-item sp-bigbanner-opacity" data-select-class="opacity_10">1</a>
+                    </div>
+                </li>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sp_shop_banner" name="Heading Banner">
+        <section class="sp-heading-banner s_banner parallax s_parallax_is_fixed mb8 pt34 pb34" data-scroll-background-ratio="1">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image:url('/theme_shopoint/static/src/images/symbols-hero-banner.png'); background-position: 50% 0;"/>
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <h2>heading</h2>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="big_sale" name="Sale">
+        <section class="big_sale parallax s_parallax_is_fixed bg-black-50 pt64 pb64" data-scroll-background-ratio="1">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/theme_shopoint/static/src/images/sale-bg.jpg'); background-position: 50% 0;"/>
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-6">
+                        <span class="lightning"/>
+                        <div class="sale sale_1">
+                            <img src="/theme_shopoint/static/src/images/sale-3.jpg"/>
+                            <div class="effect effect_1"/>
+                            <div class="effect effect_2"/>
+                            <div class="content">
+                                <div class="sub_content">
+                                    <h2>Big Sale</h2>
+                                    <div class="explore_more">
+                                        <h2>45% OFF</h2>
+                                        <a href="#">Explore More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="lightning"/>
+                        <div class="sale sale_2">
+                            <img src="/theme_shopoint/static/src/images/sale-2.jpg"/>
+                            <div class="effect effect_1"/>
+                            <div class="effect effect_2"/>
+                            <div class="content">
+                                <div class="sub_content">
+                                    <h2>Big Sale</h2>
+                                    <div class="explore_more">
+                                        <h2>45% OFF</h2>
+                                        <a href="#">Explore More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="grid_multi_gallery" name="Grid Gallery">
+        <section class="grid_multi_gallery pt32 pb32">
+            <div class="container">
+                <div class="row">
+                    <section class="col-lg-6 main_banner s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/theme_shopoint/static/src/images/grid_main.jpg'); background-position: 50% 0;">
+                        <div class="content">
+                            <h2>Collection Name</h2>
+                            <a href="#">Explore More</a>
+                        </div>
+                    </section>
+                    <div class="col-lg-6 sub_gallery">
+                        <div class="sub_gallery_item">
+                            <img src="/theme_shopoint/static/src/images/multi-2.png"/>
+                            <div>Dummy Name</div>
+                        </div>
+                        <div class="sub_gallery_item">
+                            <img src="/theme_shopoint/static/src/images/multi-3.png"/>
+                            <div>Dummy Name</div>
+                        </div>
+                        <div class="sub_gallery_item">
+                            <img src="/theme_shopoint/static/src/images/multi-4.jpg"/>
+                            <div>Dummy Name</div>
+                        </div>
+                        <div class="sub_gallery_item">
+                            <img src="/theme_shopoint/static/src/images/multi-5.jpg"/>
+                            <div>Dummy Name</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="sp_brand_snippet" name="Brands Static">
+        <section class="container sp_brands_wrapper pt32 pb32">
+            <div class="">
+                <div class="sp-brands">
+                    <span class="sp-line"/>
+                    <h3>Popular Brands</h3>
+                    <span class="sp-line"/>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 pt32 pb32 text-center">
+                        <!-- <i class="fa fa-3x rounded-circle m-3"/> -->
+                        <div class="sp-brands-wapper-content">
+                            <img src="/theme_shopoint/static/src/images/category-1.jpg" alt="Brands"/>
+                            <h5 class=""><a href="">Addidas</a ></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 pt32 pb32 text-center">
+                        <!-- <i class="fa fa-3x rounded-circle m-3"/> -->
+                        <div class="sp-brands-wapper-content">
+                            <img src="/theme_shopoint/static/src/images/category-1.jpg" alt="Brands"/>
+                            <h5 class=""><a href="">Puma</a ></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 pt32 pb32 text-center">
+                        <!-- <i class="fa fa-3x rounded-circle m-3"/> -->
+                        <div class="sp-brands-wapper-content">
+                            <img src="/theme_shopoint/static/src/images/category-1.jpg" alt="Brands"/>
+                            <h5 class=""><a href="">Reebok</a ></h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 pt32 pb32 text-center">
+                        <!-- <i class="fa fa-3x rounded-circle m-3"/> -->
+                        <div class="sp-brands-wapper-content">
+                            <img src="/theme_shopoint/static/src/images/category-1.jpg" alt="Brands"/>
+                            <h5 class=""><a href="">Lux</a ></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- <template id="dynamic_brands">
+        <div>
+            <div class="sp-brands">
+                <span class="sp-line"/>
+                <h3>Popular Brands</h3>
+                <span class="sp-line"/>
+            </div>
+            <div class="dynamic_brands owl-carousel owl-theme">
+                <t t-foreach="brands" t-as="brand">
+                    <div class="wrapper">
+                        <span t-esc="brand.image" t-options="{'widget':'image'}"/>
+                        <h5>
+                            <a href="#" t-esc="brand.name"/>
+                        </h5>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template> -->
+
+    <!-- <template id="dynamic_brands_container" name="Brands Dynamic">
+        <section class="container dynamic_brands_container pt32 pb32">
+            
+        </section>
+    </template> -->
+
+    <!-- <template id="sp_testimonial_2" name="Testimonial &amp; Video">
+        <section class="container sp_testimonial_2 pt32 pb32">
+            <t t-set="loop" t-value="loop"/>
+            <t t-set="autolay" t-value="autoplay"/>
+            <t t-set="muted" t-value="muted"/>
+            <video class="media_iframe_video sp_testimonial_2_vid" loop="loop" autoplay="autoplay" muted="muted">
+                <source src="/theme_shopoint/static/src/video/Gubat Beach.mp4" type="video/mp4"/>
+                <source src="/theme_shopoint/static/src/video/Gubat Beach.webm" type="video/webm"/>
+                Your browser does not support the video tag.
+            </video>
+            <div class="sp_testimonial_2_content">
+                <div class="sp_testimonial_2_content_1">
+                    <img src="/theme_shopoint/static/src/images/clothing_1.jpeg"/>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                </div>
+                <div class="sp_testimonial_2_content_2">
+                    <img src="/theme_shopoint/static/src/images/clothing_1.jpeg"/>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                </div>
+            </div>
+        </section>
+    </template> -->
+
+    <template id="sp_image_gallery" name="Image Gallery">
+        <section class="container sp_image_gallery_wrapper pt32 pb32">
+            <div class="image_gallery_content">
+                <div class='image_gallery_content_1'>
+                    <h4>Heading</h4>
+                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+            <div class="image_gallery_img">
+                <img src="/theme_shopoint/static/src/images/sale-2.jpg" data-toggle="modal" data-target="#imageGallery" data-step='0'/>
+                <img src="/theme_shopoint/static/src/images/sale-3.jpg" data-toggle="modal" data-target="#imageGallery" data-step='1'/>
+                <img src="/theme_shopoint/static/src/images/tamara-bellis-VF75PMEdvX8-unsplash.jpg" data-toggle="modal" data-target="#imageGallery" data-step='2'/>
+                <div class="modal fade" id="imageGallery" tabindex="-1" role="dialog" aria-labelledby="galleryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span><i class="fa fa-times"></i></span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="0">
+
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0"/>
+                                        <li data-target="#myCarousel" data-slide-to="1"/>
+                                        <li data-target="#myCarousel" data-slide-to="2"/>
+                                    </ol>
+
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item oe_custom_bg oe_img_bg pt152 pb152" style="background-image: url('/theme_shopoint/static/src/images/category-1.jpg');" data-name="Slide">
+                                        </div>
+                                        <div class="carousel-item oe_custom_bg oe_img_bg pt96 pb96" style="background-image: url('/theme_shopoint/static/src/images/category-2.jpg" data-name="Slide">
+                                        </div>
+                                        <div class="carousel-item oe_custom_bg oe_img_bg pt128 pb128" style="background-image: url('/theme_shopoint/static/src/images/category-3.jpg');" data-name="Slide">
+                                        </div>
+                                    </div>
+
+                                    <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                                        <span class="carousel-control-prev-icon"/>
+                                        <span class="sr-only">Previous</span>
+                                    </div>
+                                    <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                                        <span class="carousel-control-next-icon"/>
+                                        <span class="sr-only">Next</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="sp_new_arrivals_2" name="New Arrivals">
+        <section class='container new_arrival_carousel_twin pt32 pb32'>
+            <div class="twin_1">
+                <div id="twin_1" class="s_carousel s_carousel_default twin carousel slide carousel_1" data-interval="0">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active oe_custom_bg oe_img_bg"  data-name="Slide">
+                            <img src="/theme_shopoint/static/src/images/1.jpg" alt=""/>
+                        </div>
+                        <div class="carousel-item oe_custom_bg oe_img_bg" data-name="Slide">
+                            <img src="/theme_shopoint/static/src/images/1-1.jpg" alt=""/>
+                        </div>
+                    </div>
+                    <div class="carousel-control-prev" data-target="#twin_1" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                        <span class="carousel-control-prev-icon"/>
+                        <span class="sr-only">Previous</span>
+                    </div>
+                    <div class="carousel-control-next" data-target="#twin_1" data-slide="next" role="img" aria-label="Next" title="Next">
+                        <span class="carousel-control-next-icon"/>
+                        <span class="sr-only">Next</span>
+                    </div>
+                </div>
+                <div class="twin-content">
+                    <h6>Say bye to old one</h6>
+                    <h5>Add new to your wardrobe</h5>
+                    <div>
+                        <a>Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="twin_2">
+                <div id="twin_2" class="s_carousel s_carousel_default carousel slide twin carousel_2" data-interval="0">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active oe_custom_bg oe_img_bg" data-name="Slide">
+                            <img src="/theme_shopoint/static/src/images/2.jpg" alt=""/>
+                        </div>
+                        <div class="carousel-item oe_custom_bg oe_img_bg" data-name="Slide">
+                            <img src="/theme_shopoint/static/src/images/2-1.jpg" alt=""/>
+                        </div>
+                    </div>
+                    <div class="carousel-control-prev" data-target="#twin_2" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                        <span class="carousel-control-prev-icon"/>
+                        <span class="sr-only">Previous</span>
+                    </div>
+                    <div class="carousel-control-next" data-target="#twin_2" data-slide="next" role="img" aria-label="Next" title="Next">
+                        <span class="carousel-control-next-icon"/>
+                        <span class="sr-only">Next</span>
+                    </div>
+                </div>
+                <div class="twin-content">
+                    <h6>Say bye to old one</h6>
+                    <h5>Add new to your wardrobe</h5>
+                    <div>
+                        <a>Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="category_product_opt" name="Snippet Category Product Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-selector=".multi_category_product">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="dropdown-item" data-choose-image="true" data-no-preview="true"><i class="fa fa-picture-o"/>Type(Category/Product)</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item sp-select-container_type" data-select-class="category_type"> Category </a>
+                        <a class="dropdown-item sp-select-container_type" data-select-class="product_type"> Product </a>
+                    </div>
+                </li>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sub_category">
+        <div id="sub_category">
+            <a href="#">Catgeory 1</a>
+            <a href="#">Catgeory 2</a>
+            <a href="#">Catgeory 3</a>
+            <a href="#">Catgeory 4</a>
+            <a href="#">Catgeory 5</a>
+            <a href="#">Catgeory 6</a>
+        </div>
+    </template>
+
+    <template id="sp_grid_gallery" name="Grid Gallery">
+        <section class="container row sp_grid_gallery pt32 pb32 ">
+            <div class='col-lg-8 grid_1'>
+                <div class="grid_1_set_1 mb24">
+                    <div class="img-content overlay">
+                        <img class="img-fluid" src="theme_shopoint/static/src/images/big_banner_1.jpg"/>
+                        <div class="img-text">
+                            <h6>Levis</h6>
+                            <p>Loreum Ipsum</p>
+                        </div>
+                    </div>
+                    <div class="img-content overlay">
+                        <img class="img-fluid" src="theme_shopoint/static/src/images/big_banner_2.jpg"/>
+                        <div class="img-text">
+                            <h6>Levis</h6>
+                            <p>Loreum Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_1_set_2 ">
+                    <div class="img-content overlay">
+                        <img class="img-fluid" src="theme_shopoint/static/src/images/big_banner_3.jpg"/>
+                        <div class="img-text">
+                            <h6>Levis</h6>
+                            <p>Loreum Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 grid_2">
+                <div class="img-content overlay">
+                    <img class="img-fluid" src="theme_shopoint/static/src/images/big_banner_4.jpg"/>
+                    <div class="img-text">
+                        <h6>Levis</h6>
+                        <p>Loreum Ipsum</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="multi_category_product" name="Category Products">
+        <section class='container multi_category_products pt32 pb32'>
+            <h4>Women</h4>
+            <div class="row">
+                <div class="col-lg-3 multi_category_product">
+                    <span>
+                        <img src="/theme_shopoint/static/src/images/clothing_1.jpeg"/>
+                    </span>
+                    <h6>XYZ</h6>
+                    <t t-call="theme_shopoint.sub_category"/>
+                </div>
+                <div class="col-lg-3 multi_category_product">
+                    <span>
+                        <img src="/theme_shopoint/static/src/images/clothing_2.jpeg"/>
+                    </span>
+                    <h6>XYZ</h6>
+                    <t t-call="theme_shopoint.sub_category"/>
+                </div>
+                <div class="col-lg-3 multi_category_product">
+                    <span>
+                        <img src="/theme_shopoint/static/src/images/clothing_3.jpeg"/>
+                    </span>
+                    <h6>XYZ</h6>
+                    <t t-call="theme_shopoint.sub_category"/>
+                </div>
+                <div class="col-lg-3 multi_category_product">
+                    <span>
+                        <img src="/theme_shopoint/static/src/images/clothing_4.jpeg"/>
+                    </span>
+                    <h6>XYZ</h6>
+                    <t t-call="theme_shopoint.sub_category"/>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="sp_footer_icons" name="Footer Icons">
+        <section class="sp_footer_icons pt32 pb32">
+            <div class='container sp-footer-sprits'>
+                <div class="sprit">
+                    <img src="/theme_shopoint/static/src/images/icon-secure-payment.png"/>
+                    <h5>100% Secure Payment</h5>
+                    <p>All major credit and debit cards accepted</p>
+                </div>
+                <div class="sprit">
+                    <img src="/theme_shopoint/static/src/images/Trustpay.png"/>
+                    <h5>Trustpay</h5>
+                    <p>100% Payment Protection, Easy Return Policy</p>
+                </div>
+                <div class="sprit">
+                    <img src="/theme_shopoint/static/src/images/free-shipping.png"/>
+                    <h5>Free Shipping</h5>
+                    <p>Free Shipping in all over india for every order above Rs. 999</p>
+                </div>
+                <div class="sprit">
+                    <img src="/theme_shopoint/static/src/images/Payment-secure.png"/>
+                    <h5>Free &amp; Easy Return</h5>
+                    <p>No more hassel now!! We provide a free and east return policy</p>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="carousel_products">
+        <div class="owl-carousel owl-theme oe_website_sale" t-if="len(products) > 0">
+            <t t-foreach="products" t-as="product">
+                <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                <t t-set="product_href" t-value="'/shop/product/%s' % slug(product)"/>
+                <form action="/shop/cart/update" method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                    <div itemscope="itemscope" class="wrapper" itemtype="http://schema.org/Product">
+                        <div class="ribbon-wrapper">
+                            <a href="#" role="button" class="ribbon btn btn-danger">Sale</a>
+                        </div>
+                        <div class="oe_product_image">
+                            <a itemprop="url" t-att-href="product_href">
+                                <span t-field="product.image_1920" t-options="{'widget': 'image', 'resize': '300x300'}"/>
+                            </a>
+                        </div>
+                        <section>
+                            <h6>
+                                <a itemprop="name" t-att-href="product_href" t-att-content="product.name" t-esc="product.name" />
+                                <a role="button" t-if="not show_publish and not product.website_published" t-att-href="product_href" class="btn btn-secondary btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
+                            </h6>
+                            <div class="sp-product-icon-container">
+                                <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+                                <input name="product_id" t-att-value="product_variant_id" type="hidden"/>
+                                <t t-if="product_variant_id and add_to_cart">
+                                    <a href="#" role="button" class="btn btn-secondary btn-sm a-submit" aria-label="Shopping cart" title="Shopping cart">
+                                        <span class="fa fa-shopping-cart" />
+                                    </a>
+                                </t>
+                                <button t-if="add_to_wishlist" type="button" role="button" class="btn btn-secondary btn-sm o_add_wishlist" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-product-id="product.product_variant_ids[0].id if product.product_variant_ids else '0'" data-action="o_wishlist"><span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span></button>
+                                <a t-if="quick_view" class="shopoint-zoom-img" title="Quick View" t-att-data-product-id='product.id'><i class="fa fa-eye"/></a>
+                                <button t-if="compare" type="button" role="button" class="d-none d-md-inline-block btn btn-secondary btn-sm o_add_compare" title="Compare" aria-label="Compare" t-att-data-product-product-id="product.product_variant_ids[0].id if product.product_variant_ids else '0'" data-action="o_comparelist"><span class="fa fa-exchange"></span></button>
+                            </div>
+                            <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price">
+                                <b>
+                                    <t t-if="True"><!-- compatibility 12.0 -->
+                                        <del t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                    </t>
+                                    <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                                    <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                                </b>
+                            </div>
+                            <t t-call="theme_shopoint.shopoint_rating" t-if="product_comment"/>
+                        </section>
+                    </div>
+                </form>
+            </t>
+        </div>
+    </template>
+
+    <template id="single_carousel_products">
+        <t t-call="theme_shopoint.carousel_products"/>
+    </template>
+
+    <template id="single_carousel_content">
+        <h3 t-field="carousel_id.name"/>
+        <p>Best products for you</p>
+        <a t-att-href="href" type="button" class="btn btn-secondary">View Products</a>
+        <div class="btns">
+            <span class="left"><i class="fa fa-chevron-left"></i></span>
+            <span class="right"><i class="fa fa-chevron-right"></i></span>
+        </div>
+    </template>
+
+    <template id="single_carousel" name="Single Carousel">
+        <section class="single_carousel pt32 pb32">
+            <div class="container"> 
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-3 static_content">
+                        <!-- single_carousel_content -->
+                    </div>
+                    <div class="col-lg-9 js_products">
+                        <!-- single_carousel_products -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="multi_carousel_products">
+        <div t-attf-class="tab-pane fade show #{'active' if active else ''}"
+            t-attf-id="sp_#{type}_products"
+            role="tabpanel"
+            t-attf-aria-labelledby="nav_tabs_#{type}">
+            <t t-call="theme_shopoint.carousel_products"/>
+        </div>
+
+    </template>
+
+    <template id="multi_carousel_links">
+            <li class="nav-item">
+                <a t-attf-class="nav-link nav_#{type.type} #{'active' if active else ''}"
+                    t-attf-id="nav_tabs_#{type.type}"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-selected="true"
+                    t-attf-href="#sp_#{type.type}_products"
+                    t-esc='type.name'/>
+            </li>
+    </template>
+
+    <template id="multi_carousel" name="Multi Product Carousel">
+        <section class="oe_website_sale multi_product_carousel pb32 pt32" data-scroll-background-ratio="1" >
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header mb32">
+                                <ul class="nav card-header-tabs sp_lav_links" role="tablist">
+
+                                </ul>
+                            </div>
+                            <div class="card-body tab-content sp_tab-content">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="sp_news_letter_1" name="Newsletter 1">
+        <section class="oe_snippet_body sp_news_letter pt32 pb32">
+            <p>Get top trends and fresh editor's picks in your inbox with shoppoint</p>
+            <div class="input-group js_subscribe" data-list-id="0">
+                <input type="email" name="email" class="js_subscribe_email form-control" placeholder="your email..."/>
+                <span class="input-group-append">
+                    <a role="button" href="#" class="btn btn-primary js_subscribe_btn">Subscribe</a>
+                    <a role="button" href="#" class="btn btn-success js_subscribed_btn d-none" disabled="disabled">Thanks</a>
+                </span>
+                <div class="alert alert-success d-none" role="status">Thanks for your subscription!</div>
+            </div>
+        </section>
+    </template>
+
+    <template id="about_us_1" name="About Us">
+        <section class="about_us">
+            <div class="container pt32 pb32">
+                <div class="wrapper_1">
+                    <div class="inner_wrapper">
+                        <h3>Lorem Ipsum?</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    </div>
+                    <div class="img-wrapper">
+                        <img src="/theme_shopoint/static/src/images/about-site-img.png" alt=""/>
+                    </div>
+                </div>
+                <div class="wrapper_2 mt48">
+                    <div class="img-wrapper">
+                        <img src="/theme_shopoint/static/src/images/about-site-img.png" alt=""/>
+                    </div>
+                    <div class="inner_wrapper">
+                        <h3>Lorem Ipsum?</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="about_us_2" name="About us Stats">
+        <section class="about_us_2 z_index">
+            <span class="overlay"/>
+            <div class="container pt32 pb32">
+                <h3>Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                <div class="row wrapper_2">
+                    <div class="col-lg-4 col-md-4 count">
+                        <div class="circle">
+                            <span>25</span>
+                        </div>
+                        <h6>Year</h6>
+                    </div>
+                    <div class="col-lg-4 col-md-4 count">
+                        <div class="circle">
+                            <span>1200</span>
+                        </div>
+                        <h6>Happy Customers</h6>
+                    </div>
+                    <div class="col-lg-4 col-md-4 count">
+                        <div class="circle">
+                            <span>2500</span>
+                        </div>
+                        <h6>Products</h6>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="about_us_3" name="About us Team">
+        <section class="about_us_3 container pb32 pt32">
+            <div class="content-wrapper">
+                <h3>Our team</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+            </div>
+            <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="10000">
+                <!-- Content -->
+                <div class="carousel-inner">
+                    <!-- #01 -->
+                    <div class="carousel-item active oe_custom_bg oe_img_bg pb32 pt32" style="background-image: url('/web/image/website.s_carousel_default_image_1');" data-name="Slide">
+                        <div class="container">
+                            <div class="row content">
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-1.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-2.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-3.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-4.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item oe_custom_bg oe_img_bg pb32 pt32" style="background-image: url('/web/image/website.s_carousel_default_image_1');" data-name="Slide">
+                        <div class="container">
+                            <div class="row content">
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-1.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-2.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-3.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-content col-lg-6">
+                                    <div class="img-wrapper-content">
+                                        <img src="/theme_shopoint/static/src/images/member-4.png"/>
+                                        <div class="hover-content">
+                                            <span>Dummy Name</span>
+                                            <span>Director</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Controls -->
+                <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                    <span class="carousel-control-prev-icon"/>
+                    <span class="sr-only">Previous</span>
+                </div>
+                <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                    <span class="carousel-control-next-icon"/>
+                    <span class="sr-only">Next</span>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="product_page_1" name="Product page product description">
+        <section class="pp_description_1">
+            <div class="container pt32 pb32">
+                <div class="wrapper_1">
+                    <div class="inner_wrapper">
+                        <h3>Lorem Ipsum?</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    </div>
+                    <div class="img-wrapper">
+                        <span>
+                            <img src="/theme_shopoint/static/src/images/pp_2_1.jpg" alt="pp_2_1"/>
+                        </span>
+                    </div>
+                </div>
+                <div class="wrapper_2 mt48">
+                    <div class="img-wrapper">
+                        <span>
+                            <img src="/theme_shopoint/static/src/images/pp_2_1.jpg" alt="pp_2_1"/>
+                        </span>
+                    </div>
+                    <div class="inner_wrapper">
+                        <h3>Lorem Ipsum?</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="product_page_2" name="Product page product Image Grid">
+        <section class="pp_description_2 pt32 pb32">
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-4 grid_img">
+                    <img src="/theme_shopoint/static/src/images/pp1.jpg" alt="Description Image"/>
+                </div>
+                <div class="col-lg-4 grid_img">
+                    <img src="/theme_shopoint/static/src/images/pp2.jpg" alt="Description Image"/>
+                </div>
+                <div class="col-lg-4 grid_img">
+                    <img src="/theme_shopoint/static/src/images/pp1.jpg" alt="Description Image"/>
+                </div>
+            </div>
+        </div>
+        </section>
+    </template>
+
+    <!-- <template id="contact_us" name="Contact Us">
+        <section class="s_banner parallax s_parallax_is_fixed mb24 oe_snippet_body sp_contact_us pt32 pb32" data-scroll-background-ratio="1">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image:url('/theme_shopoint/static/src/images/contactus.png'); background-position: 50% 0;"/>
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-6">
+                        <h4>Got Stuck? Looking For Support? or Have any query ? </h4>
+                        <p>Feel Free to connect with us.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template> -->
+
+    <template id="sp_news_letter_2" name="Newsletter 2">
+        <section class="oe_snippet_body sp_news_letter_2 pt32 pb32">
+            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                <div t-field="res_company.partner_id" t-options='{
+                "widget": "contact",
+                "fields": ["name"]}'/>
+            </address>
+            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                <div t-field="res_company.partner_id" t-options='{
+                "widget": "contact",
+                "fields": ["address", "phone", "mobile", "email"]}'/>
+            </address>
+            <div class="input-group js_subscribe" data-list-id="0">
+                <input type="email" name="email" class="js_subscribe_email form-control" placeholder="your email..."/>
+                <span class="input-group-append">
+                    <a role="button" href="#" class="btn btn-primary js_subscribe_btn">Subscribe</a>
+                    <a role="button" href="#" class="btn btn-success js_subscribed_btn d-none" disabled="disabled">Thanks</a>
+                </span>
+                <div class="alert alert-success d-none" role="status">Thanks for your subscription!</div>
+            </div>
+        </section>
+    </template>
+
+    <template id="shopoint_snippets" inherit_id="website.snippets" name="Shopoint">
+        <xpath expr="//div[@id='snippet_structure']" position="before">
+            <div id="sp_snippet_structure" class="o_panel">
+                <div class="o_panel_header">
+                    <i class="fa fa-th-large"/> Shopoint
+                </div>
+                <div class="o_panel_body">
+                    <!-- <t t-snippet="support_theme_shopoint.sp_latest_posts_big_picture" t-thumbnail="/website/static/src/img/snippets_thumbs/s_title.png"/> -->
+                    <t t-snippet="theme_shopoint.sp_background_img_banner" t-thumbnail="/theme_shopoint/static/src/images/snippet/main-banner.png"/>
+                    <t t-snippet="theme_shopoint.sp_carousel" t-thumbnail="/theme_shopoint/static/src/images/snippet/Banner-Slider.png"/>
+                    <t t-snippet="theme_shopoint.sp_image_gallery" t-thumbnail="/theme_shopoint/static/src/images/snippet/image-gallery.png"/>
+                    <t t-snippet="theme_shopoint.big_sale" t-thumbnail="/theme_shopoint/static/src/images/snippet/snippet_bigSale.png"/>
+                    <t t-snippet="theme_shopoint.grid_multi_gallery" t-thumbnail="theme_shopoint/static/src/images/snippet/snippet_multigrid.png"/>
+                    <!-- <t t-snippet="theme_shopoint.dynamic_brands_container" t-thumbnail="theme_shopoint/static/src/images/snippet/popular-brands.png"/> -->
+                    <t t-snippet="theme_shopoint.sp_testimonial" t-thumbnail="/theme_shopoint/static/src/images/snippet/Testimonial.png"/>
+                    <t t-snippet="theme_shopoint.sp_shop_banner" t-thumbnail="/theme_shopoint/static/src/images/snippet/Banner-with-heading.png"/>
+                    <t t-snippet="theme_shopoint.sp_brand_snippet" t-thumbnail="/theme_shopoint/static/src/images/snippet/popular-brands.png"/>
+                    <t t-snippet="theme_shopoint.single_carousel" t-thumbnail="/theme_shopoint/static/src/images/snippet/snippet_singleCarousel.png"/>
+                    <t t-snippet="theme_shopoint.multi_carousel" t-thumbnail="/theme_shopoint/static/src/images/snippet/multi-product-carousel.png"/>
+                    <t t-snippet="theme_shopoint.sp_blogs" t-thumbnail="/theme_shopoint/static/src/images/snippet/snippet_blog.png"/>
+                    <t t-snippet="theme_shopoint.sp_new_arrivals_2" t-thumbnail="/theme_shopoint/static/src/images/snippet/New-arrival.png"/>
+                    <!-- <t t-snippet="theme_shopoint.multi_category_product" t-thumbnail="theme_shopoint/static/src/images/snippet/Category-product.png"/> -->
+                    <!-- <t t-snippet="theme_shopoint.sp_grid_gallery" t-thumbnail="theme_shopoint/static/src/images/snippet/Banner-Slider.png"/> -->
+                    <t t-snippet="theme_shopoint.sp_footer_icons" t-thumbnail="/theme_shopoint/static/src/images/snippet/Secure-payment.png"/>
+
+                    <t t-snippet="theme_shopoint.about_us_1" t-thumbnail="/theme_shopoint/static/src/images/snippet/About-us.png"/>
+                    <t t-snippet="theme_shopoint.about_us_2" t-thumbnail="/theme_shopoint/static/src/images/snippet/About-us-Stats.png"/>
+                    <t t-snippet="theme_shopoint.about_us_3" t-thumbnail="/theme_shopoint/static/src/images/snippet/Team-Member.png"/>
+
+                    <t t-if="request.env['ir.module.module'].search([('name','=','mass_mailing')]).state != 'uninstalled'">
+                        <t t-snippet="theme_shopoint.sp_news_letter_1" t-thumbnail="/theme_shopoint/static/src/images/snippet/Newsletter.png"/>
+                        <t t-snippet="theme_shopoint.sp_news_letter_2" t-thumbnail="/theme_shopoint/static/src/images/snippet/Newsletter.png"/>
+                    </t>
+                    <t t-install="mass_mailing" string="Newsletter 1" t-thumbnail="/theme_shopoint/static/src/images/snippet/Newsletter.png"/>
+                    <t t-install="mass_mailing" string="Newsletter 2" t-thumbnail="/theme_shopoint/static/src/images/snippet/Newsletter.png"/>
+                    <!-- <t t-snippet="theme_shopoint.contact_us" t-thumbnail="theme_shopoint/static/src/images/snippet/snippet_contact.png"/> -->
+                    <t t-snippet="theme_shopoint.product_page_1" t-thumbnail="/theme_shopoint/static/src/images/snippet/snippet_productImg.png"/>
+                    <t t-snippet="theme_shopoint.product_page_2" t-thumbnail="/theme_shopoint/static/src/images/snippet/snippet_productImg2.png"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sp_category" name="Carousel Category" >
+        <section id="test" data-js='sp_category' data-selector=".sp-category" style="display: block!important">
+            <div class="o_panel_header">
+                <i class="fa fa-th-large"/> Shopoint
+            </div>
+        </section>
+    </template>
+
+    <template id="sp_options" name="Snippet Testimonial Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-selector=".img-content">
+                <div class="dropdown-submenu">
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-selector=".sp_grid_gallery" data-js='sp_grid_gallery'></div>
+            <div data-selector=".sp_image_gallery_wrapper" data-js='sp_image_gallery_wrapper'></div>
+            <div data-selector=".sp_blogs" data-js='sp_blogs'></div>
+            <!-- <div data-selector=".dynamic_brands_container" data-js='dynamic_brands_opt'></div> -->
+            <div data-selector=".single_carousel" data-js='single_product_carousel_opt'></div>
+            <div data-selector=".multi_product_carousel" data-js='multi_product_carousel_opt'></div>
+            <div data-selector=".sp_blogs" data-js='sp_blogs_opt'></div>
+            <div data-selector=".new_arrival_carousel_twin" data-js='carousel_twin'></div>
+        </xpath>
+        
+
+    </template>
+
+
+</odoo>

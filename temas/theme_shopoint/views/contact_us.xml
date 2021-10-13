@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+
+    <template id="sp_contactus_2" inherit_id="website.contactus">
+        <xpath expr='//div[@id="wrap"]' position='attributes'>
+                <attribute name="class">sp-contactus-wrapper</attribute>
+            </xpath>
+
+            <xpath expr='//div[@id="wrap"]/div/section' position='replace'>
+            </xpath>
+
+            <xpath expr='//div[@id="wrap"]//div[hasclass("col-lg-8")]//p' position='replace'>
+            </xpath>
+
+            <xpath expr='//div[hasclass("col-lg-4")]' position='replace'>
+                <div class="col-lg-4 oe_structure sp_address">
+                    <section style="background-image: url('/theme_shopoint/static/src/images/hero-banner.jpg');background-position: 50% 0;height: 200px;">
+                    </section>
+                </div>
+            </xpath>
+    </template> 
+
+    <template id="sp_company_description" inherit_id="website.company_description">
+        <xpath expr="//address" position="replace">
+            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                <!-- TODO widget contact must add itemprop attributes -->
+                <div t-field="res_company.partner_id" t-options='{
+                        "widget": "contact",
+                        "fields": ["name"]}'/>
+            </address>
+            <div>
+                <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                    <!-- TODO widget contact must add itemprop attributes -->
+                    <div t-field="res_company.partner_id" t-options='{
+                        "widget": "contact",
+                        "fields": ["address"]}'/>
+                    </address>
+                    <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                        <!-- TODO widget contact must add itemprop attributes -->
+                        <div t-field="res_company.partner_id" t-options='{
+                            "widget": "contact",
+                            "fields": ["phone", "mobile", "email"]}'/>
+                        <t t-if="not res_company.google_map_img()">
+                            <span class="fa fa-map-marker fa-fw mt16" role="img" aria-label="Address" title="Address"/> <a t-att-href="res_company.google_map_link()" target="_BLANK"> Google Maps</a>
+                        </t>
+                    </address>
+            </div>
+        </xpath>
+    </template>
+
+
+</odoo>

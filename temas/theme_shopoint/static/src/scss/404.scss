@@ -1,0 +1,36 @@
+#sp_page_404 {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    div[class^='col'] > * {
+        padding: 10px;
+    }
+    div[class^='col'] {
+        text-align: center;
+    }
+    img {
+        height: 400px;
+    }
+    .sp-404-content {
+        span {
+            font-size: 14px;
+            color: #555555;
+        }
+        h3 {
+            color: #555555;
+            display: inline-block;
+            padding-right: 10px;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    }
+    .sp-404-btn {
+        a {
+            @include btn-primary;
+
+        }
+        a:first-of-type {
+            margin-right: 6px;
+        }
+    }
+}

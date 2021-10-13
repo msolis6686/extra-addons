@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="36px" viewBox="0 0 21 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-Quotation</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="my-account-new" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="tabs" transform="translate(-512.000000, -334.000000)" stroke="#555555" stroke-width="2">
+            <g id="Side-bar-Copy-3" transform="translate(485.000000, 314.000000)">
+                <g id="Address-book">
+                    <g id="icon" transform="translate(28.000000, 21.000000)">
+                        <g id="icon-Quotation">
+                            <path d="M10,0 L10,34" id="Shape"></path>
+                            <path d="M17.4166668,6 L5.5416667,6 C2.48108869,6 0,8.46243388 0,11.5 C0,14.5375661 2.48108869,17 5.5416667,17 L13.4583334,17 C16.5189114,17.0000001 19,19.4624339 19,22.5 C19,25.5375661 16.5189114,27.9999999 13.4583334,28 L0,28" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

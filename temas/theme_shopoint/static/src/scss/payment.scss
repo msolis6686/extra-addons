@@ -1,0 +1,196 @@
+#sp_payment {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    h3.mb24 {
+        background-color: #F6F6F6;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 0px !important;
+    }
+    & > .row {
+        .order-xl-2 {
+            .card {
+                border: unset;
+                .toggle_summary_div {
+                    @include sp_cart_paymen_confirm_page;
+                    border: 1px solid $border-color;
+                    border-top: unset;
+                    #cart_total {
+                        border-top: 1px solid $border-color;
+                        @include sp_cart;
+                        padding: 0 0.3rem;
+                        .coupon_form {
+                            input {
+                                border-radius: unset;
+                                &:active,&:focus {
+                                    box-shadow: 0px 1px 3px 1px $box-shadow-1;
+                                    border-color: $color-primary;
+                                }
+                            }
+                            .input-group-append {
+                                a {
+                                    background-color: $color-primary;
+                                    border-radius: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include respond-to(extra-small) {
+        & > .row {
+            & > * {
+                padding-left: 4px;
+                padding-right:4px;
+            }
+        }
+    }
+}
+#delivery_carrier {
+    margin-top: 30px !important;
+    // box-shadow: 0 0 8px 0 rgba(192,219,255,0.50);
+    border: 1px solid $border-color;
+    #delivery_method {
+        border-radius: unset;
+        .list-group {
+            padding: 20px 0;
+            .list-group-item {
+                border-radius: unset;
+                border: unset;
+                padding: 6px 20px;
+                input {
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        display: inline-block;
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 50%;
+                        border: 1px solid $border-color;
+                        color: $color-primary;
+                        background-color: #fff;
+                    }
+                    &:checked {
+                        &:after {
+                            background-color: $color-primary;
+                            border: 3px solid #fff;
+                            box-shadow: 0px 0px 1px 1px $color-primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+#payment_method {
+    // box-shadow: 0 0 8px 0 rgba(192,219,255,0.50);
+    border: 1px solid $border-color;
+    margin-top: 30px !important;
+    .o_payment_form {
+        margin-top: 0 !important;
+        .card {
+            border: unset;
+            padding: 20px 0;
+            border-bottom: 1px solid $border-color;
+            .card-body {
+                padding: 6px 20px !important;
+                border: unset;
+                input {
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        display: inline-block;
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 50%;
+                        border: 1px solid $border-color;
+                        color: $color-primary;
+                        background-color: #fff;
+                    }
+                    &:checked {
+                        &:after {
+                            background-color: $color-primary;
+                            border: 3px solid #fff;
+                            box-shadow: 0px 0px 1px 1px $color-primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    div.float-left {
+        margin-top: 20px !important;
+        a.btn-secondary {
+            @include btn-secondary;
+        }
+    }
+    div.float-right {
+        margin-top: 20px !important;
+        #o_payment_form_pay {
+            @include btn-primary;
+        }
+    }
+    .o_payment_acquirer_select {
+        label {
+            .payment_option_name {
+                vertical-align: middle;
+                div.float-right {
+                    margin-top: 2px !important;
+                }
+            }
+        }
+    }
+}
+#addresses {
+    border-radius: unset;
+    #shipping_and_billing {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 6px 20px;
+        & > a {
+            text-align: right;
+            margin-bottom: 10px;
+            flex: 0 0 100%;
+        }
+        & > div {
+            flex: 0 0 50%;
+            b {
+                display: block;
+            }
+            & > span {
+                display: block;
+                margin-top: 10px;
+            }
+        }
+        #delivery_carrier {
+            border: unset;
+            flex: 0 0 100%;
+            display: flex;
+            align-items: center;
+            label {
+                margin-bottom: 0;
+            }
+            & > span {
+                margin-top: unset;
+            }
+        }
+    }
+    @include respond-to(extra-small) {
+        #shipping_and_billing {
+            & > * {
+                flex: 0 0 100% !important;
+                margin-bottom: 10px !important;
+            }
+            #delivery_carrier {
+                margin-top: unset !important;
+                margin-bottom: unset !important;
+            }
+        }
+    }
+}

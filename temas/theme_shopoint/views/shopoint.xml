@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <record model="ir.ui.view" id="theme_shopoint_inherit_product_template_form_view">
+        <field name="name">theme.shopoint.hover.image</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='accessory_product_ids']" position="after">
+                <field name="image_hover" widget="image"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sp_mega_menu_view_form" model="ir.ui.view">
+        <field name="name">Shopoint Mega Menu Form View</field>
+        <field name="model">website.menu</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="category_ids" widget='many2many_tags'/>
+                        <field name="is_mega_menu"/>
+                        <field name="mega_menu_type"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sp_multi_carousel_view_form" model="ir.ui.view">
+        <field name="name">Shopoint Multi Carousel Form View</field>
+        <field name="model">multi.carousel</field>
+        <field name="arch" type="xml">
+            <form>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="toggle_published" type="object" icon="fa-globe">
+                            <field name="published" widget="boolean_button" options='{"terminology": {"string_true": "Published", "hover_false": "Publish"}}'/>
+                        </button>
+                    </div>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="limit"/>
+                    </group>
+                    <group col="4">
+                        <field name="is_single_carousel" />
+                        <field name="category_id" attrs="{'invisible': [('is_single_carousel','!=',True)], 'required': [('is_single_carousel','=',True)]}"/>
+                    </group>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary" style="margin: 20px 0;" type="object" name="auto_compute" string="Auto Calculate" attrs="{'invisible': ['|',('type','=','featured'),('is_single_carousel','=',True)]}"/>
+                    </div>
+                    <group col="2">
+                        <field name="product_ids" widget='many2many_tags'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="sp_brands_form" model="ir.ui.view">
+        <field name="name">Shopoint Brands Form View</field>
+        <field name="model">sp.brands</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_is_publish" type="object" class="oe_stat_button" icon="fa-globe">
+                            <field name="published" widget="website_button"/>
+                        </button>
+                    </div>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="image" widget="image"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+
+    <record id="sp_mega_menu_tree" model="ir.ui.view">
+        <field name="name">Shopoint Mega Menu</field>
+        <field name="model">website.menu</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="website_id"/>
+                <field name="category_ids"/>
+                <field name="is_mega_menu"/>
+                <field name="mega_menu_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sp_multi_carousel" model="ir.ui.view">
+        <field name="name">Shopoint Mega Menu</field>
+        <field name="model">multi.carousel</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="category_id"/>
+                <field name="limit"/>
+                <field name="is_single_carousel"/>
+                <field name="product_ids"/>
+                <field name="published"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- <record id="sp_brands" model="ir.ui.view">
+        <field name="name">Shopoint Brands</field>
+        <field name="model">sp.brands</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="published"/>
+            </tree>
+        </field>
+    </record> -->
+
+    <record model="ir.actions.act_window" id="sp_mega_menu_categ">
+        <field name="name">Shopoint Mega Menu Configurations</field>
+        <field name="res_model">website.menu</field>
+        <field name="type">ir.actions.act_window</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('sp_mega_menu_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('sp_mega_menu_view_form')})]"/>
+    </record>
+
+    <!-- <record id="action_mega_menu_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sp_mega_menu_tree"/>
+        <field name="act_window_id" ref="sp_mega_menu_categ"/>
+    </record>
+
+    <record id="action_mega_menu_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sp_mega_menu_view_form"/>
+        <field name="act_window_id" ref="sp_mega_menu_categ"/>
+    </record> -->
+
+    <record model="ir.actions.act_window" id="sp_multi_carousel_action">
+        <field name="name">Shopoint Multi Carousel Configurations</field>
+        <field name="res_model">multi.carousel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sp_multi_carousel"/>
+    </record>
+
+    <!-- <record model="ir.actions.act_window" id="sp_brands_action">
+        <field name="name">Shopoint Brands</field>
+        <field name="res_model">sp.brands</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sp_brands"/>
+    </record> -->
+
+    <menuitem id="theme_shopoint"
+        name="Theme Shopoint"
+        sequence="30"
+        parent="website.menu_website_configuration"/>
+
+    <menuitem id="theme_shopoint_categories"
+        name="Mega Menu"
+        sequence="10"
+        action="sp_mega_menu_categ"
+        parent="theme_shopoint.theme_shopoint"/>
+
+    <menuitem id="theme_shopoint_multi_carousel"
+        name="Multi Product Carousel"
+        sequence="12"
+        action="sp_multi_carousel_action"
+        parent="theme_shopoint.theme_shopoint"/>
+
+    <!-- <menuitem id="theme_shopoint_brands"
+        name="Brands"
+        sequence="15"
+        action="sp_brands_action"
+        parent="theme_shopoint.theme_shopoint"/> -->
+
+    <!-- <menuitem id="theme_shopoint_attrib_values"
+        name="Attribute Values"
+        sequence="16"
+        action="sp_value_action"
+        parent="theme_shopoint.theme_shopoint"/> -->
+
+    <!-- <menuitem id="theme_shopoint_price_range_filter"
+        name="Price Range Filter"
+        sequence="13"
+        action="sp_price_range_action"
+        parent="theme_shopoint.theme_shopoint"/> -->
+
+</odoo>

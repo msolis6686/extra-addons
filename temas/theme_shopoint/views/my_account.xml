@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="inherit_portal_docs_entry" inherit_id="portal.portal_docs_entry">
+        <xpath expr="//t[@t-esc='title']" position="before">
+            <!-- <span class="icon" t-attf-style="background-image: url('#{icon}')"></span> -->
+            <span class="icon"><img t-if="icon" t-att-src="icon"/><span class="icon-text" t-else="" t-esc="''.join(t[:1] for t in title.split(' ') ).upper()"></span></span>
+        </xpath>
+    </template>
+
+    <template id="inherit_portal_my_home" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Profile</t>
+                <t t-set="url" t-value="'/my/account'"/>
+                <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-info.svg'"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Address Book</t>
+                <t t-set="url" t-value="'/my/address/book'"/>
+                <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-address-book.svg'"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Change Password</t>
+                <t t-set="url" t-value="'/reset/my/password/'"/>
+                <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-change-password.svg'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="my_address_book">
+        <t t-call="portal.frontend_layout">
+            <div class="col-12 col-xl order-xl-1 oe_website_sale sp_address_book">
+                <div class="row oe_cart billing">
+                    <div class="col-lg-12">
+                        <h3 class="o_page_header mt8">Billing Address</h3>
+                    </div>
+                    <div class="col-lg-6 one_kanban">
+                        <t t-call="website_sale.address_kanban">
+                            <t t-set='contact' t-value="partner_id"/>
+                            <t t-set='selected' t-value="1"/>
+                            <t t-set='readonly' t-value="1"/>
+                            <t t-set="my_address_book" t-value="1"/>
+                            <t t-set="isBilling" t-value="1"/>
+                        </t>
+                    </div>
+                </div>
+                <t t-if="not only_services" groups="sale.group_delivery_invoice_address">
+                    <div class="row oe_cart all_shipping">
+                        <div class="col-lg-12 add_address">
+                            <h3 class="o_page_header mt16 mb4">Shipping Address</h3>
+                            <div class="one_kanban">
+                                <form action="/shop/address?my_address_book=True" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <a role="button" href="#" class='a-submit'>
+                                        <i class="fa fa-plus-square"/>
+                                        <span>Add an address</span>
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row mt8">
+                                <t t-foreach="shippings" t-as="ship">
+                                    <div class="col-md-12 col-lg-6 one_kanban">
+                                        <t t-call="website_sale.address_kanban">
+                                            <t t-set="actual_partner" t-value="partner_id"/>
+                                            <t t-set='contact' t-value="ship"/>
+                                            <t t-set='selected' t-value="partner_shipping_id==ship"/>
+                                            <t t-set='readonly' t-value="1"/>
+                                            <t t-set='edit_billing' t-value="bool(ship==partner_id)"/>
+                                            <t t-set="my_address_book" t-value="1" />
+                                            <t t-set="isBilling" t-value="0"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="inherit_portal_my_home_sale" inherit_id="sale.portal_my_home_sale">
+        <xpath expr="//t[@t-if='quotation_count']" position="inside">
+            <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-Quotation.svg'"/>
+        </xpath>
+        <xpath expr="//t[@t-if='order_count']" position="inside">
+            <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-sales-order.svg'"/>
+        </xpath>
+    </template>
+
+    <template id="inherit_portal_my_home_invoice" inherit_id="account.portal_my_home_invoice">
+        <xpath expr="//t[@t-if='invoice_count']" position="inside">
+            <t t-set="icon" t-value="'/theme_shopoint/static/src/images/svg/icon-invoice.svg'"/>
+        </xpath>
+    </template>
+
+    <template id="inherit_address" inherit_id="website_sale.address">
+        <!-- <xpath expr="//form[hasclass('checkout_autoformat')]" position="attributes">
+            <attribute name="t-att-action">'/shop/address?from_my_add_book=True' if from_my_add_book else '/shop/address'</attribute>
+        </xpath> -->
+        <xpath expr="//form[hasclass('checkout_autoformat')]" position="inside">
+            <input type="hidden" name="from_my_add_book" t-att-value="from_my_add_book"/>
+        </xpath>
+        <xpath expr="//div[hasclass('col-12','col-xl-auto','order-xl-2')]" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.order_line</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="id">sp_address_page</attribute>
+        </xpath>
+    </template>
+
+    <template id="inherit_address_kanban" inherit_id="website_sale.address_kanban">
+        <xpath expr="//form" position="attributes">
+            <attribute name="t-att-action">'/shop/address?my_address_book=True' if my_address_book else '/shop/checkout'</attribute>
+        </xpath>
+        <xpath expr="//a[hasclass('js_edit_address')]" position="before">
+            <span t-att-data-te="isBilling" class="js_delete_address" t-if="not isBilling and ( not actual_partner or (ship.id in actual_partner.child_ids.ids))"><i class="fa fa-trash-o"></i></span>
+        </xpath>
+    </template>
+
+    <template id="change_image">
+        <div id="wk_user_image">
+            <div class="wrapper">
+                <span itemprop="image" t-field="request.env.user.image_1024" t-options="{'widget': 'image'}" t-att-alt="request.env.user.name"
+                    t-attf-content="{{request.httprequest.url_root}}web/image/res.users/{{request.env.user.id}}/image">
+                </span>
+                <div class="wk_open">
+                    <span type="button" class="wk_edit_icon fa fa-pencil" data-toggle="modal" data-target="#confirmationModal"/>
+                    <span class="wk_delete_icon fa fa-trash"/>
+                </div>
+            </div>
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close fa fa-times" data-dismiss="modal"></button>
+                            <h4 class="modal-title">Please Choose Image</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input id="file" type="file" class="form-control-file"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="apply_image" type="button" class="btn btn-primary">Apply</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="user_address">
+        <div id="wk_user_address">
+            <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "name"]}'/>
+        </div>
+    </template>
+
+    <template id="inherit_portal_layout" inherit_id="portal.portal_layout" active="True">
+        <!-- Compatability Odoo Marketplace -->
+        <xpath expr="//div[hasclass('o_portal_my_details')]" position="after">
+            <div class="o_portal_my_details d-none"/>
+        </xpath>
+        <!-- Compatability Odoo Marketplace -->
+        <xpath expr="//div[hasclass('o_portal_my_details')]" position="replace">
+            <t t-call="theme_shopoint.change_image"/>
+            <t t-call="theme_shopoint.user_address"/>
+        </xpath>
+    </template>
+
+    <template id="core_portal_layout" inherit_id="portal.portal_layout" active="False">
+        <!-- Compatability Odoo Marketplace -->
+        <xpath expr="//div[hasclass('o_portal_my_details')]" position="after">
+            <div class="o_portal_my_details d-none"/>
+        </xpath>
+        <!-- Compatability Odoo Marketplace -->
+        <xpath expr="//div[hasclass('o_portal_my_details')]" position="replace">
+            <div class="o_portal_my_details">
+                <h4>Your Details <a role="button" href="/my/account" class="btn btn-sm btn-link"><i class="fa fa-pencil"/> Edit</a></h4>
+                <hr class="mt-1 mb-0"/>
+                <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+            </div>
+        </xpath>
+    </template>
+
+
+    
+</odoo>

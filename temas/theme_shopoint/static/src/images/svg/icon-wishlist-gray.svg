@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="20px" viewBox="0 0 23 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-wishlist-gray</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Home-1" transform="translate(-945.000000, -22.000000)" stroke="#777777" stroke-width="1.5">
+            <g id="Header" transform="translate(0.000000, 1.000000)">
+                <g id="Group" transform="translate(946.000000, 21.000000)">
+                    <path d="M19.2912907,2.61182562 C18.2597665,1.57981709 16.8604287,1 15.4012907,1 C13.9421527,1 12.5428149,1.57981709 11.5112907,2.61182562 L10.4512907,3.67182562 L9.3912907,2.61182562 C7.24290301,0.463437999 3.75967841,0.463438025 1.61129076,2.61182568 C-0.537096897,4.76021333 -0.537096923,8.24343793 1.6112907,10.3918256 L2.6712907,11.4518256 L10.4512907,19.2318256 L18.2312907,11.4518256 L19.2912907,10.3918256 C20.3232992,9.36030142 20.9031163,7.96096365 20.9031163,6.50182562 C20.9031163,5.04268759 20.3232992,3.64334982 19.2912907,2.61182562 Z" id="icon-wishlist-gray"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

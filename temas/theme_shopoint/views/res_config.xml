@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+        <!-- See LICENSE file for full copyright and licensing details. -->
+        <record id="sp_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.shopoint</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Theme Shopoint" data-key="theme_shopoint" groups="website.group_website_publisher">
+                        <h2>Price Range Filter</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Price Range Filter">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label string="Min Price:-" for="min_price" class="pr8 d-block"/>
+                                    <field name="min_price"/>
+                                    <label string="Max Price:-" for="max_price" class="pr8 d-block"/>
+                                    <field name="max_price"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Show Rating</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Price Range Filter">
+                                <div class="o_setting_left_pane">
+                                  <field name="show_rating"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="show_rating"/>
+                                  <div class="text-muted">
+                                      Manage whether or not show rating on products.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Price Range Filter">
+                                <div class="o_setting_left_pane">
+                                  <field name="is_redirect"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="is_redirect"/>
+                                  <div class="text-muted">
+                                      Manage whether or not you will be redirected to the cart page after adding product to the cart
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Login/Singup Page Background Image</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Login Page Background Image">
+                                <div class="o_setting_left_pane">
+                                  <field name="is_bck_img"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="is_bck_img"/>
+                                  <div class="text-muted">
+                                        Enable/Disbale Login Page Background Image
+                                  </div>
+                                </div>
+                                <div class="o_setting_left_pane" attrs="{'invisible': [('is_bck_img','=',False)]}">
+
+                                </div>
+                                <div class="o_setting_right_pane" attrs="{'invisible': [('is_bck_img','=',False)]}">
+                                  <field name="login_bck_img" widget="image"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Login Page Background Image">
+                                <div class="o_setting_left_pane">
+                                  <field name="is_signup_bck_img"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="is_signup_bck_img"/>
+                                  <div class="text-muted">
+                                    Enable/Disbale SignUp Page Background Image
+                                  </div>
+                                </div>
+                                <div class="o_setting_left_pane" attrs="{'invisible': [('is_signup_bck_img','=',False)]}">
+
+                                </div>
+                                <div class="o_setting_right_pane" attrs="{'invisible': [('is_signup_bck_img','=',False)]}">
+                                  <field name="signup_bck_img" widget="image"/>
+                                </div>
+                        </div>
+                        </div><h2>Footer Background Image</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Login Page Background Image">
+                                <div class="o_setting_left_pane">
+                                  <field name="is_footer_bck_img"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="is_footer_bck_img"/>
+                                  <div class="text-muted">
+                                        Enable/Disable Background Image For Footer 2
+                                  </div>
+                                </div>
+                                <div class="o_setting_left_pane" attrs="{'invisible': [('is_footer_bck_img','=',False)]}">
+
+                                </div>
+                                <div class="o_setting_right_pane" attrs="{'invisible': [('is_footer_bck_img','=',False)]}">
+                                  <field name="footer_bck_img" widget="image"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Multi Product Carousel Config</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box" title="Login Page Background Image">
+                                <div class="o_setting_left_pane" >
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="multi_product_carousel_items_no" class="pr8 d-block"/>
+                                    <field name="multi_product_carousel_items_no"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_sp_config_settings_id" model="ir.actions.act_window">
+            <field name="name">Configure Theme Shopoint</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_id" ref="sp_res_config_settings_view_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,73 @@
+.o_footer {
+    border-top: 1px solid $border-color;
+    background-color: $color-white !important;
+}
+#footer {
+    ul li a, h5 {
+        display: block;
+        transition: transform .4s;
+        &:hover {
+            transform: translateX(10px);
+        }
+    }
+    h5 {
+        font-weight: bold;
+    }
+    li, a, h5,  {
+        color: #ababab;
+    }
+    section {
+        padding: 0 !important;
+        background-color: #323032;
+        .container {
+            .row {
+                margin: 0;
+                h5 {
+                    font-size: 16px;
+                    padding-bottom: 20px;
+                }
+                ul {
+                    line-height: 22px;
+                    list-style-type: none;
+                    padding-left: 0;
+                    margin-bottom: 0;
+                }
+                li {
+                    padding: 2px 0;
+                }
+            }
+        }
+        .seller, .follow_us, .company_details, .sp_contact_us, .account {
+            padding: 30px 0 !important;
+        }
+        .company_details {
+            padding: 30px 10px !important;
+        }
+        .seller {
+            flex: 0 0 13%;
+            max-width: 13%;
+        }
+        .follow_us {
+            flex: 0 0 19%;
+            max-width: 19%;
+            background-color: #322b2b;
+            p, h5 {
+                text-align: center;
+            }
+            a {
+                font-size: 14px;
+            }
+        }
+    }
+    @include respond-to(small) {
+        .container {
+            .row {
+                text-align: center;
+                & > * {
+                    flex: 100% !important;
+                    max-width: 100% !important;
+                }
+            }
+        }
+    }
+}

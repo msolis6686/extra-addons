@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--Search-->
+    <record id="view_search_ir_module_module_inherit" model="ir.ui.view">
+        <field name="name">ir.module.module.view.search.inherit.app.addons.path</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.view_module_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search/group" position="inside">
+                <filter string="Addons Path" name="addons_path" domain="[]" context="{'group_by':'addons_path_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Form-->
+    <record id="view_form_ir_module_module_inherit" model="ir.ui.view">
+        <field name="name">ir.module.module.view.form.inherit.app.addons.path</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/parent::group/parent::group" position="after">
+                <group groups="base.group_system">
+                    <field name="addons_path_id" invisible="1"/>
+                    <field name="addons_path"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,138 @@
+.js_sale {
+    .oe_website_sale {
+        section.wishlist-section {
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            & > h3 {
+                order: 5;
+                flex: 0 0 100%;
+                text-align: center;
+                font-weight: bold;
+                margin-top: 24px;
+                margin-bottom: 24px;
+            }
+            h4 {
+                font-weight: bold;
+            }
+            div.checkbox {
+                flex: 0 0 50%;
+                order: 15;
+                display: flex;
+                justify-content: flex-end;
+                label {
+                    display: flex;
+                    align-items: center;
+                    input#b2b_wish {
+                        position: relative;
+                        &:before {
+                            content: '';
+                            height: 14px;
+                            width: 14px;
+                            display: inline-block;
+                            background-color: white;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            border: 1px solid $color-primary;
+                        }
+                    }
+                }
+            }
+            .sp-stock-qty {
+                order: 10;
+                flex: 0 0 50%;
+                .sp-count {
+                    margin-right: 6px;
+                }
+            }
+            table {
+                order: 20;
+                display: flex;
+                flex-wrap: wrap;
+                border: unset;
+                thead {
+                    flex: 0 0 100%;
+                    tr {
+                        display: flex;
+                        th {
+                            border: unset;
+                            border-bottom: 1px solid $border-color;
+                        }
+                    }
+                    .th-status {
+                        flex: 0 1 16.66%;
+                    }
+                }
+                tbody {
+                    flex: 0 0 100%;
+                    tr {
+                        display: flex;
+                        background-color: unset;
+                        align-items: center;
+                        height: 140px;
+                        position: relative;
+                        transition: box-shadow .4s;
+                        td {
+                            border: unset;
+                            a {
+                                @include a-tag;
+                            }
+                            .o_wish_add {
+                                @include btn-primary;
+                            }
+                        }
+                        td:nth-child(2) {
+                            flex: 0 1 40%;
+                        }
+                        td:nth-child(3) {
+                            flex: 0 1 16.66%;
+                        }
+                        &:hover {
+                            box-shadow: 1px 1px 15px 1px $box-shadow-1;
+                        }
+                        &:active {
+                            transition: unset;
+                            box-shadow: 1px 1px 7px 0px $box-shadow-1;
+                        }
+                    }
+                }
+                .td-img {
+                    flex: 0 1 10%;
+                }
+                .td-blank {
+                    flex: 0 1 40%;
+                }
+                .td-price, .td-status, .td-wish-btn, .td-cart-button {
+                    flex: 0 1 16.66%;
+                }
+                .td-status, .td-cart-button, .td-wish-btn {
+                    flex-grow: 1;
+                    .o_wish_add {
+                        margin: 0 auto;
+                        max-width: 120px;
+                    }
+                }
+                .o_wish_rm {
+                    color: $color-primary;
+                    position: absolute;
+                    bottom: 0px;
+                    left: 10px;
+                }
+            }
+            @include respond-to(extra-small) {
+                & > .checkbox {
+                    flex: 0 0 100% !important;
+                    justify-content: center !important;
+                    margin-top: 20px;
+                    margin-bottom: unset;
+                }
+                & > .sp-stock-qty {
+                    text-align: center;
+                    flex: 0 0 100%;
+                }
+            }
+        }
+    }
+}

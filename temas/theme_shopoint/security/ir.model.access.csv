@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_multi_carousel_publisher,publisher_access_multi_carousel,model_multi_carousel,website.group_website_publisher,1,1,1,1
+access_multi_carousel_user,access_multi_carousel,model_multi_carousel,,1,0,0,0
+access_sp_brands_publisher,publisher_access_sp_brands,model_sp_brands,website.group_website_publisher,1,1,1,1
+access_sp_brands_user,access_sp_brands_public,model_sp_brands,,1,0,0,0

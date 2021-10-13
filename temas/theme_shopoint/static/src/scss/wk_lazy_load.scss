@@ -1,0 +1,26 @@
+// #wk_loader
+// {
+//     display : none;
+// }
+// #wk_loader.show
+// {
+//     display : block;
+//     position : relative;
+//     z-index: 100;
+//     background-image : url('/theme_shopoint/static/src/images/loader.svg');
+//     background-color:#F5F5F5;
+//     background-repeat : no-repeat;
+//     width: 100%;
+//     padding: 10px;
+//     height: 40px;
+//     text-align: center;
+// }
+#sp_loader {
+    background: $color-secondary;
+    color: $color-white;
+    padding: 8px 16px;
+    cursor: pointer;
+    i {
+        margin-right: 6px;
+    }
+}

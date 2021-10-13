@@ -1,0 +1,14 @@
+#wrapwrap {
+    .js_sale {
+        & > .container:not(#product_detail):not(#sp-product-menu) {
+            width: 95%;
+            max-width: 95%;
+        }
+    }
+    #products_grid.shopoint_view_main {
+         .oe_product {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+}

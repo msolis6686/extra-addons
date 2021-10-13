@@ -1,0 +1,55 @@
+main .js_sale .oe_website_sale #products_grid_before #o_shop_collapse_category > li > ul.wk-active, .wk-filters-active  {
+    display: block !important;
+}
+.wk-filters-active > * {
+    animation: js_attribs .4s;
+}
+.wk-filters-active-label {
+    display: inline-block;
+}
+.wk-dropdown {
+    position: relative;
+}
+.wk-dropdown:after {
+    font-family: fontAwesome;
+    content: "\f067";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    color: #777;
+    animation: js_attribs_dropdown 1s;
+}
+.wk-dropdown-active {
+}
+.wk-dropdown-active:after {
+    font-family: fontAwesome;
+    content: "\f068";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    animation: js_attribs_dropdown 1s;
+}
+.sp-menu-item-active {
+    display: block!important;
+}
+.sp-checkbox-tick {
+
+}
+@keyframes js_attribs {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes js_attribs_dropdown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

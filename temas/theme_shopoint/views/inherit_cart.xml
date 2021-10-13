@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="sp_cart_lines" name="SP Cart Lines" inherit_id='website_sale.cart_lines'>
+        <xpath expr="//table[@id='cart_products']//td[hasclass('td-action')]" position="inside">
+            <t t-set="in_wish" t-value="line.product_id.product_variant_ids &amp; request.env['product.wishlist'].current().mapped('product_id')"/>
+            <t t-set="product" t-value="line.product_id"/>
+            <button type="button" role="button" class="btn btn-secondary btn-sm o_add_wishlist" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-product-id="product.product_variant_ids[0].id if product.product_variant_ids else '0'" data-action="o_wishlist">Add to Wishlist</button>
+        </xpath>
+
+        <!-- <xpath expr="//table[@id='cart_products']/thead" position="inside">
+            <div class="sp-cart-total">
+                <h4>Shopping Bag</h4>
+                <h4 t-field='website_sale_order.amount_untaxed' t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}"/>
+            </div>
+        </xpath> -->
+    </template>
+
+    <template id="sp_cart" name="SP Cart Lines" inherit_id='website_sale.cart'>
+
+        <xpath expr="//t[@t-call='website_sale.cart_lines']" position="before">
+            <div class="sp-cart-total">
+                <h4>Your Cart</h4>
+                <!-- <h4 t-field='website_sale_order.amount_untaxed' t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}"/> -->
+            </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('col-xl-4')]" position="attributes">
+            <attribute name="class">col-12 col-xl-4 sp-order-total</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('col-xl-4')]" position="after">
+            <div class="cart_buttons">
+                <a role="button" href="/shop" class="btn btn-secondary mb32 d-none d-xl-inline-block">
+                    <span class="fa fa-chevron-left" />
+                    <span class="">Continue Shopping</span>
+                </a>
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-primary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                    <span class="">Process Checkout</span>
+                    <span class="fa fa-chevron-right" />
+                </a>
+            </div>
+        </xpath>
+
+    </template>
+
+    <template id="sp_short_cart_summary" name="SP Short Cart Summary" inherit_id='website_sale.short_cart_summary'>
+        <xpath expr="//div[hasclass('card-body')]/div" position="before">
+            <t t-call="theme_shopoint.extend_shop_cart_summary"/>
+        </xpath>
+    </template>
+
+    <!-- <template id="sp_cart_summary" name="sp cart summary" inherit_id="website_sale.cart_summary">
+        <xpath expr="//table[@id='cart_products']//th[last()]" position="after">
+            <th class="border-top-0 text-center">Total Price</th>
+        </xpath>
+        <xpath expr="//table[@id='cart_products']/tbody//td[hasclass('td-price')]" position="after">
+            <td class="sp-total-price">
+                <span></span>
+            </td>
+        </xpath>
+    </template> -->
+
+    <template id="extend_shop_cart_summary" name="Extend Short Cart Summary">
+        <div>
+            <table class="table table-striped table-sm" id="sp_cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
+                <tbody>
+                    <tr t-foreach="website_sale_order.website_order_line" t-as="line">
+                        <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
+                        <td class='td-img' t-if="line.product_id.product_tmpl_id">
+                            <span t-field="line.product_id.image_1024" t-options="{'widget': 'image', 'class': 'rounded'}" />
+                        </td>
+                        <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
+                            <div>
+                                <strong t-field="line.name_short" />
+                            </div>
+                        </td>
+                        <td class='td-qty'>
+                            <div t-esc="line.product_uom_qty" />
+                        </td>
+                        <td class="text-center td-price">
+                            <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                            <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="sp_cart_popover" name="sp Cart Popover" inherit_id="website_sale.cart_popover">
+        <xpath expr="//div[@t-if='not website_sale_order or not website_sale_order.website_order_line']" position="replace">
+            <div t-if="not website_sale_order or not website_sale_order.website_order_line" class='sp-cart-hover'>
+                <span>Shopping Bag is Empty</span>
+                <!-- <img src='/theme_shopoint/static/src/images/empty-bag.jpg' class='sp-empty-shopping-bag'/> -->
+                <a href="/shop" class="btn btn-primary">Shop Now</a>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('col-9')]" position="inside">
+            <span class="js_item_remove" t-att-product_id='line.product_id.id' t-att-line_id="line.id">
+                <i class="fa fa-window-close"></i>
+            </span>
+        </xpath>
+    </template>
+
+</odoo>

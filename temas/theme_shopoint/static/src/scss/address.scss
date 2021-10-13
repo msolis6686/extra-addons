@@ -1,0 +1,24 @@
+#sp_address_page {
+    & > div.row {
+        & > div:not(.oe_cart) {
+            margin-top: 24px;
+        }
+    }
+    .checkout_autoformat {
+        label {
+            color: $color-text;
+            font-weight: normal;
+        }
+        input, select {
+            border-radius: unset;
+            &:hover, &:active, &:focus {
+                box-shadow: unset;
+                border-color: unset;
+
+            }
+        }
+    }
+    .btn-secondary {
+        @include btn-secondary;
+    }
+}

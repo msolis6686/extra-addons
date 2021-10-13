@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="theme_customize" inherit_id="website.theme_customize">
+        <xpath expr="//div" position="replace">
+            <div>
+                <content string="Headers" title="Theme Shopoint">
+                    <opt data-xmlid="theme_shopoint.sp_header_1" data-icon="/theme_shopoint/static/src/images/customize_panel/header-1.png"/>
+                    <opt data-xmlid="theme_shopoint.sp_header_2" data-icon="/theme_shopoint/static/src/images/customize_panel/header-2.png"/>
+                    <opt data-xmlid="theme_shopoint.sp_header_3" data-icon="/theme_shopoint/static/src/images/customize_panel/header-3.png"/>
+                </content>
+                <content string="Footers" title="Footers">
+                    <opt data-xmlid="theme_shopoint.sp_footer_1,theme_shopoint.sp_footer_custom_1" data-icon="/theme_shopoint/static/src/images/customize_panel/footer-1.png" data-reload='/'/>
+                    <opt data-xmlid="theme_shopoint.sp_footer_2,theme_shopoint.sp_footer_custom_2" data-icon="/theme_shopoint/static/src/images/customize_panel/footer-2.png" data-reload='/'/>
+                    <opt data-xmlid="theme_shopoint.sp_footer_3,theme_shopoint.sp_footer_custom_3" data-icon="/theme_shopoint/static/src/images/customize_panel/footer-2.png" data-reload='/'/>
+                </content>
+                <content string="Fonts" title="Theme Shopoint">
+                    <opt data-xmlid="theme_shopoint.sp_font_1" string="Nunito"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_2" string="Opensans"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_3" string="Quicksand"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_4" string="Lato"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_5" string="Montserrat"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_6" string="Raleway"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_7" string="Roboto"/>
+                    <opt data-xmlid="theme_shopoint.sp_font_8" string="Source Sans"/>
+                </content>
+                <content string="Color" title="Theme Shopoint">
+                    <opt data-xmlid="theme_shopoint.sp_color_1"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_2"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_3"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_4"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_5"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_6"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_7"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_8"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_9"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_10"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_11"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_12"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_13"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_14"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_15"/>
+                    <opt data-xmlid="theme_shopoint.sp_color_16"/>
+                </content>
+                <content string="Shop Layout">
+                    <opt data-xmlid="theme_shopoint.sp_boxed_layout" data-icon="/theme_shopoint/static/src/images/customize_panel/Shop-fix.png" string="Boxed"/>
+                    <opt data-xmlid="theme_shopoint.sp_full_layout" data-icon="/theme_shopoint/static/src/images/customize_panel/Shop-full.png" string="Full"/>
+                </content>
+                <content string="Profile Picture Settings">
+                    <opt data-xmlid="theme_shopoint.inherit_portal_layout" data-icon="/theme_shopoint/static/src/images/customize_panel/profile-img.png" data-reload='/'/>
+                    <opt data-xmlid="theme_shopoint.core_portal_layout" data-icon="/theme_shopoint/static/src/images/customize_panel/Address.png" data-reload='/'/>
+                </content>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="shopoint_frontend_assets" name="Shopoint Assets" inherit_id="website.assets_frontend" priority="17">
+        <xpath expr="." position="inside">
+
+            <!-- External Libraries -->
+            <link rel="stylesheet" type="text/css" href="/theme_shopoint/static/lib/owlcarousel/assets/owl.carousel.min.css" t-ignore="true"/>
+            <link rel="stylesheet" type="text/css" href="/theme_shopoint/static/lib/owlcarousel/assets/owl.theme.default.min.css" t-ignore="true"/>
+            <link rel="stylesheet" type="text/css" href="/theme_shopoint/static/lib/ma5-mobile-menu/css/ma5-menu.min.css" t-ignore="true"/>
+            <link href="/theme_shopoint/static/lib/jRange/jquery.range.css" rel="stylesheet"/>
+
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/variables.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/mixin.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/global.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/404.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/product.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/shop.scss' t-ignore="true"/>
+            <!-- <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/403.scss' t-ignore="true"/>-->
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/cart.scss' t-ignore="true"/> 
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/wishlist.scss' t-ignore="true"/> 
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/login_signup.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/contact_us.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/checkout.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/payment.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/confirmation.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/my_home.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/address.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/snippets_options.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/home.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/mega_menu.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/pager.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/wk_lazy_load.scss' t-ignore="true"/>
+            <!-- <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/blog.scss' t-ignore="true"/> -->
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/responsive.scss' t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/snippets.scss' t-ignore="true"/> 
+
+            <!-- Headers -->
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/headers/common_header.scss' t-ignore="true"/>
+
+            <!-- Footers -->
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/footers/common_footer.scss' t-ignore="true"/>
+
+            <!-- Font Family -->
+            <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;display=swap" rel="stylesheet"></link>
+
+            <link rel="stylesheet" type="text/css" href='/theme_shopoint/static/src/css/style.css' t-ignore="true"/>
+
+            <!-- External Libraries -->
+            <script type="text/javascript" src="/theme_shopoint/static/lib/owlcarousel/owl.carousel.min.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/lib/jRange/jquery.range.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/lib/ma5-mobile-menu/js/ma5-menu.min.js"></script>
+            
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/wishlist.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/cart.js"></script>
+            <!-- <script type="text/javascript" src="/theme_shopoint/static/src/js/checkout.js"></script> -->
+            <!-- <script type="text/javascript" src="/theme_shopoint/static/src/js/payment.js"></script> -->
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/confirmation.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/my_home.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/snippets.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/home.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/about_us.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/product.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/shop.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/mega_menu.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/back_to_top.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/website_sale.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/responsive.js"></script>
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/change_image.js"></script> 
+            <!-- <script type="text/javascript" src="/theme_shopoint/static/src/js/editor.js"></script> -->
+            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&amp;display=swap" rel="stylesheet"/>
+
+        </xpath>
+    </template>
+
+    <template id="sp_editor_js" inherit_id="website.assets_editor">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/editor.js"></script>
+        </xpath>
+    </template>
+    
+    <!-- Colors -->
+    <template id="sp_color_1" inherit_id="website.assets_frontend" name="SP Color 1" active="True" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_1.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_2" inherit_id="website.assets_frontend" name="SP Color 2" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_2.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_3" inherit_id="website.assets_frontend" name="SP Color 3" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_3.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_4" inherit_id="website.assets_frontend" name="SP Color 4" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_4.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_5" inherit_id="website.assets_frontend" name="SP Color 5" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_5.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_6" inherit_id="website.assets_frontend" name="SP Color 6" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_6.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_7" inherit_id="website.assets_frontend" name="SP Color 7" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_7.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_8" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_8.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_9" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_9.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_10" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_10.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_11" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_11.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_12" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_12.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_13" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_13.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_14" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_14.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_15" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_15.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_color_16" inherit_id="website.assets_frontend" name="SP Color 8" active="False" priority="14">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/color/color_16.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_boxed_layout" inherit_id="website.assets_frontend" name="SP Boxed Layout" active="True">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/layout/boxed.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_full_layout" inherit_id="website.assets_frontend" name="SP Full Layout" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/layout/full.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <!-- Footer -->
+    <template id="sp_footer_1" inherit_id="website.assets_frontend" name="SP Footer 1" active="False" priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/footers/footer_1.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_footer_2" inherit_id="website.assets_frontend" name="SP Footer 2" active="True"  priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/footers/footer_2.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_footer_3" inherit_id="website.assets_frontend" name="SP Footer 3" active="False"  priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/footers/footer_3.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <!-- Header -->
+    <template id="sp_header_1" inherit_id="website.assets_frontend" name="SP Header 1" active="True" priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/headers/header_1.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_header_2" inherit_id="website.assets_frontend" name="SP Header 2" active="False"  priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/headers/header_2.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_header_3" inherit_id="website.assets_frontend" name="SP Header 3" active="False"  priority="18">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/headers/header_3.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_1" inherit_id="website.assets_frontend" name="SP Font 1" active="True">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_1.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_2" inherit_id="website.assets_frontend" name="SP Font 2" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_2.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_3" inherit_id="website.assets_frontend" name="SP Font 3" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_3.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_4" inherit_id="website.assets_frontend" name="SP Font 4" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_4.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_5" inherit_id="website.assets_frontend" name="SP Font 5" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_5.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_6" inherit_id="website.assets_frontend" name="SP Font 6" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_6.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_7" inherit_id="website.assets_frontend" name="SP Font 7" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_7.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="sp_font_8" inherit_id="website.assets_frontend" name="SP Font 8" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/theme_shopoint/static/src/scss/fonts/font_8.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <!-- <template id="sp_assets_js" inherit_id="website.assets_editor" name="SP Js">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/theme_shopoint/static/src/js/editor.js"></script>
+        </xpath>
+    </template> -->
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="inherit_wishlist_header" inherit_id="website_sale_wishlist.header">
+        <xpath expr="//i[hasclass('fa-heart')]" position="replace">
+            <img src="/theme_shopoint/static/src/images/svg/icon-wishlist-gray.svg"/>
+        </xpath>
+    </template>
+
+    <template id="sp_product_wishlist" inherit_id="website_sale_wishlist.product_wishlist">
+        <xpath expr="//table[@id='o_comparelist_table']" position="before">
+            <div class="sp-stock-qty">
+                <t t-set="count" t-value="request.env['product.wishlist'].sudo().search_count([])"/>
+                <h4><span t-esc="count" class="sp-count"/><span>item in your Wishlist</span></h4>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[@id='o_comparelist_table']/body" position="before">
+            <thead>
+                <tr>
+                    <th class="td-img">Product</th>
+                    <th class="td-blank"></th>
+                    <th class="text-center td-price">Price</th>
+                    <th t-if="stock_qty" class="text-center td-status">Stock Status</th>
+                    <th class="text-center td-cart-button"></th>
+                </tr>
+            </thead>
+        </xpath>
+
+    </template>
+
+</odoo>

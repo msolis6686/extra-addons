@@ -1,0 +1,221 @@
+main[data-is_login='login'] {
+    position: relative;
+    min-height: 500px;
+    .oe_website_login_container:not([data-sp-page='signup']) {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-size: cover;
+    }
+}
+[data-sp-page='login'].oe_website_login_container {
+    width: 1140px;
+    margin: 0 auto;
+    // background-image: url('../images/login_bg.png');
+    // background-repeat:  no-repeat;
+    // background-origin: content-box;
+    border-right: 15px solid $color-white; //Fix
+    position: relative;
+    height: auto;
+    padding: 0 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    .sp-login-heading {
+        flex: 0 0 60%;
+        text-align: center;
+        h5, h3 {
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        h3 {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation-name: fadeIn;
+            animation-duration: 1.2s;
+        }
+        span {
+            font-size: 48px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        h5 {
+            animation: fadeIn2 1s linear 1.2s;
+            animation-fill-mode: backwards;
+        }
+        span:first-of-type {
+            color: #fddd1c;
+            padding-right: 10px;
+        }
+        span:nth-child(2) {
+            color: #c72c9e;
+            padding-left: 10px;
+        }
+    }
+    form[data-is_bck_img = False] {
+        box-shadow: 0 0 10px 6px #eee;
+    }
+    .oe_login_form {
+        flex: 0 0 40%;
+        padding: 20px;
+        background-color: white;
+        max-width: 400px;
+        width: 400px;
+        opacity: .8;
+        .sp-login-form-heading {
+            text-align: center;
+        }
+        .oe_login_buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            & > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-between !important;
+                margin-top: 0 !important;
+                padding: 0 10px;
+                flex: 1 0 auto;
+                .sp-signup {
+                    @include btn-primary;
+                    font-weight: bold;
+                    padding: 6px 20px;
+                }
+            }
+        }
+        @include login-sigup-form;
+
+    }
+    @media screen and (max-width: 1140px) {
+        width: 100vw;
+    }
+    @media screen and (max-width: 768px) {
+        .oe_login_form, .sp-login-heading {
+            flex: 0 0 100% !important;
+            h3 span {
+                padding: 0;
+            }
+        }
+        .oe_login_form {
+            // margin: 0;
+        }
+        .sp-login-heading {
+            margin-top: 40px;
+        }
+    }
+}
+[data-sp-page='signup'].oe_website_login_container {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: unset;
+    &:active,&:focus {
+        box-shadow: 0px 1px 3px 1px $box-shadow-1;
+        border-color: $color-primary;
+    }
+    form {
+        flex: 0 0 50%;
+        max-width: 380px;
+        padding: 20px;
+        background-color: white;
+        opacity: .8;
+        border-radius: 5px;
+        @include login-sigup-form;
+        .sp-signup-login-form-heading, .sp-signup-form-heading {
+            h3 {
+                font-weight: bold;
+            }
+        }
+    }
+    form:first-of-type {
+        order: 10;
+    }
+    form:last-of-type {
+        order: 5;
+        .oe_login_buttons > a{
+            display: none;
+        }
+    }
+    @media screen and (max-width: 1140px) {
+        width: 100vw;
+        form {
+            flex: 0 0 100%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        form {
+            max-width: 300px;
+        }
+    }
+}
+.sp_login_bck_img {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+}
+.sp_signup_bck_img {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: cover;
+    }
+}
+.oe_reset_password_form {
+    #login {
+        border-radius: unset;
+        &:focus {
+            box-shadow: unset;
+            border-color: $border-color;
+        }
+    }
+    .oe_login_buttons {
+        button {
+            padding: 6px 14px;
+        }
+        a {
+            text-decoration: underline;;
+            font-size: 12px;
+        }
+    }
+}
+@keyframes fadeIn {
+    0% {
+        transform: translateX(-100%);
+    }
+    80% {
+        transform: translateX(2%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+@keyframes fadeIn2 {
+    0% {
+        transform: translateY(60%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}

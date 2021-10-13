@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-cart-gray</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Home-1" transform="translate(-1001.000000, -22.000000)" stroke="#777777" stroke-width="1.5">
+            <g id="Header" transform="translate(0.000000, 1.000000)">
+                <g id="top-section" transform="translate(1.000000, 0.000000)">
+                    <g id="icon-cart-gray" transform="translate(1001.000000, 22.000000)">
+                        <circle id="Oval" cx="7" cy="17" r="1"></circle>
+                        <circle id="Oval" cx="17" cy="17" r="1"></circle>
+                        <path d="M0,0 L3.45454545,0 L5.76909091,11.604379 C5.93209102,12.4278926 6.65983158,13.0157647 7.49636364,12.9996778 L15.8909091,12.9996778 C16.7274411,13.0157647 17.4551817,12.4278926 17.6181818,11.604379 L19,4.33322592 L4.31818182,4.33322592" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

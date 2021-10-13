@@ -1,0 +1,457 @@
+.ma5menu__container {
+    background-color: $color-primary !important;
+    li, .ma5menu__panel {
+        background-color: $color-primary !important;
+    }
+    .ma5menu__head {
+        border-color: $color-primary !important;
+    }
+    .ma5menu__logo, .ma5menu__alert {
+        display: none;
+    }
+}
+
+
+#top_menu {
+    position: relative;
+}
+#sp_top_menu {
+    #top_menu {
+        & > li {
+            & > a {
+                display: inline-block;
+                padding: 16px 12px !important;
+            }
+            .js_render_mm {
+                margin-left: 6px;
+                pointer-events: none;
+                transform: translateX(-12px);
+            }
+        }
+    }
+}
+#sp_top_menu.moble_view {
+    .mega-menu {
+        & > a {
+            .js_render_mm {
+                padding: 10px 20px;
+            }
+        }
+    }
+}
+.o_mega_menu{
+    overflow-y: unset !important;
+}
+.mega-menu {
+    & > i {
+        color: $color-white;
+    }
+    .mmcon {
+        &.active {
+            display: flex!important;
+        }
+        &.mobile_active {
+            display: flex!important;
+            padding: 10px;
+            position: unset;
+            border-radius: 2px;
+            &.mm2 {
+                height: unset;
+                max-height: unset;
+                .mmcateg {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    h6 {
+                        word-break: break-all;
+                    }
+                }
+            }
+            &.mm3 {
+                height: unset;
+                .mmcol-1,.mmcol-2 {
+                    flex: 100%;
+                    max-width: 100%;
+                }
+                .mmcol-1 {
+                    .mmcateg {
+                        flex: 0 0 100%;
+                        max-width: 100%;
+                    }
+                }
+            }
+            &.mm4 {
+                padding: 0;
+                .mmcateg {
+                    .mmcateg-content {
+                        padding: 0;
+                        width: 100%;
+                        flex-wrap: wrap;
+                        .mm-img-text {
+                            flex: 0 0 100%;
+                            padding: 10px 12px;
+                            position: relative;
+                            i.js_trigger_submenu {
+                                display: inline-block;
+                                position: absolute;
+                                top: 50%;
+                                right: 0;
+                                padding: 20px;
+                                color: #333;
+                                transform: translateY(-50%) !important;
+                            }
+                        }
+                        .mmsubcateg {
+                            display: none;
+                            flex: 0 0 100%;
+                            position: unset;
+                            border: unset;
+                            .mega-menu-sub-category {
+                                .mmsc {
+                                    flex: 0 0 100%;
+                                    max-width: 100%;
+                                    padding: 10px 12px;
+                                    a {
+                                        margin-bottom: unset;
+                                    }
+                                    .mmsub-sep {
+                                        padding: 0 4px;
+                                        &:last-of-type {
+                                            border-bottom: unset;
+                                        }
+                                    }
+                                }
+                            }
+                            &.active {
+                                display: block !important;
+                                visibility: visible;
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// Common Mega Menu
+.mm {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: white;
+    z-index: 1000;
+    padding: 30px 50px;
+    display: none;
+    animation: megaMenu .5s;
+    animation-fill-mode: backwards;
+    box-shadow: 1px 1px 10px 0 $box-shadow-1;
+    overflow-y: auto;
+}
+// Mega menu 1
+.mm1.mmcon {
+    justify-content: flex-start;
+    max-height: 60vh;
+    overflow-y: auto;
+    display: flex !important;
+    .mmcateg {
+        flex: 0 0 20%;
+        text-align: left;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        margin-bottom: 10px;
+        & > a {
+            font-size: 15px;
+            padding: 10px 0;
+            color: $color-text;
+            text-decoration: none;
+            transition: all .4s ease-out;
+            word-break: break-all;
+            text-transform: capitalize;
+            font-weight: bold;
+            @include colorPrimaryHover;
+        }
+        .mega-menu-sub-category {
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+            padding: 0 !important;
+            list-style-type: square;
+            .mmsc {
+                caret-color: $color-text;
+                & > a {
+                    padding: 4px 0;
+                    color: #999 !important;
+                    text-decoration: none;
+                    word-break: break-all;
+                    display: inline-block;
+                    transition: all .4s;
+                    &:hover {
+                        text-decoration: none;
+                        color: $color-primary !important;
+                        transform: translateX(10px);
+                    }
+                }
+            }
+        }
+    }
+}
+//Mega menu 2
+.mm2.mmcon {
+    justify-content: flex-start;
+    max-height: 60vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+    display: flex !important;
+    .mmcateg {
+        flex: 0 0 16.66%;
+        padding: 15px 10px;
+        .mm-img-con {
+            overflow: hidden;
+            border-radius: 2px;
+            span {
+                display: inline-block;
+                display: flex;
+                align-items: flex-start;
+                overflow: hidden;
+                img {
+                    max-width: 75%;
+                    height: auto;
+                    transition: transform .3s;
+                    display: block;
+                    margin: 0 auto;
+                    &:hover {
+                        transform: scale(1.02);
+                    }
+                }
+
+            }
+            h6 {
+                margin-top: 20px;
+                text-align: center;
+            }
+        }
+    }
+}
+//Mega menu 3
+.mm3.mmcon {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    max-height: 60vh;
+    display: flex !important;
+    .mmcol-1 {
+        flex: 0 0 80%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 20px;
+        .mmcateg {
+            flex: 0 0 33.33%;
+            display: flex;
+            padding: 10px 6px;
+            text-align: left;
+            img {
+                max-width: 30px;
+            }
+            h6 {
+                margin-bottom: 10px;
+                font-weight: bold;
+                text-transform: capitalize;
+            }
+            p {
+                word-break: break-word;
+            }
+            .mmcategcon {
+                display: flex;
+                flex-flow: column;
+                margin-left: 20px;
+            }
+        }
+    }
+    .mmcol-2 {
+        flex: 0 0 20%;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+// Mega Menu 4
+.mm4.mmcon {
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    .mmcateg {
+        display: flex;
+        flex-flow: column;
+        margin-right: auto;
+        position: relative;
+        width: 100%;
+        .mmcateg-content {
+            padding: 10px 30px;
+            display: flex;
+            align-items: center;
+            width: 25%;
+            border-bottom: 1px solid $border-color;
+            .mm-img-text {
+                img {
+                    max-height: 100%;
+                    height: 40px;
+                    width: 40px;
+                }
+                a {
+                    margin-left: 30px;
+                }
+                i {
+                    display: none;
+                }
+            }
+            &:last-of-type {
+                border-bottom: unset;
+            }
+        }
+        .mmsubcateg {
+            position: absolute;
+            left: 25%;
+            top: 0;
+            width: 75%;
+            text-align: left;
+            height: auto;
+            min-height: 100%;
+            background-color: $color-white;
+            border: 1px solid $border-color;
+            opacity: 0;
+            visibility: hidden;
+            border-radius: 4px;
+            transition: all .4s;
+            & > .mmsc-child {
+                list-style-type: none;
+                display: flex;
+                padding: 0;
+                flex-wrap: wrap;
+                .mmsc {
+                    display: flex;
+                    padding: 10px 40px;
+                    flex-flow: column;
+                    flex: 0 0 25%;
+                    flex-wrap: wrap;
+                    a {
+                        margin-bottom: 20px;
+                        font-weight: bold;
+                        color: #de4f5a;
+                        text-transform: capitalize;
+                    }
+                    .mmsc-child { // For Sub-sub categs afterwards
+                      flex-flow: column;
+                      display: flex;
+                      padding: 0;
+                      flex-wrap: wrap;
+                    }
+                }
+                .mmsub-sep {
+                    padding: 0;
+                    a {
+                        margin-bottom: 0px;
+                        padding: 4px 0;
+                        font-weight: normal;
+                        color: $color-text;
+                        @include colorPrimaryHover;
+                    }
+                }
+            }
+            &.sub-categ-active {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+// Common Mega Menu
+.mmx {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    display: none;
+    left: 0;
+    background-color: white;
+    z-index: 1000;
+    padding: 0px 50px;
+    animation: megaMenu .5s;
+    animation-fill-mode: backwards;
+    box-shadow: 1px 1px 10px 0 $box-shadow-1;
+}
+.mmx.card-columns {
+    -webkit-column-count:6 !important;
+    -moz-column-count:6 !important;
+    column-count: 6 !important;
+}
+//Mega menu 1
+// .mm1.mmcon {
+//     justify-content: flex-start;
+//     overflow-y: auto;
+//     width: 100%;
+//     flex-wrap: wrap;
+//     padding: 20px 50px;
+//     .card {
+//         border: unset;
+//         .card-body {
+//             text-align: left;
+//             padding: 0 10px;
+//             img {
+//               display: none;
+//                 width: 35%;
+//                 height: auto;
+//             }
+//             a {
+//                 text-transform: capitalize;
+//                 color: #555;
+//             }
+//             & > a {
+//                 font-size: 16px;
+//                 display: block;
+//                 font-weight: bold;
+//                 color: $color-secondary;
+//                 @include colorPrimaryHover;
+//             }
+//             .mega-menu-sub-category {
+//                 list-style-type: none;
+//                 padding: 0;
+//                 .mmsc {
+//                     padding: 4px 0;
+//                 }
+//             }
+//             .mmsc-child {
+//                 font-size: 14px;
+//                 a {
+//                     color: #aaa;
+//                     transition: all .4s;
+//                     &:hover {
+//                         transform: translateX(6px);
+//                         color: $color-primary;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+@keyframes megaMenu {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes megaMenuSubCateg {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}

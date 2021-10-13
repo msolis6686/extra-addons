@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-extend="website_rating.rating_card">
+        <t t-jquery="div.o_website_rating_progress_bars" t-operation="replace">
+            <div class="">
+                <h5>Write a Review</h5>
+                <p>We feel glad, if you share your thoughts with other customers</p>
+                <button class="btn sp-review">Write a Review</button>
+            </div>
+        </t>
+    </t>
+
+</templates>
