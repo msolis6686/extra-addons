@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Mail template is done in a NOUPDATE block so users can freely customize/delete 
+		them -->
+	<data noupdate="1">
+
+		<record id="email_template_customer_statement" model="mail.template">
+			<field name="name">Customer Statement email</field>
+			<field name="email_from">${(user.email or '')|safe}</field>
+			<field name="subject">${user.company_id.name} Customer Statement</field>
+			<field name="email_to">${object.email|safe}</field>
+			<field name="lang">${object.lang}</field>
+			<field name="report_template" ref="account_statement.report_customert_print" />
+			<field name="report_name">Customer Statement Report</field>
+			<field name="model_id" ref="base.model_res_partner" />
+			<field name="auto_delete" eval="True" />
+			<field name="body_html"><![CDATA[
+				<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+					<p>Dear ${object.name},</p>
+					<p>
+					We have attched your paymnet statement.
+					Please kindly check.
+
+					</p>
+				<br/>
+				Best Regards,
+				<br/>
+				   <br/>
+				${user.name}
+
+				<br/>
+				<br/>
+
+
+				</div>
+							]]>
+			</field>
+		</record>
+		
+		<record id="email_template_supplier_statement" model="mail.template">
+			<field name="name">Supplier Statement email</field>
+			<field name="email_from">${(user.email or '')|safe}</field>
+			<field name="subject">${user.company_id.name} Supplier Statement</field>
+			<field name="email_to">${object.email|safe}</field>
+			<field name="lang">${object.lang}</field>
+			<field name="report_template" ref="account_statement.report_supplier_print" />
+			<field name="report_name">Supplier Statement Report</field>
+			<field name="model_id" ref="base.model_res_partner" />
+			<field name="auto_delete" eval="True" />
+			<field name="body_html"><![CDATA[
+				<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+					<p>Dear ${object.name},</p>
+					<p>
+					We have attched your payment statement.
+					Please kindly check.
+
+					</p>
+				<br/>
+				Best Regards,
+				<br/>
+				   <br/>
+				${user.name}
+
+				<br/>
+				<br/>
+
+
+				</div>
+							]]>
+			</field>
+		</record>
+	</data>
+</odoo>
