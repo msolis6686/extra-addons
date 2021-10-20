@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<odoo>
+	
+	<!-- <data noupdate="1">
+	 -->
+
+		<record model="ir.cron" id="autometic_send_statement_cron">
+			<field name="name">Automatic Send Customer Statement</field>
+			<field name="model_id" ref="model_res_partner" />
+			<field name="active">False</field>
+			<field name="interval_number">1</field>
+			<field name="interval_type">months</field>
+			<field name="numbercall">-1</field>
+			<field name="doall" eval="False" />
+			<field name="state">code</field>
+			<field name="code">model._cron_send_customer_statement()</field>
+		</record>
+		
+		<record id="email_template_customer_monthly_statement" model="mail.template">
+			<field name="name">Customer Monthly Statement Email</field>
+			<field name="email_from">${(user.email or '')|safe}</field>
+			<field name="subject">${user.company_id.name} Customer Monthly Statement</field>
+			<field name="email_to">${object.email|safe}</field>
+			<field name="lang">${object.lang}</field>
+			<field name="report_template" ref="account_statement.report_customer_monthly_print"/>
+			<field name="report_name">Customer Monthly Statement Report</field>
+			<field name="model_id" ref="base.model_res_partner"/>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html"><![CDATA[
+				<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+					<p>Dear ${object.name},</p>
+					<p>
+					We have attched your paymnet statement.
+					Please kindly check.
+
+					</p>
+				<br/>
+				Best Regards,
+				<br/>
+				   <br/>
+				${user.name}
+
+				<br/>
+				<br/><br/>
+				</div>
+				]]>
+			</field>
+		</record>
+		
+	   <record id="email_template_customer_statement" model="mail.template">
+			<field name="name">Customer Statement email</field>
+			<field name="email_from">${(user.email or '')|safe}</field>
+			<field name="subject">${user.company_id.name} Customer Statement</field>
+			<field name="email_to">${object.email|safe}</field>
+			<field name="lang">${object.lang}</field>
+			 <field name="report_template" ref="account_statement.report_customert_print"/>
+			<field name="report_name">Customer Statement Report</field>
+			<field name="model_id" ref="base.model_res_partner"/>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html"><![CDATA[
+				<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+					<p>Dear ${object.name},</p>
+					<p>
+					We have attched your paymnet statement.
+					Please kindly check.
+
+					</p>
+				<br/>
+				Best Regards,
+				<br/>
+				   <br/>
+				${user.name}
+				<br/>
+				<br/><br/>
+				</div>
+				]]>						
+			</field>
+		</record>
+
+		
+		
+
+	<!-- </data> -->
+</odoo>
