@@ -32,7 +32,7 @@ class ContractManuallyCreateInvoice(models.TransientModel):
                 "contract.contract"
             ]._get_contracts_to_invoice_domain(self.invoice_date)
         self.contract_to_invoice_ids = self.env["contract.contract"].search(
-            contract_to_invoice_domain + [("contract_type", "=", self.contract_type)]
+            contract_to_invoice_domain + [("contract_type", "=", self.contract_type),("is_terminated", "!=", True)]
         )
         self.contract_to_invoice_count = len(self.contract_to_invoice_ids)
 
