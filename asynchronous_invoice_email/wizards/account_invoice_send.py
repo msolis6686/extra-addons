@@ -11,11 +11,12 @@ class AccountInvoiceSend(models.TransientModel):
     def _send_email(self):
         if self.composition_mode == 'mass_mail' and self.template_id and\
            not self.env.context.get('delay'):
-            self.with_delay(priority=30, max_retries=5, description='Envio de factura al cliente por correo electrónico', channel='root.invoice_email').delay_send_email(
-                self.env.context.get('active_ids'),
-                self.env.context.get('lang'),
-                self.template_id
-            )
+            for x in self.env.context.get('active_ids'):
+                self.with_delay(priority=30, max_retries=5, description='Envio de factura al cliente por correo electrónico', channel='root.invoice_email').delay_send_email(
+                    x,
+                    self.env.context.get('lang'),
+                    self.template_id
+                )
         else:
             super(AccountInvoiceSend, self)._send_email()
 
