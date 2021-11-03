@@ -13,7 +13,7 @@ class AccountInvoiceSend(models.TransientModel):
            not self.env.context.get('delay'):
             for x in self.env.context.get('active_ids'):
                 self.with_delay(priority=30, max_retries=5, description='Envio de factura al cliente por correo electrónico', channel='root.invoice_email').delay_send_email(
-                    x,
+                    [x],
                     self.env.context.get('lang'),
                     self.template_id
                 )
