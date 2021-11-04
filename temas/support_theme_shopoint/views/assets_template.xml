@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="shopoint_support_frontend_assets" name="Shopoint Support Assets" inherit_id="website.assets_frontend">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href='/support_theme_shopoint/static/src/scss/website_sale_recommended_prodcuts.scss' t-ignore="true"/>
+        </xpath>
+    </template>
+
+</odoo>
