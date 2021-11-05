@@ -44,13 +44,13 @@
 								string="Print Customer Statement" groups="account.group_account_manager"
 								help="Print Customer Statement" context="{'res_partner_search_mode': 'customer'}"/> -->
 							<button name="do_button_print_statement" type="object"
-								string="Imprimir Cliente Resumen" groups="account.group_account_manager"
+								string="Imprimir Resumen" groups="account.group_account_manager"
 								help="Print Customer Statement" context="{'res_partner_search_mode': 'customer'}"/>	
 							<!-- <button name="customer_send_mail" type="object"
 								string="Send Customer Statement" groups="account.group_account_manager"
 								help="Print overdue payments report independent of follow-up line"  context="{'res_partner_search_mode': 'customer'}"/> -->
 							<button name="customer_send_mail" type="object"
-								string="Enviar Cliente Resumen" groups="account.group_account_manager"
+								string="Enviar Resumen" groups="account.group_account_manager"
 								help="Print overdue payments report independent of follow-up line"  context="{'res_partner_search_mode': 'customer'}"/>
 						</div>
 						<group invisible="1">
@@ -66,13 +66,14 @@
 								delete="false"
 								colors="red:(not invoice_date_due or invoice_date_due&lt;=current_date) and result&gt;0">
 								<field name="invoice_date" readonly="True" />
-								<field name="state" readonly="True" invisible="1" />
+								<!-- <field name="state" readonly="True" invisible="1" /> -->
+								<field name="state" readonly="True" invisible="0" />
 								<field name="name" readonly="True" />
 								<field name="company_id" readonly="True"
 									groups="base.group_multi_company" />
 								<field name="invoice_date_due" readonly="True" />
-								<field name="amount_total" readonly="True" string="Invoices/Debits" />
-								<field name="credit_amount" readonly="True" string="Payments/Credits" />
+								<field name="amount_total" readonly="True" string="Facturas/Debe" />
+								<field name="credit_amount" readonly="True" string="Pagos/Haber" />
 								<field name="result" readonly="True" string="Balance" />
 							</tree>
 						</field>
@@ -93,13 +94,13 @@
 								string="Print Supplier Statement" groups="account.group_account_manager"
 								help="Print Supplier Statement" context="{'res_partner_search_mode': 'supplier'}"/> -->
 							<button name="do_button_print_statement_vendor" type="object"
-								string="Imprimir Proveedor Resumen" groups="account.group_account_manager"
+								string="Imprimir Resumen Prov." groups="account.group_account_manager"
 								help="Print Supplier Statement" context="{'res_partner_search_mode': 'supplier'}"/>
 							<!-- <button name="supplier_send_mail" type="object"
 								string="Send Supplier Statement" groups="account.group_account_manager"
 								help="Print overdue payments report independent of follow-up line"  context="{'res_partner_search_mode': 'supplier'}"/> -->
 							<button name="supplier_send_mail" type="object"
-								string="Enviar Proveedor Resumen" groups="account.group_account_manager"
+								string="Enviar Resumen Prov." groups="account.group_account_manager"
 								help="Print overdue payments report independent of follow-up line"  context="{'res_partner_search_mode': 'supplier'}"/>
 						</div>
 						<group invisible="1">
