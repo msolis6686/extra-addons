@@ -18,6 +18,7 @@
         "views/assets.xml",
         "views/aging_buckets.xml",
         "views/res_config_settings.xml",
+        "views/report_base.xml",
         "wizard/statement_wizard.xml",
     ],
     "installable": True,
