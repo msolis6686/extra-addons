@@ -1,0 +1,19 @@
+<odoo>
+
+    <record id="ir_mail_server_form_inherit" model="ir.ui.view">
+        <field name="name">ir_mail_server_form_inherit</field>
+        <field name="model">ir.mail_server</field>
+        <field name="inherit_id" ref="base.ir_mail_server_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[last()]" position="after">
+                <group string="Force sender/replay address">
+                    <field name="force_sender"/>
+                    <field name="sender_address"/>
+                    <field name="force_reply_to"/>
+                    <field name="replay_to_address"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
