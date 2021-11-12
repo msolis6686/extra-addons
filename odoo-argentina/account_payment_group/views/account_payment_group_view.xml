@@ -194,7 +194,7 @@
                     <page string="Paid" states="posted">
                         <field name="matched_move_line_ids" context="{'payment_group_id': id, 'tree_view_ref': 'account_payment_group.view_move_line_with_matched_tree'}"/>
                     </page>
-                    <page>
+                    <page string="Notes">
                         <field name="notes"/>
                     </page>
                 </notebook>
