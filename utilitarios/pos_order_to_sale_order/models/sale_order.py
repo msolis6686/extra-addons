@@ -56,7 +56,7 @@ class SaleOrder(models.Model):
                 move.quantity_done = move.product_uom_qty
             sale_order.mapped("picking_ids").button_validate()
             #AGREGADO POR MARITO
-            #SE CREA LA FACTURA EN BORRADOR
+            #SE CREA LA FACTURA VALIDADA, SE HACE EL DESCUENTO DE STOCK Y SE CREA LA DEUDA EN EL CLIENTE
             sale_order._create_invoices().action_post()
 
         return {
