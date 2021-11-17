@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, api, models
-
+from icecream import ic
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
     def _prepare_from_pos(self, order_data):
         PosSession = self.env["pos.session"]
         session = PosSession.browse(order_data["pos_session_id"])
+        pos_warehouse = session.config_id.picking_type_id.warehouse_id.id
         return {
             "partner_id": order_data["partner_id"],
             "origin": _("Point of Sale %s") % (session.name),
@@ -19,6 +20,7 @@ class SaleOrder(models.Model):
             "user_id": order_data["user_id"],
             "pricelist_id": order_data["pricelist_id"],
             "fiscal_position_id": order_data["fiscal_position_id"],
+            "warehouse_id": pos_warehouse,
         }
 
     @api.model
