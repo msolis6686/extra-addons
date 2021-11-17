@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
+from icecream import ic
 
 
 class PosConfig(models.Model):
@@ -43,6 +44,7 @@ class PosConfig(models.Model):
         "iface_create_delivered_sale_order",
     )
     def _compute_iface_create_sale_order(self):
+        ic(self)
         for config in self:
             config.iface_create_sale_order = any(
                 [
