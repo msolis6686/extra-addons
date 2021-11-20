@@ -97,6 +97,7 @@ odoo.define("pos_order_to_sale_order.screens", function(require) {
 
         click_sale_order_button: function(action) {
             var self = this;
+            var datos, note;
             this.gui.show_popup("confirm", {
                 title: _t("Create Sale Order and discard the current" + " PoS Order?"),
                 body: _t(
@@ -106,10 +107,13 @@ odoo.define("pos_order_to_sale_order.screens", function(require) {
                 ),
                 confirm: function() {
                     framework.blockUI();
+                    datos = self.pos.get("selectedOrder").export_as_JSON()
+                    note = $("#note_int").val() 
+                    datos.note_int = note
                     rpc.query({
                         model: "sale.order",
                         method: "create_order_from_pos",
-                        args: [self.pos.get("selectedOrder").export_as_JSON(), action],
+                        args: [datos, action],
                     })
                         .then(function() {
                             self.hook_create_sale_order_success();

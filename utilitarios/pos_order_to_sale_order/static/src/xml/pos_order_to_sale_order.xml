@@ -7,7 +7,7 @@
             id="pos_new_sale_order"
             t-att-style='widget.is_visible() ? "display: block;" : "display: none"'
         >
-            <i class="fa fa-download" />Order
+            <i class="fa fa-download" />Create Sale Order
         </span>
     </t>
 
@@ -42,6 +42,16 @@
                         >
                             Create Delivered Sale Order
                         </div>
+                        <form>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="form-group">
+                                        <h3>¿Ingresar una nota interna al pedido?</h3>
+                                        <textarea class="form-control" id="note_int" rows="4" style="width:95%"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

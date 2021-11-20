@@ -35,24 +35,24 @@ msgstr "Verifique su conexión a Internet e intente nuevamente."
 #: code:addons/pos_order_to_sale_order/static/src/xml/pos_order_to_sale_order.xml:26
 #, python-format
 msgid "Create Confirmed Sale Order"
-msgstr "Crear pedido de venta confirmado"
+msgstr "Crear un pedido confirmado (sin entrega o parcialmente)"
 
 #. module: pos_order_to_sale_order
 #: model:ir.model.fields,field_description:pos_order_to_sale_order.field_pos_config__iface_create_confirmed_sale_order
 msgid "Create Confirmed Sale Orders"
-msgstr "Crear pedidos de venta confirmados"
+msgstr "Crear pedidos de venta confirmados y Facturado (sin entrega o parcial)"
 
 #. module: pos_order_to_sale_order
 #. openerp-web
 #: code:addons/pos_order_to_sale_order/static/src/xml/pos_order_to_sale_order.xml:29
 #, python-format
 msgid "Create Delivered Sale Order"
-msgstr "Crear pedido de venta entregado"
+msgstr "Crear pedido de venta entregado (totalmente) y Facturado"
 
 #. module: pos_order_to_sale_order
 #: model:ir.model.fields,field_description:pos_order_to_sale_order.field_pos_config__iface_create_delivered_sale_order
 msgid "Create Delivered Sale Orders"
-msgstr "Crear pedidos de venta entregados"
+msgstr "Crear pedidos de venta entregados (totalmente) y Facturado."
 
 #. module: pos_order_to_sale_order
 #. openerp-web

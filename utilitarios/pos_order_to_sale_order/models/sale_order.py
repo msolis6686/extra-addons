@@ -13,6 +13,7 @@ class SaleOrder(models.Model):
         PosSession = self.env["pos.session"]
         session = PosSession.browse(order_data["pos_session_id"])
         pos_warehouse = session.config_id.picking_type_id.warehouse_id.id
+
         return {
             "partner_id": order_data["partner_id"],
             "origin": _("Point of Sale %s") % (session.name),
@@ -21,6 +22,7 @@ class SaleOrder(models.Model):
             "pricelist_id": order_data["pricelist_id"],
             "fiscal_position_id": order_data["fiscal_position_id"],
             "warehouse_id": pos_warehouse,
+            "note": order_data["note_int"],
         }
 
     @api.model
@@ -46,21 +48,25 @@ class SaleOrder(models.Model):
             # we rewrite data, because onchange could alter some
             # data (like quantity, or price)
             sale_order_line.write(order_line_vals)
-
+         
         # Confirm Sale Order
         if action in ["confirmed", "delivered"]:
+            #Si tiene promociones las aplico antes de confirmar el pedido
+            sale_order.recompute_coupon_lines()
+            #Confirmo la orden de pedido
             sale_order.action_confirm()
+            #AGREGADO POR MARITO
+            #SE CREA LA FACTURA VALIDADA, SE HACE EL DESCUENTO DE STOCK Y SE CREA LA DEUDA EN EL CLIENTE
+            #NO HACE ENTREGA DE LA MERCADERÍA PORQUE PUEDE QUE ENTREGE POR PARTE....DEBEN HACERLO DESDE EL BACKEND
+            sale_order._create_invoices().action_post()
 
         # mark picking as delivered
+        # CUANDO LA MERCADERÍA FUE ENTREGADA EN SU TOTALIDAD AL CLIENTE
         if action == "delivered":
             # Mark all moves are delivered
             for move in sale_order.mapped("picking_ids.move_ids_without_package"):
                 move.quantity_done = move.product_uom_qty
             sale_order.mapped("picking_ids").button_validate()
-            #AGREGADO POR MARITO
-            #SE CREA LA FACTURA VALIDADA, SE HACE EL DESCUENTO DE STOCK Y SE CREA LA DEUDA EN EL CLIENTE
-            sale_order._create_invoices().action_post()
-
         return {
             "sale_order_id": sale_order.id,
         }
