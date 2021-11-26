@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+	<record id="sh_message_wizard" model="ir.ui.view">
+		<field name="name">sh.message.wizard</field>
+		<field name="model">sh.message.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Message">
+				<field name="name"/>
+				<field name="link" widget="url" text="Lista de Trabajos" text_field="title"/>
+				<field name="title" invisible="1"/>
+				<footer>
+					<button string="OK" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>	
+	</record>
+</data>
+</odoo>
