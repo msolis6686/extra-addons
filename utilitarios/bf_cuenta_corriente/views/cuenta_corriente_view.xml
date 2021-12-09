@@ -25,10 +25,10 @@
                     icon="fa-dollar text-success"
                 />
                 <button
-                    name="action_print_report"
+                    name="button_export_pdf"
                     string="Descargar Reporte"
                     type="object"
-                    icon="fa-dollar text-success"
+                    icon="fa-print text-success"
                 />
             </xpath>
         </field>
