@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="bf_cuenta_corriente_view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="." position="attributes">
+                <attribute name="decoration-success">saldo&lt;0</attribute>
+                <attribute name="decoration-danger">saldo&gt;0</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='vat']" position="after">
+              <field name="debe"/>
+              <field name="haber"/>
+              <field name="saldo"/>
+                <button
+                    name="action_show_invoices"
+                    string="Mostrar Facturas"
+                    type="object"
+                    icon="fa-file-text-o text-success"
+                />
+                <button
+                    name="action_show_payments"
+                    string="Mostrar Pagos"
+                    type="object"
+                    icon="fa-dollar text-success"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
