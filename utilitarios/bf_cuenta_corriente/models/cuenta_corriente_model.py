@@ -25,7 +25,7 @@ class bf_cuenta_corriente(models.Model):
 
     def _get_haber(self):
         for r in self:
-            payment = self.env['account.payment'].search([('partner_id', '=', r.id)])
+            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted')])
             total_haber = 0
             for x in payment:
                 total_haber = total_haber + x.amount
