@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2018 Simone Orsi - Camptocamp SA
@@ -18,24 +17,3 @@
         </xpath>
     </template>
 </odoo>
-=======
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
-    Copyright 2018 Simone Orsi - Camptocamp SA
-    License LGPLv3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
--->
-<odoo>
-    <template
-        id="assets_backend"
-        name="web_widget_url_advanced assets"
-        inherit_id="web.assets_backend"
-    >
-        <xpath expr="." position="inside">
-            <script
-                type="text/javascript"
-                src="/web_widget_url_advanced/static/src/js/url_widget.js"
-            />
-        </xpath>
-    </template>
-</odoo>
->>>>>>> fb07532a54a03835d219cf560d8d6420e65c08a9
