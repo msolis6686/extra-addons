@@ -24,6 +24,12 @@
                     type="object"
                     icon="fa-dollar text-success"
                 />
+                <button
+                    name="action_print_report"
+                    string="Descargar Reporte"
+                    type="object"
+                    icon="fa-dollar text-success"
+                />
             </xpath>
         </field>
     </record>
