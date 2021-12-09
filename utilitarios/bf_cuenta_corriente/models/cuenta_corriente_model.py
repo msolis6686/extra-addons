@@ -16,11 +16,15 @@ class bf_cuenta_corriente(models.Model):
         for r in self:
             facturas = self.env['account.move'].search([('partner_id', '=', r.id),('state', '=', 'posted'),'|',('type', '=', 'out_invoice'),('type','=','out_refund')])
             total_debe = 0
+            ##### AL ENCONTRAR UNA NOTA DE CREDITO, TOMA EL VALOR COMO NEGATIVO, SI LO QUERES RESTAR, LO SUMA (-*- = +)
             for x in facturas:
+                total_debe = total_debe + x.amount_total_signed
+            
+            """ for x in facturas:
                 if x.type == 'out_refund':
                     total_debe = total_debe - x.amount_total_signed
                 else:
-                    total_debe = total_debe + x.amount_total_signed
+                    total_debe = total_debe + x.amount_total_signed """
             r.debe = total_debe
 
     def _get_haber(self):
