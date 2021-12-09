@@ -65,3 +65,16 @@ class bf_cuenta_corriente(models.Model):
             "view_mode": "tree,form",
             "context": self.env.context,
         }
+
+    def action_print_report(self):
+        payments = self.env["account.payment"].search([('partner_id', '=', self.id),('state', '=', 'posted')])
+        #for contract in self.contract_to_invoice_ids:
+            #invoices |= contract.recurring_create_invoice()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Invoices"),
+            "res_model": "account.payment",
+            "domain": [("id", "in", payments.ids)],
+            "view_mode": "tree,form",
+            "context": self.env.context,
+        }
