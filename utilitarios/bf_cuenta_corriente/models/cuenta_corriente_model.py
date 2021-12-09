@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, _
+from icecream import ic
 
 class bf_cuenta_corriente(models.Model):
     #_name = 'bf.cuenta.corriente'
@@ -65,16 +66,14 @@ class bf_cuenta_corriente(models.Model):
             "view_mode": "tree,form",
             "context": self.env.context,
         }
-
-    def action_print_report(self):
-        payments = self.env["account.payment"].search([('partner_id', '=', self.id),('state', '=', 'posted')])
-        #for contract in self.contract_to_invoice_ids:
-            #invoices |= contract.recurring_create_invoice()
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Invoices"),
-            "res_model": "account.payment",
-            "domain": [("id", "in", payments.ids)],
-            "view_mode": "tree,form",
-            "context": self.env.context,
-        }
+    
+    #Funcion para que el boton llame directamente al wizard del partner statement
+    def button_export_pdf(self):
+        view_id = self.env.ref('partner_statement.activity_statement_wizard_view').id#Este dato lo sacamos de Ajustes/Tecnico/Vistas. Es el ID externo
+        return {'type': 'ir.actions.act_window',#El type tiene que ser el mismo que usa el wizard (act_window)
+                'name': _('Estado de la cuenta del cliente'),#Nombre que va a tener el wizard.
+                'res_model': 'activity.statement.wizard',#El modelo del wizard o de la vista (se lo puede sacar del codigo, es el campo _name="nombre")
+                'target': 'new',#New para que se abra una nueva ventana (el wizard)
+                'view_mode': 'form',#Modo de vista (formulario para el wizard)
+                'views': [[view_id, 'form']],#El id externo de la vista que definimos en la variable mas arriba y el 'form' o tree segun necesitemos
+                }
