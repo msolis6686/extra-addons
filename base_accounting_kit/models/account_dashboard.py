@@ -427,7 +427,7 @@ class DashBoard(models.Model):
             states_arg = """ account_move.state = 'posted'"""
 
         self._cr.execute(('''  select res_partner.name as partner, res_partner.commercial_partner_id as res  ,
-                            account_move.commercial_partner_id as parent, sum(account_move.amount_total) as amount
+                            account_move.commercial_partner_id as parent, sum(account_move.amount_total_signed) as amount
                             from account_move,res_partner where 
                             account_move.partner_id=res_partner.id AND account_move.type = 'in_invoice' AND
                             invoice_payment_state = 'not_paid' AND 
@@ -476,7 +476,7 @@ class DashBoard(models.Model):
             states_arg = """ account_move.state = 'posted'"""
 
         self._cr.execute((''' select res_partner.name as partner, res_partner.commercial_partner_id as res  ,
-                             account_move.commercial_partner_id as parent, sum(account_move.amount_total) as amount
+                             account_move.commercial_partner_id as parent, sum(account_move.amount_total_signed) as amount
                             from account_move, account_move_line ,res_partner where 
                             account_move.partner_id=res_partner.id AND account_move.type = 'out_invoice' AND
                             invoice_payment_state = 'not_paid' AND 
@@ -522,7 +522,7 @@ class DashBoard(models.Model):
         if post[1] == 'this_month':
             self._cr.execute((''' 
                                select to_char(account_move.date, 'Month') as month, res_partner.name as due_partner, account_move.partner_id as parent,
-                               sum(account_move.amount_total) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
+                               sum(account_move.amount_total_signed) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
                                AND account_move.type = 'out_invoice'
                                AND invoice_payment_state = 'not_paid'
                                AND %s 
@@ -534,7 +534,7 @@ class DashBoard(models.Model):
                                order by amount desc ''') % (states_arg))
         else:
             self._cr.execute((''' select  res_partner.name as due_partner, account_move.partner_id as parent,
-                                            sum(account_move.amount_total) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
+                                            sum(account_move.amount_total_signed) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
                                             AND account_move.type = 'out_invoice'
                                             AND invoice_payment_state = 'not_paid'
                                             AND %s
@@ -581,7 +581,7 @@ class DashBoard(models.Model):
         if post[1] == 'this_month':
             self._cr.execute((''' 
                                 select to_char(account_move.date, 'Month') as month, res_partner.name as bill_partner, account_move.partner_id as parent,
-                                sum(account_move.amount_total) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
+                                sum(account_move.amount_total_signed) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
                                 AND account_move.type = 'in_invoice'
                                 AND invoice_payment_state = 'not_paid'
                                 AND %s 
@@ -593,7 +593,7 @@ class DashBoard(models.Model):
                                 order by amount desc ''') % (states_arg))
         else:
             self._cr.execute((''' select res_partner.name as bill_partner, account_move.partner_id as parent,
-                                            sum(account_move.amount_total) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
+                                            sum(account_move.amount_total_signed) as amount from account_move, res_partner where account_move.partner_id = res_partner.id
                                             AND account_move.type = 'in_invoice'
                                             AND invoice_payment_state = 'not_paid'
                                             AND %s
@@ -637,7 +637,7 @@ class DashBoard(models.Model):
             states_arg = """ account_move.state = 'posted'"""
         if post[1] == 'this_month':
             self._cr.execute((''' select res_partner.name as customers, account_move.commercial_partner_id as parent, 
-                                    sum(account_move.amount_total) as amount from account_move, res_partner
+                                    sum(account_move.amount_total_signed) as amount from account_move, res_partner
                                     where account_move.commercial_partner_id = res_partner.id
                                     AND account_move.company_id in %s 
                                     AND account_move.type = 'out_invoice' 
@@ -650,7 +650,7 @@ class DashBoard(models.Model):
                                     ''') % (tuple(company_id), states_arg))
             record_invoice = self._cr.dictfetchall()
             self._cr.execute((''' select res_partner.name as customers, account_move.commercial_partner_id as parent, 
-                                    sum(account_move.amount_total) as amount from account_move, res_partner
+                                    sum(account_move.amount_total_signed) as amount from account_move, res_partner
                                     where account_move.commercial_partner_id = res_partner.id
                                     AND account_move.company_id in %s
                                     AND account_move.type = 'out_refund' 
@@ -665,7 +665,7 @@ class DashBoard(models.Model):
         else:
             one_month_ago = (datetime.now() - relativedelta(months=1)).month
             self._cr.execute((''' select res_partner.name as customers, account_move.commercial_partner_id as parent, 
-                                            sum(account_move.amount_total) as amount from account_move, res_partner
+                                            sum(account_move.amount_total_signed) as amount from account_move, res_partner
                                             where account_move.commercial_partner_id = res_partner.id
                                             AND account_move.company_id in %s
                                             AND account_move.type = 'out_invoice' 
@@ -678,7 +678,7 @@ class DashBoard(models.Model):
                                             ''') % (tuple(company_id), states_arg))
             record_invoice = self._cr.dictfetchall()
             self._cr.execute((''' select res_partner.name as customers, account_move.commercial_partner_id as parent, 
-                                            sum(account_move.amount_total) as amount from account_move, res_partner
+                                            sum(account_move.amount_total_signed) as amount from account_move, res_partner
                                             where account_move.commercial_partner_id = res_partner.id
                                             AND account_move.company_id in %s 
                                             AND account_move.type = 'out_refund' 
@@ -717,22 +717,22 @@ class DashBoard(models.Model):
         else:
             states_arg = """ state = 'posted'"""
 
-        self._cr.execute(('''select sum(amount_total) as customer_invoice from account_move where type ='out_invoice'
+        self._cr.execute(('''select sum(amount_total_signed) as customer_invoice from account_move where type ='out_invoice'
                             AND  %s  AND account_move.company_id in ''' + str(tuple(company_id)) + '''           
                         ''') % (states_arg))
         record_customer = self._cr.dictfetchall()
 
-        self._cr.execute(('''select sum(amount_total) as supplier_invoice from account_move where type ='in_invoice' 
+        self._cr.execute(('''select sum(amount_total_signed) as supplier_invoice from account_move where type ='in_invoice' 
                           AND  %s  AND account_move.company_id in ''' + str(tuple(company_id)) + '''      
                         ''') % (states_arg))
         record_supplier = self._cr.dictfetchall()
 
-        self._cr.execute(('''select sum(amount_total) as credit_note from account_move where type ='out_refund'
+        self._cr.execute(('''select sum(amount_total_signed) as credit_note from account_move where type ='out_refund'
                           AND  %s  AND account_move.company_id in ''' + str(tuple(company_id)) + '''      
                         ''') % (states_arg))
         result_credit_note = self._cr.dictfetchall()
 
-        self._cr.execute(('''select sum(amount_total) as refund from account_move where type ='in_refund'
+        self._cr.execute(('''select sum(amount_total_signed) as refund from account_move where type ='in_refund'
                           AND  %s  AND account_move.company_id in ''' + str(tuple(company_id)) + '''   
                         ''') % (states_arg))
         result_refund = self._cr.dictfetchall()
@@ -954,7 +954,7 @@ class DashBoard(models.Model):
         else:
             states_arg = """ state = 'posted'"""
 
-        self._cr.execute(('''select sum(amount_total) from account_move where type = 'out_invoice' 
+        self._cr.execute(('''select sum(amount_total_signed) from account_move where type = 'out_invoice' 
                             AND %s
                             AND Extract(month FROM account_move.date) = Extract(month FROM DATE(NOW()))      
                             AND Extract(YEAR FROM account_move.date) = Extract(YEAR FROM DATE(NOW()))   
@@ -970,7 +970,7 @@ class DashBoard(models.Model):
 
         one_month_ago = (datetime.now() - relativedelta(months=1)).month
 
-        self._cr.execute('''select sum(amount_total) from account_move where type = 'out_invoice' AND
+        self._cr.execute('''select sum(amount_total_signed) from account_move where type = 'out_invoice' AND
                                account_move.state = 'posted'
                             AND Extract(month FROM account_move.date) = ''' + str(one_month_ago) + ''' 
                             ''')
@@ -982,7 +982,7 @@ class DashBoard(models.Model):
     @api.model
     def get_total_invoice_last_year(self):
 
-        self._cr.execute(''' select sum(amount_total) from account_move where type = 'out_invoice' 
+        self._cr.execute(''' select sum(amount_total_signed) from account_move where type = 'out_invoice' 
                             AND account_move.state = 'posted'
                             AND Extract(YEAR FROM account_move.date) = Extract(YEAR FROM DATE(NOW())) - 1    
                                 ''')
@@ -996,7 +996,7 @@ class DashBoard(models.Model):
 
         company_id = self.get_current_company_value()
 
-        self._cr.execute(''' select sum(amount_total) from account_move where type = 'out_invoice'
+        self._cr.execute(''' select sum(amount_total_signed) from account_move where type = 'out_invoice'
                             AND Extract(YEAR FROM account_move.date) = Extract(YEAR FROM DATE(NOW())) AND
                                account_move.state = 'posted'   AND
                                 account_move.company_id in ''' + str(tuple(company_id)) + '''
