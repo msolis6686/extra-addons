@@ -56,6 +56,10 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
                             this.onclick_top_10_month(this.$('#top_10_customer_value').val());
                                                         },
             'change #toggle-two': 'onclick_toggle_two',
+            /* CAMBIOS AGREGADOS POR MARITO */
+            'click #invoice_due_counts_this_year': 'invoice_due_year',
+            'click #invoice_due_items_': 'invoice_due_month',
+            /* FIN CAMBIOS AGREGADOS POR MARITO */
             'click #unreconciled_counts_this_year': 'unreconciled_year',
             'click #unreconciled_items_': 'unreconciled_month',
             'click #total_customer_invoice_paid_current_month': 'invoice_month_paid',
@@ -175,6 +179,42 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
                     });
                 })
         },
+
+        invoice_due_year: function (ev) {
+            var posted = false;
+            var self = this;
+            rpc.query({
+                model: "account.move",
+                method: "click_invoice_due_year",
+                args: [posted],
+            }).then(function (result) {
+                    self.do_action({
+                    res_model: 'account.move',
+                    name: _t('Facturas Vencidas'),
+                    views: [[false, 'list'], [false, 'form']],
+                    type: 'ir.actions.act_window',
+                    domain: [['id', 'in', result]],
+                    });
+                })
+        },
+        invoice_due_month: function (ev) {
+            var posted = false;
+            var self = this;
+            rpc.query({
+                model: "account.move",
+                method: "click_invoice_due_month",
+                args: [posted],
+            }).then(function (result) {
+                    self.do_action({
+                    res_model: 'account.move',
+                    name: _t('Facturas Vencidas'),
+                    views: [[false, 'list'], [false, 'form']],
+                    type: 'ir.actions.act_window',
+                    domain: [['id', 'in', result]],
+                    });
+                })
+        },
+
         unreconciled_year: function (ev) {
             var posted = false;
             var self = this;
@@ -1491,6 +1531,51 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
                             $('#unreconciled_counts_last_year').append('<span>' + unreconciled_counts_last_year + '  Item(s)</span><div class="title">Año anterior</div>')
 
                         })
+
+                    /* CAMBIOS DE MARITO */
+                    rpc.query({
+                        model: "account.move",
+                        method: "invoice_due_items"
+                    })
+                        .then(function (result) {
+
+                            var invoice_due_count = result[0].count;
+
+                            $('#invoice_due_items').append('<span>' + invoice_due_count + ' Item(s)</a></span> ')
+                        })
+                    rpc.query({
+                        model: "account.move",
+                        method: "invoice_due_items_this_month",
+                        args: [posted],
+                    })
+                        .then(function (result) {
+                            var invoice_due_counts_ = result[0].count;
+                            $('#invoice_due_items_').append('<span>' + invoice_due_counts_ + ' Item(s)</span><div class="title">Este mes</div>')
+                        })
+                    rpc.query({
+                        model: "account.move",
+                        method: "invoice_due_items_this_year",
+                        args: [posted],
+                    })
+                        .then(function (result) {
+
+                            var invoice_due_counts_this_year = result[0].count;
+
+                            $('#invoice_due_counts_this_year').append('<span>' + invoice_due_counts_this_year + '  Item(s)</span><div class="title">En total</div>')
+                            //                            $('#unreconciled_counts_this_year').append('<span style= "color:#455e7b;">' + unreconciled_counts_this_year + ' Item(s)</span><div class="title">Este Año</div>')
+                        })
+
+                    rpc.query({
+                        model: "account.move",
+                        method: "invoice_due_items_last_year"
+                    })
+                        .then(function (result) {
+                            var invoice_due_counts_last_year = result[0].count;
+
+                            $('#invoice_due_counts_last_year').append('<span>' + invoice_due_counts_last_year + '  Item(s)</span><div class="title">Año anterior</div>')
+
+                        })   
+                    /* FIN CAMBIOS DE MARITO */    
                     rpc.query({
                         model: "account.move",
                         method: "month_income"

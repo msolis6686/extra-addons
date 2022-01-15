@@ -1339,6 +1339,53 @@ class DashBoard(models.Model):
         record_customer_current_month = [row[0] for row in self._cr.fetchall()]
         return record_customer_current_month
 
+    """ CAMBIOS DE MARITO """
+    @api.model
+    def click_invoice_due_month(self, *post):
+        company_id = self.get_current_company_value()
+        states_arg = ""
+        if post != ('posted',):
+            states_arg = """ state in ('posted', 'draft')"""
+        else:
+            states_arg = """ state = 'posted'"""
+        qry = ''' select count(*) FROM account_move l
+                              where Extract(month FROM l.date) = Extract(month FROM DATE(NOW())) AND
+                              Extract(YEAR FROM l.date) = Extract(YEAR FROM DATE(NOW()))
+                              AND l.invoice_date_due < NOW()
+                              AND invoice_payment_state = 'not_paid'
+                              AND l.''' + states_arg + '''
+                              AND  l.company_id in ''' + str(tuple(company_id)) + '''                              
+                               '''
+
+        self._cr.execute((''' select l.id FROM account_move l
+                              where Extract(month FROM l.date) = Extract(month FROM DATE(NOW())) AND
+                              Extract(YEAR FROM l.date) = Extract(YEAR FROM DATE(NOW()))
+                              AND l.invoice_date_due < NOW()
+                              AND invoice_payment_state = 'not_paid'
+                              AND l.%s
+                              AND  l.company_id in ''' + str(tuple(company_id)) + '''                              
+                               ''') % (states_arg))
+        record = [row[0] for row in self._cr.fetchall()]
+        return record
+
+    @api.model
+    def click_invoice_due_year(self, *post):
+        company_id = self.get_current_company_value()
+        states_arg = ""
+        if post != ('posted',):
+            states_arg = """ state in ('posted', 'draft')"""
+        else:
+            states_arg = """ state = 'posted'"""
+        self._cr.execute(('''  select l.id FROM account_move l
+                                  where l.invoice_date_due < NOW()
+                                  AND invoice_payment_state = 'not_paid'
+                                  AND l.%s
+                                  AND  l.company_id in ''' + str(tuple(company_id)) + '''       
+                                  ''') % (states_arg))
+        record = [row[0] for row in self._cr.fetchall()]
+        return record
+    """ FIN CAMBIOS DE MARITO """
+
     @api.model
     def click_unreconcile_month(self, *post):
         company_id = self.get_current_company_value()
@@ -1399,6 +1446,98 @@ class DashBoard(models.Model):
         return record
 
     # function to get total income
+    
+    # CAMBIOS DE MARITO
+    # *****************************************************************************************************
+    @api.model
+    def invoice_due_items_last_year(self):
+
+        self._cr.execute('''  select count(*) FROM account_move_line l,account_account a
+                                      where Extract(year FROM l.date) = Extract(year FROM DATE(NOW())) - 1 AND
+                                      L.account_id=a.id AND l.full_reconcile_id IS NULL AND 
+                                      l.balance != 0 AND a.reconcile IS TRUE
+                                      ''')
+        record = self._cr.dictfetchall()
+        return record
+        
+    @api.model
+    def invoice_due_items(self):
+        self._cr.execute('''
+                            select count(*) FROM account_move_line l,account_account a
+                            where L.account_id=a.id AND l.full_reconcile_id IS NULL AND 
+                            l.balance != 0 AND a.reconcile IS TRUE ''')
+        record = self._cr.dictfetchall()
+        return record
+
+    # function to get unreconcile items this month
+
+    @api.model
+    def invoice_due_items_this_month(self, *post):
+        company_id = self.get_current_company_value()
+
+        states_arg = ""
+        if post != ('posted',):
+            states_arg = """ state in ('posted', 'draft')"""
+        else:
+            states_arg = """ state = 'posted'"""
+
+        qry = ''' select count(*) FROM account_move l
+                              where Extract(month FROM l.date) = Extract(month FROM DATE(NOW())) AND
+                              Extract(YEAR FROM l.date) = Extract(YEAR FROM DATE(NOW()))
+                              AND l.invoice_date_due < NOW()
+                              AND invoice_payment_state = 'not_paid'
+                              AND l.''' + states_arg + '''
+                              AND  l.company_id in ''' + str(tuple(company_id)) + '''                              
+                               '''
+
+        self._cr.execute((''' select count(*) FROM account_move l
+                              where Extract(month FROM l.date) = Extract(month FROM DATE(NOW())) AND
+                              Extract(YEAR FROM l.date) = Extract(YEAR FROM DATE(NOW())) 
+                              AND l.invoice_date_due < NOW()
+                              AND invoice_payment_state = 'not_paid'
+                              AND l.%s
+                              AND  l.company_id in ''' + str(tuple(company_id)) + '''                              
+                               ''') % (states_arg))
+        record = self._cr.dictfetchall()
+        return record
+
+    # function to get unreconcile items last month
+
+    @api.model
+    def invoice_due_items_last_month(self):
+
+        one_month_ago = (datetime.now() - relativedelta(months=1)).month
+
+        self._cr.execute('''  select count(*) FROM account_move_line l,account_account a 
+                              where Extract(month FROM l.date) = ''' + str(one_month_ago) + ''' AND
+                              L.account_id=a.id AND l.full_reconcile_id IS NULL AND l.balance != 0 AND a.reconcile IS TRUE 
+                         ''')
+        record = self._cr.dictfetchall()
+        return record
+
+    # function to get unreconcile items this year
+
+    @api.model
+    def invoice_due_items_this_year(self, *post):
+        company_id = self.get_current_company_value()
+
+        states_arg = ""
+        if post != ('posted',):
+            states_arg = """ state in ('posted', 'draft')"""
+        else:
+            states_arg = """ state = 'posted'"""
+
+        self._cr.execute(('''  select count(*) FROM account_move l
+                                  where l.invoice_date_due < NOW()
+                                  AND invoice_payment_state = 'not_paid'
+                                  AND l.%s
+                                  AND  l.company_id in ''' + str(tuple(company_id)) + '''       
+                                  ''') % (states_arg))
+        record = self._cr.dictfetchall()
+        return record
+
+    # *****************************************************************************************************
+    # FIN CAMBIOS DE MARITO
 
     @api.model
     def month_income(self):
