@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <!--            Unreconciled items             -->
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="tile wide invoice box-4">
                                     <div class="header">
                                         <div class="main-title">Unreconciled items</div>
@@ -96,6 +96,26 @@
                                             <div class="right">
                                                 <div class="count">
                                                     <span id="unreconciled_items_" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!--            Facturas vencidas             -->
+                            <div class="col-md-3">
+                                <div class="tile wide invoice box-4">
+                                    <div class="header">
+                                        <div class="main-title">Facturas Vencidas</div>
+                                        <div id="monthly_invoice_due">
+                                            <div class="left">
+                                                <div class="count">
+                                                    <span id="invoice_due_counts_this_year" />
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="count">
+                                                    <span id="invoice_due_items_" />
                                                 </div>
                                             </div>
                                         </div>
