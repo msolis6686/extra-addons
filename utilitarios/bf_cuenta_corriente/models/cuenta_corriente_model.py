@@ -8,11 +8,71 @@ class bf_cuenta_corriente(models.Model):
     _inherit = 'res.partner'
     _description = 'Modulo para mostrar las cuentas corrientes de los clientes'
 
-    debe = fields.Float(compute='_get_debe', string="Debe")
-    haber = fields.Float(compute='_get_haber', string="Haber")
-    saldo = fields.Float(compute='_get_saldo', string="Saldo")
+    debe = fields.Float(compute='_get_debe', string="Debe", search="_search_debe")
+    haber = fields.Float(compute='_get_haber', string="Haber", search="_search_haber")
+    saldo = fields.Float(compute='_get_saldo', string="Saldo", search="_search_saldo")
     
-
+    ##BUSQUEDA
+    def _search_debe(self, operator, value):
+        ic(operator)
+        ic(value)
+        if operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.debe == value)
+        elif operator == '<=':
+            field_id = self.search([]).filtered(lambda x : x.debe <= value)
+        elif operator == '>=':
+            field_id = self.search([]).filtered(lambda x : x.debe >= value)
+        elif operator == '<':
+            field_id = self.search([]).filtered(lambda x : x.debe < value)
+        elif operator == '>':
+            field_id = self.search([]).filtered(lambda x : x.debe > value)
+        elif operator == '!=':
+            field_id = self.search([]).filtered(lambda x : x.debe != value)
+        """elif operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.field == value) """
+        ic(field_id)
+        return [('id', 'in', [x.id for x in field_id] if field_id else False)]
+    
+    def _search_haber(self, operator, value):
+        ic(operator)
+        ic(value)
+        if operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.haber == value)
+        elif operator == '<=':
+            field_id = self.search([]).filtered(lambda x : x.haber <= value)
+        elif operator == '>=':
+            field_id = self.search([]).filtered(lambda x : x.haber >= value)
+        elif operator == '<':
+            field_id = self.search([]).filtered(lambda x : x.haber < value)
+        elif operator == '>':
+            field_id = self.search([]).filtered(lambda x : x.haber > value)
+        elif operator == '!=':
+            field_id = self.search([]).filtered(lambda x : x.haber == value)
+        """elif operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.field == value) """
+        ic(field_id)
+        return [('id', 'in', [x.id for x in field_id] if field_id else False )]
+    def _search_saldo(self, operator, value):
+        ic(operator)
+        ic(value)
+        if operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.saldo == value)
+        elif operator == '<=':
+            field_id = self.search([]).filtered(lambda x : x.saldo <= value)
+        elif operator == '>=':
+            field_id = self.search([]).filtered(lambda x : x.saldo >= value)
+        elif operator == '<':
+            field_id = self.search([]).filtered(lambda x : x.saldo < value)
+        elif operator == '>':
+            field_id = self.search([]).filtered(lambda x : x.saldo > value)
+        elif operator == '!=':
+            field_id = self.search([]).filtered(lambda x : x.saldo != value)
+        """ elif operator == '=':
+            field_id = self.search([]).filtered(lambda x : x.field == value) """
+        ic(field_id)
+        return [('id', 'in', [x.id for x in field_id] if field_id else False )]
+    
+    
     def _get_debe(self):
         for r in self:
             facturas = self.env['account.move'].search([('partner_id', '=', r.id),('state', '=', 'posted'),'|',('type', '=', 'out_invoice'),('type','=','out_refund')])
