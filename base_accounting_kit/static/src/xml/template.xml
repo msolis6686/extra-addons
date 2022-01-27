@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <!--            Unreconciled items             -->
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="tile wide invoice box-4">
                                     <div class="header">
                                         <div class="main-title">Unreconciled items</div>
@@ -96,6 +96,26 @@
                                             <div class="right">
                                                 <div class="count">
                                                     <span id="unreconciled_items_" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!--            Facturas vencidas             -->
+                            <div class="col-md-3">
+                                <div class="tile wide invoice box-4">
+                                    <div class="header">
+                                        <div class="main-title">Facturas Vencidas</div>
+                                        <div id="monthly_invoice_due">
+                                            <div class="left">
+                                                <div class="count">
+                                                    <span id="invoice_due_counts_this_year" />
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="count">
+                                                    <span id="invoice_due_items_" />
                                                 </div>
                                             </div>
                                         </div>
@@ -218,16 +238,31 @@
                     </div>
                     <div class="col-md-4" id="col-graph">
                         <div class="card">
-                            <div class="card-body p-0" style=" height: 287px; overflow-y: auto; ">
-                                <div class="card-header" style=" padding: 17px 1.5rem !important; display: flex !IMPORTANT; justify-content: space-between; align-items: center; ">
-                                    <h3 class="custom-h3 card-title">
-                                        <b>BANK AND CASH BALANCE</b>
-                                    </h3>
+                            <!-- <div class="card-body p-0" style=" height: 287px; overflow-y: auto; "> -->
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <b>
+                                        <h3 class="custom-h3">BANK AND CASH BALANCE</h3>
+                                    </b>
                                 </div>
-                                <div class="card-body p-0" style=" height: 100px; " id="bank_balance_body_hide">
-                                    <ul id="current_bank_balance"></ul>
-                                </div>
+                                <!-- ESTA PARTE DEL CÓDIGO HABILITA EL SELECT PARA CAMBIAR MES Y AÑO
+                                <div class="card-tools">
+                                    <select id="bank_values">
+                                        <option id="bank_this_month" value="this_month">This Month</option>
+                                        <option id="bank_this_year" value="this_year">This Year</option>
+                                    </select>
+                                </div> -->
                             </div>
+                            <!-- <div class="card-header" style=" padding: 17px 1.5rem !important; display: flex !IMPORTANT; justify-content: space-between; align-items: center; ">
+                                <h3 class="custom-h3 card-title">
+                                    <b>BANK AND CASH BALANCE</b>
+                                </h3>
+                            </div> -->
+                                
+                            <div class="card-body" style=" height: 100px; " id="bank_balance_body_hide">
+                                <ul id="current_bank_balance"></ul>
+                            </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="col-md-4" id="col-graph">
