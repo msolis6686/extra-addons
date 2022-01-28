@@ -122,17 +122,19 @@ class bf_cuenta_corriente_mod(models.Model):
             total_saldo = r.debe_m - r.haber_m
             r.saldo_c = total_saldo
             diff = 0
-            if r.saldo_c > r.saldo_m:
+            """ if r.saldo_c > r.saldo_m:
                 diff = r.saldo_c - r.saldo_m
             else:
-                diff = r.saldo_m - r.saldo_c
-            
+                diff = r.saldo_m - r.saldo_c """
+            diff = abs(r.saldo_m - r.saldo_c)
             if diff >= 0.01:
                 ic("ACTUALIZO SALDOS")
                 ic(r.id)
                 ic(r.saldo_c)
                 ic(r.saldo_m)
-                vals = {'saldo_m': r.saldo_c}
+                new_value = round(r.saldo_c,2)
+                ic(new_value)
+                vals = {'saldo_m': new_value}
                 r.write(vals)
     
     def action_show_invoices(self):
