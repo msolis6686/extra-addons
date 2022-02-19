@@ -7,7 +7,7 @@
     ],
     'installable': True,
     'license': 'AGPL-3',
-    'name': 'Factura Electronica',
+    'name': 'bf_factura_electronica',
     'data': [
         'layouts.xml',
         'report_move_fe.xml',
