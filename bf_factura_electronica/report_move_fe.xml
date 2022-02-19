@@ -23,16 +23,29 @@
                         <!--COMPANY LOGO-->
                         <div class="col-5 py-1">
                             <div style="border: 0px solid red;">
-                                <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 150px;float:left;margin-top:10px;margin-right:10px;"/>
-                                <br/>
-                                <h2>
-                                    <strong>
-                                        <span t-field="o.company_id.name"></span>
-                                    </strong>
-                                </h2>
+                                <!-- <t t-if="len(o.company_id.name) &lt; 12 "> -->
+                                    <!-- <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 150px;float:left;margin-top:10px;margin-right:10px;"/>
+                                    <br/>
+                                    <h2>
+                                        <strong>
+                                            <span t-field="o.company_id.name"></span>
+                                        </strong>
+                                    </h2> -->
+                                <!-- </t> -->
+                                <!-- <t t-if="len(o.company_id.name) &gt; 11 "> -->
+                                    <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 120px;float:left;margin-top:10px;margin-right:10px;"/>
+                                    <br/>
+                                    <h3>
+                                        <small>
+                                            <strong>
+                                                <span t-field="o.company_id.name"></span>
+                                            </strong>
+                                        </small>
+                                    </h3>
+                                <!-- </t> -->
                             </div>
-                            <br/>
-                            <br/>
+                            <!-- <br/>
+                            <br/> -->
                             <!-- <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="display: block; max-width: 1000px; max-height: 1000px;margin:10px;" alt="Logo"/> -->
                             <!--<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="display: block !important; float: left !important; position: absolute !important; margin-top: 0px !important; margin-bottom: 0px !important; top: 10px !important; left: 10px !important; bottom: auto !important; max-height: 95px;"/>-->
                             <!-- <span t-field="o.company_id.name" style="font-size: 18px; font-weight: bold;"/> -->
@@ -423,7 +436,7 @@
     <template id="report_move_fe">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="factura_electronica.report_fe_move_document" t-lang="o.partner_id.lang"/>
+                <t t-call="bf_factura_electronica.report_fe_move_document" t-lang="o.partner_id.lang"/>
             </t>
         </t>
     </template>
@@ -446,10 +459,10 @@
             model="account.move" 
             string="Factura Electronica" 
             report_type="qweb-pdf" 
-            name="factura_electronica.report_move_fe" 
-            file="factura_electronica.report_move_fe" 
+            name="bf_factura_electronica.report_move_fe" 
+            file="bf_factura_electronica.report_move_fe" 
             attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')" 
-            paperformat="factura_electronica.paperformat_invoice" />
+            paperformat="bf_factura_electronica.paperformat_invoice" />
 
 
 </data>
