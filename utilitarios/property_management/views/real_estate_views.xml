@@ -1,0 +1,1281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- remove no_user group form type field -->
+        <record id="view_partner_form_hx" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="attributes">
+                    <attribute name="groups">ASE_real_estate.group_manager, ASE_real_estate.group_sales_person, ASE_real_estate.group_admin</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit register payment views -->
+        <record id="view_account_payment_register_form_inherit_hx" model="ir.ui.view">
+            <field name="name">account.payment.register.form.inherit.hx</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_date']" position="before">
+                    <field name="payment_option" string="Payment mode" />
+                    <field name="payment_reference" string="Reference"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_payment_form_hx_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.hx.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="payment_option" string="Payment mode" />
+                    <field name="payment_reference" string="Reference"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action for property status-->
+        <record id="select_property_status_view_form" model="ir.ui.view">
+            <field name="name">select.property.status.view.form</field>
+            <field name="model">select.property.status</field>
+            <field name="arch" type="xml">
+                <form string="Select property status">
+                    <group>
+                        <group>
+                            <field name="contract_id" invisible="1" force_save="1"/>
+                            <field name="property_id"/>
+                            <field name="status"/>
+                            <newline/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_apply" string="Apply" type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_select_property_status" model="ir.actions.act_window">
+            <field name="name">Select Property Status</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">select.property.status</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="select_property_status_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_move_form_inherit" model="ir.ui.view" >
+            <field name="name">view.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                    <field name="property_id" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_contract_view" model="ir.actions.act_window">
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.contract</field>
+            <field name="view_mode">form,tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Form will come here
+                </p>
+            </field>
+        </record>
+
+        <record id="view_contract_form" model="ir.ui.view">
+            <field name="name">real.estate.contract.form</field>
+            <field name="model">real.estate.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Contract">
+                    <header>
+                        <button name="action_confirm" attrs="{'invisible': [('state','in', ['confirm','active','inactive'])]}" type="object" string="Confirm" class="oe_highlight"/>
+                        <button name="action_active" attrs="{'invisible': [('state','in', ['draft','active','inactive'])]}" type="object" string="Active" class="oe_highlight"/>
+                        <button name="action_inactive"
+                                attrs="{'invisible': [('state','in', ['draft','confirm','inactive'])]}"
+                                type="object" string="Inactive" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,active,inactive"/>
+                    </header>
+                    <sheet>
+                        <div style="position: relative;">
+                            <group style="width: 30%; float: left;" string="Customer Details">
+                                <field name="contract_partner_id" string="Customer"/>
+                                <field name="contract_partner_name"/>
+                                <field name="contract_partner_street"/>
+                                <field name="contract_partner_phone"/>
+                                <field name="contract_partner_mobile"/>
+                                <field name="contract_partner_cnic" widget="mask" data-inputmask-mask="99999-9999999-9"/>
+                                <field name="effective_date"/>
+                            </group>
+                            <group style="width: 30%;" string="Dealer Details">
+                                <field name="dealer_id" string="Dealer" options="{'no_create': False, 'no_create_edit':False}"/>
+                                <field name="dealer_name"/>
+                                <field name="dealer_street"/>
+                                <field name="dealer_phone"/>
+                                <field name="dealer_mobile"/>
+                                <field name="dealer_email"/>
+                            </group>
+                            <group style=" width:30%; float: right;" name="kin_group" attrs="{'invisible':[('contract_type', '=', 'buy')]}" string="Next of Kin/Nominees">
+                                <field name="kin_name" readonly="0" placeholder="Name"/>
+                                <field name="kine_relationship" readonly="0" placeholder="Relationship"/>
+                                <field name="kin_cnic" widget="mask" data-inputmask-mask="99999-9999999-9" readonly="0" placeholder="CNIC no."/>
+                                <field name="kin_mobile" readonly="0" placeholder="Mobile no."/>
+                            </group>
+                        </div>
+                        <notebook>
+                            <page string="Booking">
+                                <group>
+                                    <group string="Property Details" style="width:400px;">
+                                        <field name="contract_type" string="Contract Type" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <!--                                        <field name="project_id" widget="selection" />-->
+                                        <field name="check_buyback_selection" invisible="1" force_save="1"/>
+                                        <field name="check_readonly" invisible="1" force_save="1"/>
+                                        <field name="building_id" widget="selection" force_save="1" attrs="{'readonly': ['|',('state','in', ['confirm','active','inactive']),('check_readonly','=',True)],'invisible': [('check_buyback_selection', '=', True)]}"/>
+                                        <field name="floor_id" widget="selection" force_save="1" attrs="{'readonly': ['|',('state','in', ['confirm','active','inactive']),('check_readonly','=',True)],'invisible': [('check_buyback_selection', '=', True)]}"/>
+                                        <field name="property_id" widget="selection" force_save="1" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="property_value" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="resale_value" string="Resale profit (if any)" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="installment_product_id" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="token_money_product_id" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="down_payment_product_id" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                    </group>
+                                    <group string="Payment Plan" style="width:400px; margin-left:200px;" attrs="{'invisible':[('contract_type', '!=', 'sell')]}">
+
+                                        <field name="payment_plan_type" readonly="0" placeholder="Plan type" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="total_payment_date" string="Select payment due date" attrs="{'invisible':[('payment_plan_type', '!=', 'lump_sum')],'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="discount_hx" string="Discount (Lumpsum)" attrs="{'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="amt_after_disc" readonly="1" force_save="1" string="Amount after discount" attrs="{'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="down_payment_type" string="Down payment type" attrs="{'invisible':[('payment_plan_type', '!=', 'install_down')],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="down_payment_amt" string="Insert down payment" attrs="{'invisible':[('payment_plan_type', '!=', 'install_down')],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="down_payment" string="Down payment Rs." readonly="1" force_save="1" attrs="{'invisible':[('payment_plan_type', '!=', 'install_down')],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="down_payment_date" string="Down payment due date" attrs="{'invisible':[('payment_plan_type', '!=', 'install_down')],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="total_without_down_payment" readonly="1" force_save="1" string="Installments Balance" attrs="{'invisible':[('payment_plan_type', '!=', 'install_down')],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="frequency" string="Installments frequency" attrs="{'invisible': [('payment_plan_type', 'not in', ['install_down', 'install'])],'readonly': [('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="total_installments" string="Total installments" attrs="{'invisible': [('payment_plan_type', 'not in', ['install_down', 'install'])],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="first_installment_date" string="First installment date"
+                                               attrs="{'invisible': [('payment_plan_type', 'not in', ['install_down', 'install'])],'readonly':[('state','in', ['confirm','active','inactive'])]}"/>
+                                        <field name="generate_installment_plan" invisible="1"/>
+                                        <button name="populate_installments" string="Generate plan"
+                                                type="object" class="btn-primary"
+                                                attrs="{'invisible': ['|',('state','in', ['draft','active','inactive']),('generate_installment_plan', '!=', False)]}"/>
+                                    </group>
+                                    <group string="Buy back" style="width:400px; margin-left:200px;" attrs="{'invisible':[('contract_type', '!=', 'buy')]}">
+                                        <field name="buy_back_type"/>
+                                        <field name="total_installments_buyback" attrs="{'invisible':[('buy_back_type', '!=', 'payback_installments')]}"/>
+                                        <field name="buyback_product_id" string="Buy back (Product)"/>
+                                        <field name="buy_back_bill_due_date" string="Buy back due date"/>
+                                        <field name="profit_on_buyback" string="Profit"/>
+                                        <field name="adjustment_property_id" attrs="{'invisible':[('buy_back_type', 'not in', ['payback_property_adjust', 'payback_payment_and_property'])]}"/>
+                                        <field name="profit_on_buyback_product" string="Buy back profit (Product)"/>
+                                        <button name="Populate_plan" string="Generate Plan"
+                                                type="object" class="btn-primary"
+                                                attrs="{'invisible':['|',('state','in', ['draft','active','inactive']),('generate_installment_plan', '!=', False)]}"></button>
+                                        <!--                                        <button name="View_buyback_bill" string="View Bill"-->
+                                        <!--                                                type="object" class="btn-primary"></button>-->
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Installments">
+                                <!--                                <field name="contract_type" invisible="1" force_save="1"/>-->
+                                <!--                                <header>-->
+                                <!--                                </header>-->
+                                <field name="installment_id">
+                                    <tree>
+                                        <field name="receipt_type" invisible="1" force_save="1" width="50"/>
+                                        <field name="installment_no" width="50"/>
+                                        <field name="product_id" width="120" string="Installment Type"/>
+                                        <field name="property_id" width="120" string="Property"/>
+                                        <field name="due_date" string="Due Date" width="70"/>
+                                        <field name="frequency" width="70" />
+                                        <field name="installment_type" invisible="1" force_save="1"/>
+                                        <field name="profit_on_buyback" attrs="{'column_invisible': [('parent.contract_type', '=',  'sell')]}"/>
+                                        <field name="amount" width="100"/>
+                                        <field name="invoice_status" invisible="1" force_save="1"/>
+                                        <button name="view_invoice_hx" type="object" string="View Invoice" attrs="{'invisible':[('invoice_status', '=', False)]}"/>
+                                        <button name="create_invoice_hx" type="object" string="Create Invoice" attrs="{'invisible':[('invoice_status', '=', True)]}"/>
+
+                                    </tree>
+                                </field>
+                                <button style="float:right" name="action_balance_installments" string="Balance Installments" type="object" class="oe_highlight"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- invoice view -->
+
+
+
+
+        <!-- action installment plan -->
+        <record id="installment_action" model="ir.actions.act_window">
+            <field name="name">Installments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.installment</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add installments details
+                </p>
+            </field>
+        </record>
+
+
+        <record id="customer_form_view_id" model="ir.ui.view" >
+            <field name="name">Customer_customize</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button name="action_partner_contract" type="object"
+                            class="oe_stat_button" icon="fa-pencil-square-o">
+                        <field name="contract" string="Contract" readonly="1"/>
+                    </button>
+                </div>
+                <div name="button_box" position="inside">
+                    <button name="action_transactions" type="object"
+                            class="oe_stat_button" icon="fa-dollar">
+                        <field name="transactions" string="Transaction" readonly="1"/>
+                    </button>
+                </div>
+                <hr></hr>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="cnic_no" widget="mask" data-inputmask-mask="99999-9999999-9"/>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Properties" name="page_property" autofocus="autofocus">
+                        <field name="contract_id">
+                            <tree>
+                                <field name="property_id">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="property_value"/>
+                                    </tree>
+                                </field>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Contracts" name="page_contract" autofocus="autofocus">
+                        <field name="contract_id">
+                            <tree>
+                                <field name="property_id"/>
+                                <field name="payment_plan_type"/>
+                                <field name="total_installments"/>
+                                <field name="property_value"/>
+                                <!--                                <field name=""/>-->
+                            </tree>
+                        </field>
+                    </page>
+
+
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <!-- view tree property -->
+
+
+        <record id="building_view_tree" model="ir.ui.view">
+            <field name="name">real.estate.building.tree</field>
+            <field name="model">real.estate.building</field>
+            <field name="arch" type="xml">
+                <tree string="Buildings">
+                    <field name="name"/>
+                    <field name="real_estate_project"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="floor_view_tree" model="ir.ui.view">
+            <field name="name">real.estate.floor.tree</field>
+            <field name="model">real.estate.floor</field>
+            <field name="arch" type="xml">
+                <tree string="Floors">
+                    <field name="name"/>
+                    <field name="area"/>
+                    <field name="building_id"/>
+                    <field name="real_estate_building" string="Floor">
+                        <tree>
+                            <field name="name"/>
+                            <field name="real_estate_project">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </tree>
+                    </field>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="property_view_tree" model="ir.ui.view">
+            <field name="name">real.estate.property.tree</field>
+            <field name="model">real.estate.property</field>
+            <field name="arch" type="xml">
+                <tree string="Properties">
+                    <field name="name"/>
+                    <field name="property_value"/>
+                    <field name="type"/>
+                    <field name="size"/>
+                    <field name="status"/>
+                    <field name="project_name"/>
+                    <field name="real_estate_floor"/>
+                    <!--                    <field name="building_id"/>-->
+                    <!--                    <field name="project_id"/>-->
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="installment_plan_view_tree" model="ir.ui.view">
+            <field name="name">real.estate.installment.tree</field>
+            <field name="model">real.estate.installment</field>
+            <field name="arch" type="xml">
+                <tree string="Plan">
+                    <field name="installment_no" width="50"/>
+                    <field name="product_id" width="120" string="Installment product"/>
+                    <field name="due_date" string="Due Date" width="70"/>
+                    <field name="frequency" width="70" />
+                    <field name="installment_type" invisible="1" force_save="1"/>
+                    <field name="profit_on_buyback" attrs="{'invisible':[('installment_type', '!=', 'bill')]}"/>
+                    <field name="amount" width="100"/>
+                    <!--                    <field name="payment_status" width="100"/>-->
+                    <field name="invoice_status" invisible="1" force_save="1"/>
+                    <button name="view_invoice_hx" type="object" string="View Invoice" attrs="{'invisible':[('invoice_status', '=', False)]}"/>
+                    <button name="create_invoice_hx" type="object" string="Create Invoice" attrs="{'invisible':[('invoice_status', '=', True)]}"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- view form project -->
+        <record id="view_project_form" model="ir.ui.view">
+            <field name="name">real.estate.project.form</field>
+            <field name="model">real.estate.project</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_avatar" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Description</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="description" placeholder="Description" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Location</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="location" placeholder="Location" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>City</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="city" placeholder="City" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Type</b>
+                                </span>
+                                <div name='type' class="o_address_format">
+                                    <field name="type" placeholder="Type" class="o_address_street"/>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Buildings" name="building_details" autofocus="autofocus">
+                                <field name="building_ids" mode="kanban">
+                                    <kanban>
+                                        <field name="id" invisible="1"/>
+                                        <field name="location"/>
+                                        <field name="city"/>
+                                        <field name="approval_authority"/>
+                                        <field name="size"/>
+                                        <!--                                        <field name="benefits"/>-->
+                                        <field name="image"/>
+
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                                    <t t-if="record.image.raw_value">
+                                                        <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.building', 'image', record.id.raw_value)}')"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                                    </t>
+
+                                                    <div class="oe_kanban_details">
+                                                        <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                                        <div class="o_kanban_tags_section">
+                                                            <ul>
+                                                                <li>Location: <field name="location"/></li>
+                                                                <li>City: <field name="city"/></li>
+                                                                <li>Size: <field name="size"/></li>
+                                                                <li>Approval Authority: <field name="approval_authority"/></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+        <!-- view form building -->
+        <record id="view_building_form" model="ir.ui.view">
+            <field name="name">real.estate.building.form</field>
+            <field name="model">real.estate.building</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Building">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_avatar" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Approval Authority</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="approval_authority" placeholder="Approval Authority" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Size</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="size" placeholder="Size" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Benefits</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <!--                                    <field name="benefits" placeholder="Type" class="o_address_street"/>-->
+                                    <field name="parking"/><label for="parking"/>
+                                    <field name="open_roof"/> <label for="open_roof"/>
+                                    <field name="electric"/> <label for="electric"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Project</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="real_estate_project" placeholder="Type" class="o_address_street"/>
+                                </div>
+                                <!--                                <span class="o_form_label o_td_label" name="address_name">-->
+                                <!--                                    <b>Image</b>-->
+                                <!--                                </span>-->
+                                <!--                                <div class="o_address_format">-->
+                                <!--                                    <field name="image" placeholder="Type" class="o_address_street" widget="image"/>-->
+                                <!--                                </div>-->
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Map</b>
+                                </span>
+                                <div class="o_address_format">
+<!--                                    <div id="tung_googlemap"></div>-->
+                                    <field name="map" widget="googlemap"/>
+<!--                                    <field name="map" widget="gplaces_address_form" class="o_address_street"/>-->
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Address</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="location" placeholder="Address" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>City</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="city" placeholder="City" class="o_address_street"/>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Floor" name="floor_details" autofocus="autofocus">
+                                <field name="floor_ids" mode="kanban">
+                                    <kanban>
+                                        <field name="id" invisible="1"/>
+                                        <field name="code"/>
+                                        <field name="area"/>
+                                        <field name="image"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                                    <t t-if="record.image.raw_value">
+                                                        <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.floor', 'image', record.id.raw_value)}')"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                                    </t>
+
+                                                    <div class="oe_kanban_details">
+                                                        <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                                        <div class="o_kanban_tags_section">
+                                                            <ul>
+                                                                <li>Area: <field name="area"/></li>
+                                                                <li>Code <field name="code"/></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+
+
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_contract_kanban" model="ir.ui.view">
+            <field name="name">real.estate.contract.kanban</field>
+            <field name="model">real.estate.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="contract_partner_name"/>
+                    <field name="property_id"/>
+                    <field name="contract_partner_image_1920"/>
+                    <field name="contract_type"/>
+                    <field name="property_value"/>
+                    <field name="amt_after_disc"/>
+                    <!--                    <field name="size"/>-->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                <t t-if="record.contract_partner_image_1920.value">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.contract', 'contract_partner_image_1920', record.id.raw_value)}')"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                </t>
+
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="contract_partner_name"/>
+                                        </a>
+                                    </h4>
+
+                                    <div class="o_kanban_tags_section">
+                                        <ul>
+                                            <!--                                            <li>Customer: <field name="contract_partner_name"/></li>-->
+                                            <li>Contract Type: <field name="contract_type"/></li>
+                                            <li>Property: <field name="property_id"/></li>
+                                            <li>Value: <field name="amt_after_disc"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- kanban view building -->
+        <record id="view_building_kanban" model="ir.ui.view">
+            <field name="name">real.estate.building.kanban</field>
+            <field name="model">real.estate.building</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="location"/>
+                    <field name="city"/>
+                    <field name="approval_authority"/>
+                    <field name="size"/>
+                    <!--                    <field name="benefits"/>-->
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                <t t-if="record.image.raw_value">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.building', 'image', record.id.raw_value)}')"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                </t>
+
+                                <div class="oe_kanban_details">
+                                    <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                    <div class="o_kanban_tags_section">
+                                        <ul>
+                                            <li>Location: <field name="location"/></li>
+                                            <li>City: <field name="city"/></li>
+                                            <li>Size: <field name="size"/></li>
+                                            <li>Approval Authority: <field name="approval_authority"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+
+
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- view project kanban -->
+        <record id="view_project_kanban" model="ir.ui.view">
+            <field name="name">real.estate.project.kanban</field>
+            <field name="model">real.estate.project</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id" invisible="1"/>
+                    <field name="description"/>
+                    <field name="location"/>
+                    <field name="city"/>
+                    <field name="type"/>
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                <t t-if="record.image.raw_value">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.project', 'image', record.id.raw_value)}')"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                </t>
+
+                                <div class="oe_kanban_details">
+                                    <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                    <div class="o_kanban_tags_section">
+                                        <ul>
+                                            <li>Location: <field name="location"/></li>
+                                            <li>City: <field name="city"/></li>
+                                            <li>Type: <field name="type"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- view floor kanban -->
+        <record id="view_floor_kanban" model="ir.ui.view">
+            <field name="name">real.estate.floor.kanban</field>
+            <field name="model">real.estate.floor</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id" invisible="1"/>
+                    <field name="code"/>
+                    <field name="area"/>
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                <t t-if="record.image.raw_value">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.floor', 'image', record.id.raw_value)}')"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                </t>
+
+                                <div class="oe_kanban_details">
+                                    <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                    <div class="o_kanban_tags_section">
+                                        <ul>
+                                            <li>Area: <field name="area"/></li>
+                                            <li>Code <field name="code"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- view property kanban -->
+
+
+        <record id="view_property_kanban" model="ir.ui.view">
+            <field name="name">real.estate.property.kanban</field>
+            <field name="model">real.estate.property</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id" invisible="1"/>
+                    <field name="type"/>
+                    <field name="size"/>
+                    <!--                    <field name="facilities"/>-->
+                    <field name="detail"/>
+                    <field name="property_value"/>
+                    <field name="status"/>
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                <t t-if="record.image.raw_value">
+                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.property', 'image', record.id.raw_value)}')"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                </t>
+
+                                <div class="oe_kanban_details">
+                                    <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                    <div class="o_kanban_tags_section">
+                                        <ul>
+                                            <li>Type: <field name="type"/></li>
+                                            <li>Property Value: <field name="property_value"/></li>
+                                            <li>Status: <field name="status"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+
+        <!-- view form floor -->
+        <record id="view_floor_form" model="ir.ui.view">
+            <field name="name">real.estate.floor.form</field>
+            <field name="model">real.estate.floor</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Floor">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_avatar" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Code</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="code" placeholder="Code" class="o_address_street"/>
+                                </div>
+
+                                <span name="area_label" class="o_form_label o_td_label">
+                                    <b>Area</b>
+                                </span>
+                                <div name="div_area" class="o_address_format">
+                                    <field name="area" placeholder="Area" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Building</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="real_estate_building" placeholder="Building" class="o_address_street"/>
+                                </div>
+                                <!--                                <span class="o_form_label o_td_label" name="address_name">-->
+                                <!--                                    <b>Image</b>-->
+                                <!--                                </span>-->
+                                <!--                                <div class="o_address_format">-->
+                                <!--                                    <field name="image" placeholder="Image" widget="image" class="o_address_street"/>-->
+                                <!--                                </div>-->
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Property" name="property_details" autofocus="autofocus">
+                                <field name="property_ids" mode="kanban">
+                                    <kanban>
+                                        <field name="id" invisible="1"/>
+                                        <field name="type" placeholder="Type" class="o_address_street"/>
+                                        <field name="size" placeholder="Size" class="o_address_street"/>
+                                        <!--                                        <field name="facilities" placeholder="Facilities" class="o_address_street"/>-->
+                                        <field name="detail" placeholder="Details" class="o_address_street"/>
+                                        <field name="property_value" placeholder="Property Value" class="o_address_street"/>
+                                        <field name="currency_id" invisible="1" placeholder="" class="o_address_street"/>
+                                        <field name="status" placeholder="Status" class="o_address_street"/>
+                                        <field name="image"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_kanban_record" t-attf-style="">
+                                                    <t t-if="record.image.raw_value">
+                                                        <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('real.estate.property', 'image', record.id.raw_value)}')"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                                    </t>
+
+                                                    <div class="oe_kanban_details">
+                                                        <h3 class="o_kanban_record_title"><field name="name"/></h3>
+                                                        <div class="o_kanban_tags_section">
+                                                            <ul>
+                                                                <li>Type: <field name="type"/></li>
+                                                                <li>Property Value: <field name="property_value"/></li>
+                                                                <li>Status: <field name="status"/></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+
+
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <!-- view form property -->
+        <record id="view_property_form" model="ir.ui.view">
+            <field name="name">real.estate.property.form</field>
+            <field name="model">real.estate.property</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Property">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_avatar" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Type</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="type" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Size</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="size" class="o_address_street"/>
+                                </div>
+                                <span name="span_facilities" class="o_form_label o_td_label">
+                                    <b>Facilities</b>
+                                </span>
+                                <div name="div_facilities" class="o_address_format">
+                                    <field name="parking"/><label for="parking"/>
+                                    <field name="open_roof"/> <label for="open_roof"/>
+                                    <field name="electric"/> <label for="electric"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Detail</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="detail" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Property Value</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="property_value" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Status</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="status" class="o_address_street"/>
+                                </div>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <b>Floor</b>
+                                </span>
+                                <div name="div_floor" class="o_address_format">
+                                    <field name="real_estate_floor" class="o_address_street"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <template id="report_contract_document">
+            <t t-call="web.external_layout">
+                <th t-foreach="docs" t-as="doc">
+                    <div class="row mt32 mb32" id="informations">
+                        <div t-if="doc.contract_partner_name" class="col-auto mw-100 mb-2">
+                            <strong>Customer name:</strong>
+                            <p class="m-0" t-field="doc.contract_partner_name"/>
+                        </div>
+                        <div t-if="doc.kin_name" class="col-auto mw-100 mb-2">
+                            <strong>Kin name:</strong>
+                            <p class="m-0" t-field="doc.kin_name"/>
+                        </div>
+                        <div t-if="doc.contract_type" class="col-auto mw-100 mb-2">
+                            <strong>Contract Type:</strong>
+                            <p class="m-0" t-field="doc.contract_type"/>
+                        </div>
+
+                        <div t-if="doc.contract_partner_mobile" class="col-auto mw-100 mb-2">
+                            <strong>Ph# </strong>
+                            <p class="m-0" t-field="doc.contract_partner_mobile"/>
+                        </div>
+                        <div t-if="doc.frequency" class="col-auto mw-100 mb-2">
+                            <strong>Frequency:</strong>
+                            <p class="m-0" t-field="doc.frequency"/>
+                        </div>
+                    </div>
+                    <![CDATA[<br />]]>
+                    <![CDATA[<br />]]>
+                    <table class="table table-sm o_main_table">
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_installment_no" class="text-left">
+                                    Installment no
+                                </th>
+                                <th name="th_name" class="text-left">
+                                    Name
+                                </th>
+                                <th name="th_amount" class="text-left">
+                                    Amount
+                                </th>
+                                <th name="th_frequency" class="text-left">
+                                    Frequency
+                                </th>
+                                <th name="th_installment_type" class="text-left">
+                                    Type
+                                </th>
+                                <th name="th_status" class="text-left">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="doc.installment_id" t-as="line">
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+                                    <td name="td_installment_no" class="text-left">
+                                        <span t-field="line.installment_no"/>
+                                    </td>
+                                    <td name="td_name" class="text-left">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td name="td_amount" class="text-left">
+                                        <span t-field="line.amount"/>
+                                    </td>
+                                    <td name="td_frequency" class="text-left">
+                                        <span t-field="line.frequency"/>
+                                    </td>
+                                    <td name="td_installment_type" class="text-left">
+                                        <span t-field="line.installment_type"/>
+                                    </td>
+                                    <t t-if="line.move_id">
+                                        <td class="text-left">
+                                            <span t-field="line.move_id.payment_state"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-left">Invoice not created</td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </th>
+            </t>
+        </template>
+
+        <template id="report_contract_display">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <h3 class="col-auto mw-100 mb-6">Installment Plan</h3>
+                    <t t-call="ASE_real_estate.report_contract_document"/>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="report_contract"
+                string="Installment plan"
+                model="real.estate.contract"
+                report_type="qweb-pdf"
+                name="ASE_real_estate.report_contract_display"
+                file="ASE_real_estate.report_contract">
+
+        </report>
+
+        <!-- Property graph view -->
+        <record id="view_property_graph" model="ir.ui.view">
+            <field name="name">view.property.graph</field>
+            <field name="model">real.estate.property</field>
+            <field name="arch" type="xml">
+                <graph string="Properties Statistics">
+                    <field name="status"/>
+                    <field name="id" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="property_action" model="ir.actions.act_window">
+            <field name="name">Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.property</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add property details
+                </p>
+            </field>
+        </record>
+
+
+        <record id="floor_action" model="ir.actions.act_window">
+            <field name="name">Floor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.floor</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add floor details
+                </p>
+            </field>
+        </record>
+
+
+        <record id="building_action" model="ir.actions.act_window">
+            <field name="name">Building</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.building</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add building details
+                </p>
+            </field>
+        </record>
+
+
+        <record id="project_action" model="ir.actions.act_window">
+            <field name="name">Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.project</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add Project details
+                </p>
+            </field>
+        </record>
+
+
+        <record id="action_contacts" model="ir.actions.act_window">
+            <field name="name">Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="context">{'default_is_company': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a contact in your address book
+                </p><p>
+                Odoo helps you to easily track all activities related to a customer.
+            </p>
+            </field>
+        </record>
+
+
+        <record id="action_contracts" model="ir.actions.act_window">
+            <field name="name">Contracts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">real.estate.contract</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add Contract
+                </p>
+            </field>
+        </record>
+
+
+        <record id="res_partner_action_supplier" model="ir.actions.act_window">
+            <field name="name">Vendors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new supplier in your address book
+                </p><p>
+                Odoo helps you easily track all activities related to a supplier.
+            </p>
+            </field>
+        </record>
+
+        <record id="action_contacts_view_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="action_contacts"/>
+        </record>
+        <record id="action_contacts_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_contacts"/>
+        </record>
+        <record id="action_contacts_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="action_contacts"/>
+        </record>
+
+
+
+
+        <!-- testing actions -->
+        <!-- contact menu invisible -->
+        <!--        <menuitem name="Contacts"-->
+        <!--        id="menu_contacts"-->
+        <!--        sequence="4"-->
+        <!--        web_icon="contacts,static/description/icon.png"-->
+        <!--        groups="base.group_user,base.group_partner_manager"-->
+        <!--        invisible="1"/>-->
+
+
+        <!-- Side menu -->
+        <menuitem id="real_estate_root"
+                  name="Real Estate"
+                  sequence="10"/>
+
+        <menuitem id="real_estate_project_root"
+                  name="Project"
+                  parent="real_estate_root"
+                  sequence="1"/>
+
+
+        <menuitem id="real_estate_project"
+                  name="Project"
+                  parent="real_estate_project_root"
+                  action="project_action"
+                  sequence="2"/>
+
+
+        <!-- -->
+
+        <menuitem id="real_estate_customer_root"
+                  name="Customer"
+                  parent="real_estate_root"
+        />
+
+        <menuitem id="real_estate_customer"
+                  name="Customer"
+                  parent="real_estate_customer_root"
+                  action="action_contacts"
+        />
+        <menuitem id="real_estate_contracts_root"
+                  name="Contracts"
+                  parent="real_estate_root"
+        />
+
+        <menuitem id="real_estate_contracts"
+                  name="Contracts"
+                  parent="real_estate_contracts_root"
+                  action="action_contracts"
+        />
+
+        <!-- -->
+
+        <!--        <menuitem id="real_estate_vendor_root"-->
+        <!--                  name="Vendor"-->
+        <!--                  parent="real_estate_root"-->
+        <!--        />-->
+
+        <!--        <menuitem id="real_estate_vendor"-->
+        <!--                  name="Vendor"-->
+        <!--                  parent="real_estate_vendor_root"-->
+        <!--                  action="res_partner_action_supplier"-->
+        <!--        />-->
+
+
+
+        <!-- -->
+
+
+
+
+        <menuitem id="real_estate_building"
+                  name="Building"
+                  parent="real_estate_project_root"
+                  action="building_action"
+                  sequence="2"/>
+
+        <menuitem id="real_estate_floor"
+                  name="Floor"
+                  parent="real_estate_project_root"
+                  action="floor_action"
+                  sequence="2"/>
+
+        <menuitem id="real_estate_property"
+                  name="Property"
+                  parent="real_estate_project_root"
+                  action="property_action"
+                  sequence="2"/>
+
+
+        <!--        <record id="contacts.menu_hr_root" model="ir.ui.menu" >-->
+        <!--            <field name="groups_id" eval="[(6, 0, [ref('module_name.group_hr_menu')])]"/>-->
+        <!--        </record>-->
+
+    </data>
+</odoo>

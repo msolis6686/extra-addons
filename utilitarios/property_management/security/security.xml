@@ -1,0 +1,21 @@
+<odoo>
+    <record model="ir.module.category" id="real_estate">
+        <field name="name">Real Estate</field>
+        <field name="description">User access level for real estate  module</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="group_manager" model="res.groups">
+        <field name="name">Real Estate / Manager</field>
+        <field name="category_id" ref="real_estate"/>
+    </record>
+    <record id="group_sales_person" model="res.groups">
+        <field name="name">Real Estate / Sales Person</field>
+        <field name="category_id" ref="real_estate"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_manager'))]"/>-->
+    </record>
+    <record id="group_admin" model="res.groups">
+        <field name="name">Real Estate / Admin(Real Estate)</field>
+        <field name="category_id" ref="real_estate"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_manager'))]"/>-->
+    </record>
+</odoo>
