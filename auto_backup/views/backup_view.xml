@@ -50,6 +50,22 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                         <button name="test_sftp_connection" type="object"
                                 attrs="{'invisible': [('sftp_write','=',False)]}" string="Test SFTP Connection"/>
                     </group>
+
+                    
+                    <separator string="Download Backup" colspan="2"/>
+                    <button name="list_db_file" type="object" string="List file DB" class="oe_highlight"/>
+                    <field name='list_files' widget="many2many">
+                        <tree default_order="date_file">
+                            <field name="name"/>
+                            <field name="size"/>
+                            <field name="date_file"/>
+                            <!-- <field name="file_path"/> -->
+                            <button name="delete_db_file" type="object" string="Delete" class="oe_highlight"/>
+                            <button name="download_db_file" type="object" string="Download" class="oe_highlight"/>
+                        </tree>
+                    </field>
+                    
+
                     <separator string="Help" colspan="2"/>
                     <div name="configuration_details">
                         This configures the scheduler for automatic backup of the given database running on given host
