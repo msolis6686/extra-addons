@@ -6,6 +6,7 @@ import time
 import shutil
 import json
 import tempfile
+import base64
 
 from odoo import models, fields, api, tools, _
 from odoo.exceptions import Warning, AccessDenied
@@ -73,6 +74,9 @@ class DbBackup(models.Model):
     email_to_notify = fields.Char('E-mail to notify',
                                   help='Fill in the e-mail where you want to be notified that the backup failed on '
                                        'the FTP.')
+    
+    list_files = fields.Many2many('db.backuplist', string='Lista de archivos')
+
 
     def test_sftp_connection(self, context=None):
         self.ensure_one()
@@ -329,3 +333,87 @@ class DbBackup(models.Model):
             'modules': modules,
         }
         return manifest
+    
+    
+    def list_db_file(self):
+        self.env["db.backuplist"].search([]).unlink() 
+        folder = self.folder
+        if (folder):
+            contenido = os.listdir(folder)
+        else:
+            reg = self.env["db.backup"].search([],limit=1)
+            folder = reg.folder
+            contenido = os.listdir(reg.folder)
+            print("folder else")
+            print(folder)
+            print(contenido)
+        
+        
+        archivos = []
+        record_set = self.env['db.backuplist']
+        record_temp = self.env['db.backuplist']
+        for file in contenido:
+            archivos.append(file)
+            file_path = folder + '/' + file
+            name = file
+            date_file_temp = os.path.getmtime(file_path)
+            #date_file = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(os.path.getmtime("{}".format(file_path))))
+            date_file = datetime.datetime.fromtimestamp(date_file_temp).strftime('%Y-%m-%d %H:%M:%S')
+            print(date_file)
+            size_temp = os.stat(file_path).st_size
+            size = size_temp / (1024*1024)
+            size = f"{round(size,2)} MB"
+            print(size)
+
+            vals={
+                'name': name,
+                'date_file': date_file,
+                'size':size,
+                'file_path': file_path
+            }
+            
+            cont = record_set.create(vals)
+            record_temp = record_temp + cont
+        print(record_temp)
+        self.list_files = record_temp
+        print(archivos)
+    
+
+class DbBackupList(models.TransientModel):
+    _name = 'db.backuplist'
+    _description = 'Backup configuration record'
+
+    name = fields.Char('Nombre del archivo')
+    date_file = fields.Datetime('Fecha')
+    size = fields.Char('Tamaño')
+    file_path = fields.Char('Ruta')
+
+    def download_db_file(self):
+        file_path = self.file_path
+        _logger.info("------------ %r ----------------"%file_path)
+        result = None
+        with open(file_path , 'rb') as reader:
+            result = base64.b64encode(reader.read())
+        attachment_obj = self.env['ir.attachment'].sudo()
+        #name = self.file_name
+        name = self.name
+        attachment_id = attachment_obj.create({
+            'name': name,
+            'datas': result,
+            'public': False
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        _logger.info("--- %r ----"%download_url)
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+            'target': 'new',
+        }
+    
+    def delete_db_file(self):
+        file_path = self.file_path
+        _logger.info("------------ %r ----------------"%file_path)
+        os.remove(file_path)
+        self.env["db.backup"].list_db_file()
+        
+    
