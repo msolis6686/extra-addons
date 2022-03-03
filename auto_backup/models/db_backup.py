@@ -7,8 +7,12 @@ import shutil
 import json
 import tempfile
 import base64
+import requests
+import urllib3
+import io
+from io import BytesIO, StringIO
 
-from odoo import models, fields, api, tools, _
+from odoo import models, fields, api, tools, _, http, tools
 from odoo.exceptions import Warning, AccessDenied
 import odoo
 
@@ -392,7 +396,7 @@ class DbBackupList(models.TransientModel):
         file_path = self.file_path
         _logger.info("------------ %r ----------------"%file_path)
         result = None
-        with open(file_path , 'rb') as reader:
+        """ with open(file_path , 'rb') as reader:
             result = base64.b64encode(reader.read())
         attachment_obj = self.env['ir.attachment'].sudo()
         #name = self.file_name
@@ -401,8 +405,129 @@ class DbBackupList(models.TransientModel):
             'name': name,
             'datas': result,
             'public': False
-        })
-        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        }) """
+        url = 'http://localhost:8069/odoo/backups/2021_11_15_18_59_26_bf_antanet_base.zip'
+        #with tempfile.TemporaryFile(mode='w+b') as t:
+        with io.open(file_path,"rb") as f:
+            with tempfile.TemporaryFile(mode='w+b') as tmpfile:
+                #t=open(file_path, 'r')
+                f_leido = f.read()
+                tmpfile = tmpfile.write(f_leido)
+                #tmpfile.seek(0)
+                tmp_codificado = base64.encodestring(f_leido)
+                data = BytesIO(base64.standard_b64decode(tmp_codificado))
+                #data = base64.b64encode(f.read()).decode()
+                #data.seek(0)
+                dump_dir = odoo.tools.osutil.tempdir()
+                tmp_file_2 = tempfile.TemporaryFile()
+                odoo.tools.osutil.zip_dir(dump_dir, tmpfile, include_dir=False, fnct_sort=lambda file_name: file_name != 'dump.sql')
+                t.seek(0)
+                return t
+                return http.send_file(data, filename='TEST', as_attachment=True, mimetype='.zip')
+            print('puto')
+            #t.close()
+            #tmpfile.write(base64.encodestring(t.read()))
+            #t.close()
+            #encoded_tmpfile = base64.encodestring(tmpfile)
+            #return BytesIO(base64.standard_b64decode(tmpfile))
+            #return base64.decode(t)
+            #tmpfile = tempfile.TemporaryFile().write(t)
+            #tmpfile.seek(0)
+            #return tmpfile
+        
+        """ myurl = file_path
+        fileFetchededata = urllib3.urlopen(myurl)
+        dataforwrite = fileFetchededata.read()
+
+        with open('/your/local/path/xyz.jpg', 'wb') as myfile:
+            myfile.write(dataforwrite) """
+
+        """ _logger.info("--- %r ----"%download_url)
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+            'target': 'new',
+        } """
+    
+    def delete_db_file(self):
+        file_path = self.file_path
+        _logger.info("------------ %r ----------------"%file_path)
+        os.remove(file_path)
+        self.env["db.backup"].list_db_file()
+        
+
+class DbBackupForm(models.TransientModel):
+    _name = 'db.backupform'
+    _description = 'Backup form configuration record'
+
+    name = fields.Char(string='Nombre del Registro',default='Ver Backups')
+    folder = fields.Char('Backup Directory', help='Absolute path for storing the backups', required='True',
+                         default='/odoo/backups')
+    list_files = fields.Many2many('db.backuplist', string='Lista de archivos')
+
+    def list_db_file(self):
+        self.env["db.backuplist"].search([]).unlink() 
+        folder = self.folder
+        if (folder):
+            contenido = os.listdir(folder)
+        else:
+            reg = self.env["db.backup"].search([],limit=1)
+            folder = reg.folder
+            contenido = os.listdir(reg.folder)
+            print("folder else")
+            print(folder)
+            print(contenido)
+        
+        
+        archivos = []
+        record_set = self.env['db.backuplist']
+        record_temp = self.env['db.backuplist']
+        for file in contenido:
+            archivos.append(file)
+            file_path = folder + '/' + file
+            name = file
+            date_file_temp = os.path.getmtime(file_path)
+            #date_file = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(os.path.getmtime("{}".format(file_path))))
+            date_file = datetime.datetime.fromtimestamp(date_file_temp).strftime('%Y-%m-%d %H:%M:%S')
+            print(date_file)
+            size_temp = os.stat(file_path).st_size
+            size = size_temp / (1024*1024)
+            size = f"{round(size,2)} MB"
+            print(size)
+
+            vals={
+                'name': name,
+                'date_file': date_file,
+                'size':size,
+                'file_path': file_path
+            }
+            
+            cont = record_set.create(vals)
+            record_temp = record_temp + cont
+        print(record_temp)
+        self.list_files = record_temp
+        print(archivos)
+
+    def download_db_file(self):
+        file_path = self.file_path
+        _logger.info("------------ %r ----------------"%file_path)
+        result = None
+        #with open(file_path , 'rb') as reader:
+        #    result = base64.b64encode(reader.read())
+        #attachment_obj = self.env['ir.attachment'].sudo()
+        #name = self.file_name
+        print('HELLOOO')
+        print('HELLOOO')
+        print('HELLOOO')
+        print('HELLOOO')
+        print('HELLOOO')
+        """ name = self.name
+        attachment_id = attachment_obj.create({
+            'name': name,
+            'datas': result,
+            'public': False
+        }) """
+        download_url = '/web/content/' +file_path+ '?download=true'
         _logger.info("--- %r ----"%download_url)
         return {
             'type': 'ir.actions.act_url',
@@ -415,5 +540,3 @@ class DbBackupList(models.TransientModel):
         _logger.info("------------ %r ----------------"%file_path)
         os.remove(file_path)
         self.env["db.backup"].list_db_file()
-        
-    

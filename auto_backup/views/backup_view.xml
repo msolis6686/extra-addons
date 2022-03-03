@@ -116,7 +116,54 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
             <field name="view_id" ref="view_backup_config_tree"/>
         </record>
 
+        <record id="view_backup_list_form" model="ir.ui.view">
+            <field name="name">view.backup.list.form</field>
+            <field name="model">db.backupform</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Backups">
+                    <sheet string="Backups de la Base de Datos">
+                        <header>
+                            <button name="list_db_file" type="object" string="Listar los Backups" class="oe_highlight"/>
+                        </header>
+                        <group string="Backups de la Base de Datos">
+                            <field name='name' invisible="1"/>
+                        </group>
+                        <field name='list_files' widget="many2many" readonly="1" force_save="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_file"/>
+                                <field name="size"/>
+                                <button
+                                      name="delete_db_file"
+                                      type="object"
+                                      icon="fa-trash text-danger"
+                                      string="Borrar Backup"
+                                />
+                                <button
+                                      name="download_db_file"
+                                      type="object"
+                                      icon="fa-download text-success"
+                                      string="Descargar Backup"
+                                />
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_backup_action" model="ir.actions.act_window">
+            <field name="name">view.backup.action</field>
+            <field name="res_model">db.backupform</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_backup_list_form"/>
+        </record>
+
         <menuitem id="auto_backup_menu" name="Back-ups" parent="base.menu_custom"/>
         <menuitem parent="auto_backup_menu" action="action_backup" id="backup_conf_menu"/>
+        <menuitem name="Ver y Descargar Backups" id="auto_backup_root_menu" web_icon="auto_backup_menu,static/description/icon.png" groups="base.group_user"  sequence="998" />
+        <menuitem name="Backup" id="restore_menu" parent="auto_backup_root_menu"/>
+        <menuitem action="view_backup_action" sequence="999" parent="restore_menu" id="backup_action_menu"/>
     </data>
 </odoo>
