@@ -52,18 +52,17 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                     </group>
 
                     
-                    <separator string="Download Backup" colspan="2"/>
+                    <!-- <separator string="Download Backup" colspan="2"/>
                     <button name="list_db_file" type="object" string="List file DB" class="oe_highlight"/>
                     <field name='list_files' widget="many2many">
                         <tree default_order="date_file">
                             <field name="name"/>
                             <field name="size"/>
                             <field name="date_file"/>
-                            <!-- <field name="file_path"/> -->
                             <button name="delete_db_file" type="object" string="Delete" class="oe_highlight"/>
                             <button name="download_db_file" type="object" string="Download" class="oe_highlight"/>
                         </tree>
-                    </field>
+                    </field> -->
                     
 
                     <separator string="Help" colspan="2"/>
@@ -126,19 +125,35 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                         <header>
                             <button name="list_db_file" type="object" string="Listar los Backups" class="oe_highlight"/>
                         </header>
+                        <group string="Estado del disco">
+                            <field name='disk_total' readonly="1"/>
+                            <field name='disk_free' readonly="1"/>
+                            <field name='disk_used' readonly="1"/>
+                            <field name='disk_percent' readonly="1"/>
+                        </group>                            
+                        
                         <group string="Backups de la Base de Datos">
                             <field name='name' invisible="1"/>
                         </group>
                         <field name='list_files' widget="many2many" readonly="1" force_save="1">
                             <tree>
-                                <field name="name"/>
                                 <field name="date_file"/>
+                                <field name="name"/>                                
                                 <field name="size"/>
+                                <field name="folder"/>
+                                <field name="file_path"/>
+                                <field name="parent_id" invisible="1"/>
                                 <button
-                                      name="delete_db_file"
+                                      name="action_done_show_wizard"
                                       type="object"
                                       icon="fa-trash text-danger"
                                       string="Borrar Backup"
+                                      context="{
+                                          'file_path': file_path,
+                                          'name': name,
+                                          'parent_id': parent_id,
+                                          'folder': folder
+                                      }"
                                 />
                                 <button
                                       name="download_db_file"

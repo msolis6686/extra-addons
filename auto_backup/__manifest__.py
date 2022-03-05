@@ -35,5 +35,6 @@
         'security/ir.model.access.csv',
         'views/backup_view.xml',
         'data/backup_data.xml',
+        'wizard/delete_file.xml',
     ],
 }
