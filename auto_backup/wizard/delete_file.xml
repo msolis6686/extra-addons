@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_delete_file_wizard">
+        <field name="model">delete.file.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Está apunto de eliminar el archivo de base de datos?">
+                <p><strong><field name="aviso" readonly="1"/></strong></p>
+                <p style="color:red"><strong>¿Está seguro?</strong></p>
+                <field name="name" invisible="1"/>
+                <field name="folder" invisible="1"/>
+                <field name="file_path" invisible="1"/>                
+                <footer>
+                    <button string="Eliminar Archivo" name="action_done" type="object" class="btn-danger"/>
+                    <button string="Volver Atras" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="db_backuplist_view_delete_file_wizard">
+        <field name="name">db.backuplist.view.delete.file.wizard</field>
+        <field name="res_model">delete.file.wizard</field>
+        <field name="view_id" ref="view_delete_file_wizard"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
