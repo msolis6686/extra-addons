@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'author': "Blackfish",
-    'category': 'Localization/Argentina',
+    'author': "BlackFishTeam",
+    'website': "http://www.blackfishweb.com/",
+    'summary': """
+    Este módulo es una personalización de las facturas electrónicas.""",
+    'description': """
+    Con este módulo perzonalizamos las facturas en un formato mas limpio y presentable. Se puede adaptar a las necesidades de cada cliente.
+    """,
+    'category': 'black-addons',
     'depends': [
         'l10n_ar_afipws_fe',
     ],

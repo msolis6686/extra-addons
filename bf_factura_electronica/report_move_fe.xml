@@ -16,14 +16,14 @@
             </t>
             <!--ARTICLE -->
             <div>
-            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
-                <!--HEADER-->
-                <div class="header" style="margin-bottom: 0px">
-                    <div class="row" style="border: 1px solid black; border-radius: 0px; margin-bottom: 0px !important;">
-                        <!--COMPANY LOGO-->
-                        <div class="col-5 py-1">
-                            <div style="border: 0px solid red;">
-                                <!-- <t t-if="len(o.company_id.name) &lt; 12 "> -->
+                <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+                    <!--HEADER-->
+                    <div class="header" style="margin-bottom: 0px">
+                        <div class="row" style="border: 1px solid black; border-radius: 0px; margin-bottom: 0px !important;">
+                            <!--COMPANY LOGO-->
+                            <div class="col-5 py-1">
+                                <div style="border: 0px solid red;">
+                                    <!-- <t t-if="len(o.company_id.name) &lt; 12 "> -->
                                     <!-- <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 150px;float:left;margin-top:10px;margin-right:10px;"/>
                                     <br/>
                                     <h2>
@@ -31,178 +31,195 @@
                                             <span t-field="o.company_id.name"></span>
                                         </strong>
                                     </h2> -->
-                                <!-- </t> -->
-                                <!-- <t t-if="len(o.company_id.name) &gt; 11 "> -->
+                                    <!-- </t> -->
+                                    <!-- <t t-if="len(o.company_id.name) &gt; 11 "> -->
                                     <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 120px;float:left;margin-top:10px;margin-right:10px;"/>
                                     <br/>
-                                    <h3>
-                                        <small>
-                                            <strong>
-                                                <span t-field="o.company_id.name"></span>
-                                            </strong>
-                                        </small>
-                                    </h3>
-                                <!-- </t> -->
-                            </div>
-                            <!-- <br/>
-                            <br/> -->
-                            <!-- <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="display: block; max-width: 1000px; max-height: 1000px;margin:10px;" alt="Logo"/> -->
-                            <!--<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="display: block !important; float: left !important; position: absolute !important; margin-top: 0px !important; margin-bottom: 0px !important; top: 10px !important; left: 10px !important; bottom: auto !important; max-height: 95px;"/>-->
-                            <!-- <span t-field="o.company_id.name" style="font-size: 18px; font-weight: bold;"/> -->
-                            <div>
-                            </div>
-                            <div class="col-12 text-center py-1 px-0">
-                                <span t-field="o.company_id.city"/>
-,                                <span t-field="company.partner_id.street"/>
-                                <br/>
-                                <span t-field="o.company_id.partner_id.l10n_ar_afip_responsibility_type_id.name"/>
-                            </div>
-                        </div>
-                        <!--END COMPANY LOGO-->
-                        <!--DOCUMENT LETTER-->
-                        <div class="col-2 text-center">
-                            <div style="border: 1px solid black!important; border-top:0!important;" class="mx-2">
-                                <div style="font-size:3em; font-weight: bold">
-                                    <span t-field="o.l10n_latam_document_type_id.l10n_ar_letter"/>
-                                </div>
-                                <div>
-                                cod. <span t-field="o.l10n_latam_document_type_id.code"/>
-                                </div>
-                            </div>
-                            <div style="border-left: solid 1px black; font-size:1px; height: 90px; width:1px; margin-left:auto; margin-right:auto;">a</div>
-                        </div>
-                        <!--END DOCUMENT LETTER-->
-                        <!--TIPO,NRO Y FECHA FACTURA-->
-                        <div class="col-5 text-left py-1 px-0" name="company_address">
-                            <div style="border: 0px solid red;">
-                                <div class="text-center">
-                                    <h3>
-                                        <span t-field="o.l10n_latam_document_type_id.report_name"></span>
-                                    </h3>
-                                </div>
-                                <div class="text-center py-1">
-                                    <h6 t-if="o.state == 'posted' or o.state == 'draft'">
+                                    <h3 class="py-2">
                                         <strong>
-                                            <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/>
-                                            <!-- <span t-field="o.display_name"/> -->
+                                            <span t-field="o.company_id.name"></span>
                                         </strong>
-                                    </h6>
+                                    </h3>
+                                    <br/>
+                                    <!-- </t> -->
                                 </div>
-                                <div class="py-1">
-                                    <span t-if="o.state == 'posted' or o.state == 'draft'">
-                                        <strong>Fecha:</strong>
-                                        <span t-field="o.invoice_date"/>
-                                    </span>
+                                <!-- <br/>
+                            <br/> -->
+                                <!-- <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="display: block; max-width: 1000px; max-height: 1000px;margin:10px;" alt="Logo"/> -->
+                                <!--<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="display: block !important; float: left !important; position: absolute !important; margin-top: 0px !important; margin-bottom: 0px !important; top: 10px !important; left: 10px !important; bottom: auto !important; max-height: 95px;"/>-->
+                                <!-- <span t-field="o.company_id.name" style="font-size: 18px; font-weight: bold;"/> -->
+                                <div class="col-12 text-left py-1 px-10">
+                                    <span t-field="o.company_id.city"/>, <span t-field="company.partner_id.street"/>
+                                    <br/>
+                                    <span t-field="o.company_id.partner_id.l10n_ar_afip_responsibility_type_id.name"/>
                                 </div>
-                                <!-- <p style="font-size: 8px;">
+                            </div>
+                            <!--END COMPANY LOGO-->
+                            <!--DOCUMENT LETTER-->
+                            <div class="col-2 text-center">
+                                <div style="border: 1px solid black!important; border-top:0!important;" class="mx-2">
+                                    <div style="font-size:3em; font-weight: bold">
+                                        <span t-if="o.l10n_latam_document_type_id.l10n_ar_letter is not False">
+                                            <span t-field="o.l10n_latam_document_type_id.l10n_ar_letter"/>
+                                        </span>
+                                        <span t-if="o.l10n_latam_document_type_id.l10n_ar_letter is False">
+                                            s/n
+                                        </span>
+                                    </div>
+                                    <div>
+                                        cod. <span t-field="o.l10n_latam_document_type_id.code"/>
+                                    </div>
+                                </div>
+                                <div style="border-left: solid 1px black; font-size:1px; height: 90px; width:1px; margin-left:auto; margin-right:auto;">a</div>
+                            </div>
+                            <!--END DOCUMENT LETTER-->
+                            <!--TIPO,NRO Y FECHA FACTURA-->
+                            <div class="col-5 text-left py-1 px-0" name="company_address">
+                                <div style="border: 0px solid red;">
+                                    <div class="text-center">
+                                        <h3>
+                                            <span t-field="o.l10n_latam_document_type_id.report_name"></span>
+                                        </h3>
+                                    </div>
+                                    <div class="text-center py-1">
+                                        <h6 t-if="o.state == 'posted' or o.state == 'draft'">
+                                            <strong>
+                                                <span t-if="o.l10n_latam_document_type_id.doc_code_prefix is False">
+                                                    <span t-esc="o.display_name.replace('Reversión de: ','')[0:40]"/>
+                                                </span>
+                                                <span t-if="o.l10n_latam_document_type_id.doc_code_prefix is not False">
+                                                    <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36].replace('(PV','')[0:14] if '(PV' in o.display_name else '' "/>
+                                                    <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/>
+                                                </span>
+                                                <!-- <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/> -->
+                                                <!-- <span t-if="if (o.l10n_latam_document_type_id is not null">
+                                                    <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/>
+                                                </span>
+                                                <span t-if="if (o.l10n_latam_document_type_id is null">
+                                                    <span t-field="o.display_name"/>
+                                                </span> -->
+                                            </strong>
+                                        </h6>
+                                    </div>
+                                    <div class="py-1">
+                                        <span t-if="o.state == 'posted' or o.state == 'draft'">
+                                            <strong>Fecha:</strong>
+                                            <span t-field="o.invoice_date"/>
+                                        </span>
+                                    </div>
+                                    <!-- <p style="font-size: 8px;">
                             <strong>Tipo de Documento : </strong>
                             <span t-field="o.l10n_latam_document_type_id.name"/>
                         </p> -->
-                                <div>
-                                    <strong>CUIT:</strong>
-                                    <span t-field="o.company_id.vat"/>
-                                    <br/>
-                                    <strong>Ingresos Brutos:</strong>
-                                    <span t-if="o.company_id.l10n_ar_gross_income_type == 'no_liquida'">No liquida</span>
-                                    <span t-if="o.company_id.l10n_ar_gross_income_type != 'no_liquida'" t-field="o.company_id.l10n_ar_gross_income_number"/>
-                                    <br/>
-                                    <strong>Inicio de Actividades:</strong>
-                                    <span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                                    <div>
+                                        <strong>CUIT:</strong>
+                                        <span t-field="o.company_id.vat"/>
+                                        <br/>
+                                        <strong>Ingresos Brutos:</strong>
+                                        <span t-if="o.company_id.l10n_ar_gross_income_type == 'no_liquida'">No liquida</span>
+                                        <span t-if="o.company_id.l10n_ar_gross_income_type != 'no_liquida'" t-field="o.company_id.l10n_ar_gross_income_number"/>
+                                        <br/>
+                                        <strong>Inicio de Actividades:</strong>
+                                        <span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                                    </div>
                                 </div>
                             </div>
+                            <!--END DATOS FACTURA-->
                         </div>
-                        <!--END DATOS FACTURA-->
-                    </div>
 
-                </div>
-                <!--PAGE-->
-                <div class ="page">
-                    <div class="row py-1" t-if="o.l10n_ar_afip_service_start and o.l10n_ar_afip_service_end and o.type == 'out_invoice'" style="border: 1px solid black; border-radius: 0px; margin-top: 10px !important; margin-bottom: 0px !important;">
-                        <div class="col-6" t-if="o.type == 'out_invoice' and (o.state == 'posted') and (o.l10n_ar_afip_service_start!=o.l10n_ar_afip_service_end)">
-                            <strong>Período Facturado Desde:</strong>
-                            <span t-if="o.l10n_ar_afip_service_start">
-                                <span t-field="o.l10n_ar_afip_service_start" t-options="{'format': 'dd/MM/yyyy'}"/>
-                            </span>
-                            <strong> Hasta:</strong>
-                            <span t-if="o.l10n_ar_afip_service_end">
-                                <span t-field="o.l10n_ar_afip_service_end" t-options="{'format': 'dd/MM/yyyy'}"/>
-                            </span>
-                        </div>
-                        <div class="col-4" t-if="o.type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
-                            <strong>Fecha Vto. Para el Pago:</strong>
-                            <span t-if="o.invoice_date_due">
-                                <span t-field="o.invoice_date_due"/>
-                            </span>
-                            <span t-if="not o.invoice_date_due">
-                                <span t-field="o.invoice_date"/>
-                            </span>
-                        </div>
                     </div>
-                    <!--SI LA FECHA DE COMIENZO DE SERVICIO ES FALSA, QUIERE DECIR QUE LA FACTURA ES DE UN PRODUCTO, PONEMOS LA FECHA DE VENCIMIENTO DE LA MISMA-->
-                    <div class="row py-1" t-if="(o.l10n_ar_afip_service_start == False) and o.type == 'out_invoice'" style="border: 1px solid black; border-radius: 0px; margin-top: 10px !important; margin-bottom: 0px !important;">
-                        <div class="col-4" t-if="o.type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
-                            <strong>Fecha Vto. Para el Pago:</strong>
-                            <span t-if="o.invoice_date_due">
-                                <span t-field="o.invoice_date_due"/>
-                            </span>
-                            <span t-if="not o.invoice_date_due">
-                                <span t-field="o.invoice_date"/>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- CLIENTE  -->
-                    <div class="row py-1" style="margin-top: 10px !important; margin-bottom: 6px !important;border: 1px solid black; border-radius: 0px;">
-                        <div class="col-4">
-                            <div style="border: 0px solid red;">
-                                <div class="px-2">
-                                    <strong>CUIT: </strong>
-                                    <span t-field="o.partner_id.vat"/>
-                                </div>
-                                <div class="px-2">
-                                    <strong>IVA: </strong>
-                                    <span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id.name"/>
-                                </div>
-                                <div class="px-2">
-                                    <strong>Condicion de Venta : </strong>
-                                    <span t-if="o.invoice_payment_term_id">
-                                        <span t-field="o.invoice_payment_term_id.name"/>
-                                    </span>
-                                </div>
+                    <!--PAGE-->
+                    <div class ="page">
+                        <div class="row py-1" t-if="o.l10n_ar_afip_service_start and o.l10n_ar_afip_service_end and o.type == 'out_invoice'" style="border: 1px solid black; border-radius: 0px; margin-top: 10px !important; margin-bottom: 0px !important;">
+                            <div class="col-6" t-if="o.type == 'out_invoice' and (o.state == 'posted') and (o.l10n_ar_afip_service_start!=o.l10n_ar_afip_service_end)">
+                                <strong>Período Facturado Desde:</strong>
+                                <span t-if="o.l10n_ar_afip_service_start">
+                                    <span t-field="o.l10n_ar_afip_service_start" t-options="{'format': 'dd/MM/yyyy'}"/>
+                                </span>
+                                <strong> Hasta:</strong>
+                                <span t-if="o.l10n_ar_afip_service_end">
+                                    <span t-field="o.l10n_ar_afip_service_end" t-options="{'format': 'dd/MM/yyyy'}"/>
+                                </span>
+                            </div>
+                            <div class="col-4" t-if="o.type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
+                                <strong>Fecha Vto. Para el Pago:</strong>
+                                <span t-if="o.invoice_date_due">
+                                    <span t-field="o.invoice_date_due"/>
+                                </span>
+                                <span t-if="not o.invoice_date_due">
+                                    <span t-field="o.invoice_date"/>
+                                </span>
                             </div>
                         </div>
-
-                        <div class="col-8">
-                            <div style="border: 0px solid red;">
-                                <div class="px-2">
-                                    <strong>
-                                        <span>Apellido y Nombre/ Razon Social: </span>
-                                    </strong>
-                                    <span t-field="o.partner_id.name"/>
+                        <!--SI LA FECHA DE COMIENZO DE SERVICIO ES FALSA, QUIERE DECIR QUE LA FACTURA ES DE UN PRODUCTO, PONEMOS LA FECHA DE VENCIMIENTO DE LA MISMA-->
+                        <div class="row py-1" t-if="(o.l10n_ar_afip_service_start == False) and o.type == 'out_invoice'" style="border: 1px solid black; border-radius: 0px; margin-top: 10px !important; margin-bottom: 0px !important;">
+                            <div class="col-4" t-if="o.type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
+                                <strong>Fecha Vto. Para el Pago:</strong>
+                                <span t-if="o.invoice_date_due">
+                                    <span t-field="o.invoice_date_due"/>
+                                </span>
+                                <span t-if="not o.invoice_date_due">
+                                    <span t-field="o.invoice_date"/>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- CLIENTE  -->
+                        <div class="row py-1" style="margin-top: 10px !important; margin-bottom: 6px !important;border: 1px solid black; border-radius: 0px;">
+                            <div class="col-4">
+                                <div style="border: 0px solid red;">
+                                    <div class="px-2">
+                                        <strong>CUIT: </strong>
+                                        <span t-field="o.partner_id.vat"/>
+                                    </div>
+                                    <div class="px-2">
+                                        <strong>Condición Fiscal: </strong>
+                                        <span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id.name"/>
+                                    </div>
+                                    <div class="px-2">
+                                        <strong>Condicion de Venta : </strong>
+                                        <span t-if="o.invoice_payment_term_id">
+                                            <span t-field="o.invoice_payment_term_id.name"/>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="px-2">
-                                    <strong>
-                                        <span>Domicilio: </span>
-                                    </strong>
-                                    <span t-field="o.partner_id.street"/>
-                                    <span>-</span><!--
+                            </div>
+
+                            <div class="col-8">
+                                <div style="border: 0px solid red;">
+                                    <div class="px-2">
+                                        <strong>
+                                            <span>Apellido y Nombre/ Razon Social: </span>
+                                        </strong>
+                                        <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <div class="px-2">
+                                        <strong>
+                                            <span>Domicilio: </span>
+                                        </strong>
+                                        <span t-field="o.partner_id.street"/>
+                                        <span>-</span>                                        <!--
                                     <span t-field="o.partner_id.res_barrio.barrio"/>
                                     <span>-</span>
                                     <span t-field="o.partner_id.res_municipio.municipio"/>
                                     <span>-</span>
                                     <span t-field="o.partner_id.res_departamento.departamento"/>
                                     <span>-</span> -->
-                                    <span t-field="o.partner_id.zip"/>
-                                </div>
-                                <div class="px-2">
-                                    <strong>Moneda: </strong>
-                                    <span t-field="o.currency_id.name"/>
-                                </div>
+                                        <span t-field="o.partner_id.zip"/>
+                                    </div>
+                                    <div class="px-2">
+                                        <strong>Moneda: </strong>
+                                        <span t-field="o.currency_id.name"/>
+                                        <t t-if="o.currency_id.name != 'ARS'">
+                                            -                                            <strong>Cotización: </strong>
+                                            <span t-esc="'{0:,.2f}'.format(o.l10n_ar_currency_rate)"/>
+                                        </t>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- END CLIENTE  -->
-                    <!-- <br/>
+                        <!-- END CLIENTE  -->
+                        <!-- <br/>
                     <br/>
                     <br/>
                     <br/>
@@ -210,37 +227,53 @@
                     <br/>
                     <br/>
                     <br/> -->
-                    <!-- END ENCABEZADO FACTURA -->
-                    <!-- Is there a discount on at least one line? -->
-                    <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
-                    <!-- TABLA ITEMS -->
-                    <div class="row">
-                        <table class="table table-sm">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Producto/Servicio</th>
-                                    <!-- <th scope="col">Descripcion</th> -->
-                                    <th scope="col" class="text-right">Cantidad</th>
-                                    <th scope="col" class="text-right">Precio Unitario</th>
-                                    <th scope="col" t-if="display_discount" class="text-right">Desc.(%)</th>
-                                    <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
-                                        <th scope="col" class="text-right">Alicuota IVA</th>
-                                    </div>
-                                    <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
-                                        <th scope="col" class="text-right">Subtotal</th>
-                                    </div>
-                                    <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
-                                        <th scope="col" class="text-right">Subtotal c/IVA</th>
-                                    </div>
-                                </tr>
-                            </thead>
-                            <tbody class="invoice_tbody">
-                                <tr t-foreach="o.invoice_line_ids" t-as="l">
-                                    <td>
-                                        <span t-field="l.product_id.default_code"/>
-                                    </td>
-                                    <!-- 
+                        <!-- END ENCABEZADO FACTURA -->
+                        <!-- Is there a discount on at least one line? -->
+                        <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+                        <!-- TABLA ITEMS -->
+                        <div class="row">
+                            <table class="table table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Codigo</th>
+                                        <th scope="col">Producto/Servicio</th>
+                                        <!-- <th scope="col">Descripcion</th> -->
+                                        <th scope="col" class="text-right">Cantidad</th>
+                                        <th scope="col" class="text-left">UdM</th>
+                                        <th scope="col" class="text-right">Precio Unitario</th>
+                                        <th scope="col" t-if="display_discount" class="text-right">Desc.(%)</th>
+                                        <!-- <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
+                                            <th scope="col" class="text-right">Alicuota IVA</th>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
+                                            <th scope="col" class="text-right">Subtotal</th>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
+                                            <th scope="col" class="text-right">Subtotal c/IVA</th>
+                                        </div> -->
+
+                                        <!--CAMBIOS DE MARITO-->
+
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A'">
+                                            <th scope="col" class="text-right">Alicuota IVA</th>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B' or o.l10n_latam_document_type_id.l10n_ar_letter == 'C'">
+                                            <th scope="col" class="text-right">Subtotal</th>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A'">
+                                            <th scope="col" class="text-right">Subtotal c/IVA</th>
+                                        </div>
+
+                                        <!--CAMBIOS DE MARITO-->
+
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+                                        <td>
+                                            <span t-field="l.product_id.default_code"/>
+                                        </td>
+                                        <!-- 
                                     SE DESACTIVO ESTA PARTE PORQUE QUIERE PONER DESCRIPCIÓN DEL PRODUCTO....
                                         <td t-if="l.product_id.id != o.company_id.interest_product_id.id">
                                         <span t-field="l.product_id.name"/>
@@ -248,133 +281,187 @@
                                     <td t-if="l.product_id.id == o.company_id.interest_product_id.id">
                                         <span t-field="l.name"/>
                                     </td> -->
-                                                        <!--
+                                        <!--
                                         SE AGREGA SOLO LA DESCRIPCIÓN DEL PRODUCTO, NO EL NOMBRE....
                                     -->
-                                    <td>
-                                        <span t-field="l.name"/>
-                                    </td>
-                                    <!-- <td>
-                                        <span t-field="l.name"/>
-                                    </td> -->
-                                    <td class="text-right">
-                                        <span t-esc="'{0:,.2f}'.format(l.quantity)"/>
-                                        <span t-field="l.uom_id" groups="product.group_uom"/>
-                                    </td>
-                                    <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
-                                        <td class="text-right">
-                                            <span t-field="o.currency_id.symbol"/>
-                                            <span t-esc="'{0:,.2f}'.format(l.price_unit)"/>
-                                        </td>
-                                    </div>
-                                    <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
-                                        <td class="text-right">
-                                            <span t-field="o.currency_id.symbol"/>
-                                            <span t-esc="'{0:,.2f}'.format(l.price_subtotal_vat / l.quantity)"/>
+                                        <div t-if="l.product_id.name != l.name">
+                                            <td>
+                                                <!-- <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/> -->
+                                                <span t-esc="l.name if l.product_id.name in l.name else ''"/>
+                                                <span t-esc="l.product_id.name + ' - ' + l.name if l.product_id.name not in l.name else ''"/>
 
+                                            </td>
+                                        </div>
+                                        <div t-if="l.product_id.name == l.name">
+                                            <td>
+                                                <span t-field="l.product_id.name"/>
+                                            </td>
+                                        </div>
+                                        <!-- <td>
+                                            <span t-field="l.name"/>
+                                        </td> -->
+                                        <td class="text-right">
+                                            <span t-esc="'{0:,.2f}'.format(l.quantity)"/>
+                                            <span t-field="l.uom_id" groups="product.group_uom"/>
                                         </td>
-                                    </div>
-                                    <td t-if="display_discount" class="text-right">
-                                        <span t-field="l.discount"/>
-                                    </td>
-                                    <td class="text-right" t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
-                                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/>
-                                    </td>
+                                        <!-- <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
+                                            <td class="text-right">
+                                                <span t-field="o.currency_id.symbol"/>
+                                                <span t-esc="'{0:,.2f}'.format(l.price_unit)"/>
+                                            </td>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
+                                            <td class="text-right">
+                                                <span t-field="o.currency_id.symbol"/>
+                                                <span t-esc="'{0:,.2f}'.format(l.price_subtotal_vat / l.quantity)"/>
 
-                                    <td class="text-right">
-                                        <span t-field="o.currency_id.symbol"/>
-                                        <span t-esc="'{0:,.2f}'.format(l.price_subtotal_vat)"/>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>                        <!-- END TABLA ITEMS -->
-                    </div>
-                    <div t-attf-class="row mt-5 {{ 'someones-hidden' if o.l10n_latam_document_type_id.l10n_ar_letter != 'A' else ''  }}" style="border: 0px solid black; background-color: transparent; z-index:9999">
-                        <div t-attf-class="col-7 pl-0 {{ '' if (len(o.move_tax_ids) &gt; 0 and o.l10n_latam_document_type_id.l10n_ar_letter != 'B') else '' }}">
-                            <t t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Descripcion</th>
-                                            <th>Detalle</th>
-                                            <th>Alic.%</th>
-                                            <th>Importe</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <th></th>
-                                        <th>Importe Otros</th>
-                                        <th>Tributos:</th>
-                                        <th>
-                                            <h6>$ 0,00</h6>
-                                        </th>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Ret de impuesto a las Ganancias</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>0,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ret de IVA</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>0,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ret Ingreso Brutos</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>0,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Impuesto internos</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>0,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Impuesto Municipales</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>0,00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </t>
+                                            </td>
+                                        </div>
+                                        <td t-if="display_discount" class="text-right">
+                                            <span t-field="l.discount"/>
+                                        </td>
+                                        <td class="text-right" t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
+                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/>
+                                        </td> -->
+
+                                        <!--CAMBIOS DE MARITO-->
+                                        <td class="text-left">
+                                            <span t-field="l.product_uom_id"/>
+                                        </td>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A'">
+                                            <td class="text-right">
+                                                <span t-field="o.currency_id.symbol"/>
+                                                <span t-esc="'{0:,.2f}'.format(l.price_unit)"/>
+                                            </td>
+                                        </div>
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
+                                            <td class="text-right">
+                                                <span t-field="o.currency_id.symbol"/>
+                                                <span t-esc="'{0:,.2f}'.format(l.price_subtotal_vat / l.quantity)"/>
+                                            </td>
+                                        </div>
+
+                                        <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'C'">
+                                            <td class="text-right">
+                                                <span t-field="o.currency_id.symbol"/>
+                                                <span t-esc="'{0:,.2f}'.format(l.price_unit)"/>
+                                            </td>
+                                        </div>
+
+                                        <td t-if="display_discount" class="text-right">
+                                            <span t-field="l.discount"/>
+                                        </td>
+                                        <td class="text-right" t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A'">
+                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/>
+                                        </td>
+
+                                        <td class="text-right" t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A' or o.l10n_latam_document_type_id.l10n_ar_letter == 'B'">
+                                            <span t-field="o.currency_id.symbol"/>
+                                            <span t-esc="'{0:,.2f}'.format(l.price_subtotal_vat)"/>
+                                        </td>
+
+                                        <td class="text-right" t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'C'">
+                                            <span t-field="o.currency_id.symbol"/>
+                                            <span t-esc="'{0:,.2f}'.format(l.price_subtotal)"/>
+                                        </td>
+
+                                        <!--CAMBIOS DE MARITO-->
+                                    </tr>
+                                </tbody>
+                            </table>                            <!-- END TABLA ITEMS -->
                         </div>
-                        <div class="col-5 pr-0">
-                            <div class="text-right">
-                                <div style="float:left;width: 50%;">
-                                    <strong class="to-hide">Importe Neto Gravado: </strong>
-                                    <br/>
-                                    <t t-foreach="o.env['account.tax'].search([('type_tax_use','=','sale'),('amount_type','=','percent')],order='amount desc')" t-as="tax">
-                                        <strong class="to-hide">
-                                            <span t-field="tax.name"/>
-                                        </strong>
+                        <div t-attf-class="row mt-5 {{ 'someones-hidden' if o.l10n_latam_document_type_id.l10n_ar_letter != 'A' else ''  }}" style="border: 0px solid black; background-color: transparent; z-index:9999">
+                            <div t-attf-class="col-7 pl-0 {{ '' if (len(o.move_tax_ids) &gt; 0 and o.l10n_latam_document_type_id.l10n_ar_letter == 'A') else '' }}">
+                                <t t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'A'">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Detalle</th>
+                                                <th>Alic.%</th>
+                                                <th>Importe</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <th></th>
+                                            <th>Importe Otros</th>
+                                            <th>Tributos:</th>
+                                            <th>
+                                                <h6>$ 0,00</h6>
+                                            </th>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr>
+                                                <td>Ret de impuesto a las Ganancias</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ret de IVA</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ret Ingreso Brutos</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Impuesto internos</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Impuesto Municipales</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </div>
+                            <div class="col-5 pr-0">
+                                <div class="text-right">
+                                    <div style="float:left;width: 50%;">
+                                        <strong class="to-hide">Importe Neto Gravado: </strong>
                                         <br/>
-                                    </t>
-                                    <strong class="to-hide">Importe Otros Tributos: </strong>
-                                    <br/>
-                                    <strong>Importe Total: </strong>
-                                </div>
-                                <div style="float:left;width: 50%;">
-                                    <span class="to-hide" t-field="o.currency_id.symbol"/>
-                                    <span class="to-hide" t-esc="'{0:,.2f}'.format(o.amount_untaxed)"/>
-                                    <br/>
-                                    <t t-foreach="o._get_tax_details()" t-as="t">
+                                        <t t-foreach="o.env['account.tax'].search([('type_tax_use','=','sale'),('amount_type','=','percent')],order='amount desc')" t-as="tax">
+                                            <strong class="to-hide">
+                                                <span t-field="tax.name"/>
+                                            </strong>
+                                            <br/>
+                                        </t>
+                                        <strong class="to-hide">Importe Otros Tributos: </strong>
+                                        <br/>
+                                        <strong>Importe Total: </strong>
+                                        <br/>
+                                        <t t-if="o.currency_id.name != 'ARS'">
+                                            <strong>Importe Total en Pesos: </strong>
+                                        </t>
+                                    </div>
+                                    <div style="float:left;width: 50%;">
                                         <span class="to-hide" t-field="o.currency_id.symbol"/>
-                                        <span class="to-hide" t-esc="'{0:,.2f}'.format(t)"/>
+                                        <span class="to-hide" t-esc="'{0:,.2f}'.format(o.amount_untaxed)"/>
                                         <br/>
-                                    </t>
-                                    <span class="to-hide">$ 0,00</span>
-                                    <br/>
-                                    <!-- <t t-if="o.currency_id.name != 'ARS'">
+                                        <t t-foreach="o._get_tax_details()" t-as="t">
+                                            <span class="to-hide" t-field="o.currency_id.symbol"/>
+                                            <span class="to-hide" t-esc="'{0:,.2f}'.format(t)"/>
+                                            <br/>
+                                        </t>
+                                        <span class="to-hide">$ 0,00</span>
+                                        <br/>
+                                        <!-- <t t-if="o.currency_id.name != 'ARS'">
                                         $<span t-esc="'{0:,.2f}'.format(o.l10n_ar_currency_rate * o.amount_total)"/>
                                     </t> -->
-                                    <t t-if="o.currency_id.name != 'ARS'">
-                                        U$D <span t-esc="'{0:,.2f}'.format(o.amount_total)"/>
+                                        <t t-if="o.currency_id.name != 'ARS'">
+                                            U$D <span t-esc="'{0:,.2f}'.format(o.amount_total)"/>
+                                        <br/>
+                                            $                                        <span t-esc="'{0:,.2f}'.format(o.amount_total_signed)"/>
                                     </t>
                                     <t t-if="o.currency_id.name == 'ARS'">
                                         <span t-field="o.currency_id.symbol"/>
@@ -392,8 +479,8 @@
             <!-- CAE -->
             <!-- footer -->
             <div t-attf-class="footer {{ 'someones-hidden' if o.l10n_latam_document_type_id.l10n_ar_letter != 'A' else ''  }}" style="padding-top: 0px;">
-
                 <div t-if="o.narration" id="narration" style="border: 1px solid black;">
+                    <span>Observaciones: </span>
                     <span t-field="o.narration" style="margin-left:5px;"/>
                 </div>
                 <div class="row ">
@@ -405,14 +492,13 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div t-attf-class="col-8 {{'' if (o.afip_cae and o.afip_cae_due) else 'invisible'}}">
-                                        <img src="factura_electronica/static/img/afip.svg" style="width: 200px;display:block;"/>
+                                        <img src="bf_factura_electronica/static/img/afip.svg" style="width: 200px;display:block;"/>
                                     </div>
                                     <div class="col-4 py-2" style="text-aling:center;font-weight:bold;font-size:1em;">
                                         <span class="page"/>
 /                                        <span class="topage"/>
                                     </div>
                                 </div>
-
                                 <span t-attf-class="{{'' if (o.afip_cae and o.afip_cae_due) else 'invisible'}}" style="display:block;">Comprobante Autorizado</span>
                                 <span t-attf-class="{{'' if (o.afip_cae and o.afip_cae_due) else 'invisible'}}" style="display:block;margin-top:10px;line-height:1.1;">Esta Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</span>
                             </div>
@@ -455,14 +541,7 @@
         <field name="dpi">100</field>
     </record>
     <!-- QWeb Reports -->
-    <report id="account_fe_invoices" 
-            model="account.move" 
-            string="Factura Electronica" 
-            report_type="qweb-pdf" 
-            name="bf_factura_electronica.report_move_fe" 
-            file="bf_factura_electronica.report_move_fe" 
-            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')" 
-            paperformat="bf_factura_electronica.paperformat_invoice" />
+    <report id="account_fe_invoices" model="account.move" string="Factura Electronica" report_type="qweb-pdf" name="bf_factura_electronica.report_move_fe" file="bf_factura_electronica.report_move_fe" attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')" paperformat="bf_factura_electronica.paperformat_invoice" />
 
 
 </data>

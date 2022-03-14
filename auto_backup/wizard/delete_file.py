@@ -20,7 +20,7 @@ class DeleteFileWizard(models.TransientModel):
         return self.env.context.get("folder")
     
     def get_aviso(self):
-        return f"Está a punto de eliminar el arhivo {self.env.context.get('name')} del servidor."
+        return f"{self.env.context.get('name')}"
     
     name = fields.Char(string='Nombre de Archivo', default=get_name)
     file_path = fields.Char(string='Ruta', default=get_file_path)
