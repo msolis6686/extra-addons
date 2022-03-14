@@ -128,7 +128,6 @@ class DbBackup(models.Model):
     def schedule_backup(self):
         conf_ids = self.search([])
         for rec in conf_ids:
-
             try:
                 if not os.path.isdir(rec.folder):
                     os.makedirs(rec.folder)
@@ -149,7 +148,6 @@ class DbBackup(models.Model):
                     "http://%s:%s" % (rec.name, rec.host, rec.port))
                 _logger.debug("Exact error from the exception: " + str(error))
                 continue
-
             # Check if user wants to write to SFTP or not.
             if rec.sftp_write is True:
                 try:
@@ -290,7 +288,9 @@ class DbBackup(models.Model):
         return a file object with the dump """
 
         cron_user_id = self.env.ref('auto_backup.backup_scheduler').user_id.id
-        if self._name != 'db.backup' or cron_user_id != self.env.user.id:
+        #CAMBIOS DE MARITO
+        #if self._name != 'db.backup' or cron_user_id != self.env.user.id:
+        if self._name != 'db.backup':
             _logger.error('Unauthorized database operation. Backups should only be available from the cron job.')
             raise AccessDenied()
 
@@ -354,7 +354,7 @@ class DbBackupList(models.TransientModel):
     def download_db_file(self):
         file_path = self.file_path
         _logger.info("------------ %r ----------------"%file_path)
-        download_url = '/donwloads/' + self.name
+        download_url = '/downloads/' + self.name
         _logger.info("--- %r ----"%download_url)
         return {
             'type': 'ir.actions.act_url',
@@ -433,3 +433,8 @@ class DbBackupForm(models.TransientModel):
         self.disk_free = "{:.2f} GB.".format(self.to_gb(disk_usage.free))
         self.disk_used = "{:.2f} GB.".format(self.to_gb(disk_usage.used))
         self.disk_percent = "{}%.".format(disk_usage.percent)
+
+    def crear_backup(self):
+        self.env['db.backup'].schedule_backup()
+        aux = self.env["db.backupform"].search([('id','=',self.id)])
+        aux.list_db_file()

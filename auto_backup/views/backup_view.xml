@@ -124,6 +124,8 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                     <sheet string="Backups de la Base de Datos">
                         <header>
                             <button name="list_db_file" type="object" string="Listar los Backups" class="oe_highlight"/>
+                            <span> </span>
+                            <button name="crear_backup" type="object" string="Crear nuevo Backup" class="oe_highlight"/>
                         </header>
                         <group string="Estado del disco">
                             <field name='disk_total' readonly="1"/>
@@ -136,11 +138,11 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                             <field name='name' invisible="1"/>
                         </group>
                         <field name='list_files' widget="many2many" readonly="1" force_save="1">
-                            <tree>
+                            <tree default_order="date_file desc">
                                 <field name="date_file"/>
                                 <field name="name"/>                                
                                 <field name="size"/>
-                                <field name="folder"/>
+                                <field name="folder" invisible="1"/>
                                 <field name="file_path"/>
                                 <field name="parent_id" invisible="1"/>
                                 <button
@@ -177,7 +179,7 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
 
         <menuitem id="auto_backup_menu" name="Back-ups" parent="base.menu_custom"/>
         <menuitem parent="auto_backup_menu" action="action_backup" id="backup_conf_menu"/>
-        <menuitem name="Ver y Descargar Backups" id="auto_backup_root_menu" web_icon="auto_backup_menu,static/description/icon.png" groups="base.group_user"  sequence="998" />
+        <menuitem name="Ver y Descargar Backups" id="auto_backup_root_menu" web_icon="auto_backup_menu,static/description/icon.png" groups="base.group_system"  sequence="998" />
         <menuitem name="Backup" id="restore_menu" parent="auto_backup_root_menu"/>
         <menuitem action="view_backup_action" sequence="999" parent="restore_menu" id="backup_action_menu"/>
     </data>

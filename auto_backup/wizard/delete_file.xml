@@ -4,7 +4,7 @@
         <field name="model">delete.file.wizard</field>
         <field name="arch" type="xml">
             <form string="Está apunto de eliminar el archivo de base de datos?">
-                <p><strong><field name="aviso" readonly="1"/></strong></p>
+                <p>Está a punto de eliminar el archivo: <strong><field name="aviso" readonly="1"/></strong> del servidor.</p>
                 <p style="color:red"><strong>¿Está seguro?</strong></p>
                 <field name="name" invisible="1"/>
                 <field name="folder" invisible="1"/>
