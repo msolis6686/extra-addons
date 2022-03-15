@@ -88,8 +88,9 @@
                                                     <span t-esc="o.display_name.replace('Reversión de: ','')[0:40]"/>
                                                 </span>
                                                 <span t-if="o.l10n_latam_document_type_id.doc_code_prefix is not False">
-                                                    <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36].replace('(PV','')[0:14] if '(PV' in o.display_name else '' "/>
-                                                    <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/>
+                                                    <!-- <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36].replace('(PV','')[0:14] if '(PV' in o.display_name else '' "/> -->
+                                                    <!-- <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36]"/> -->
+                                                    <span t-esc="o._get_name_invoice()"/>
                                                 </span>
                                                 <!-- <span t-esc="o.display_name.replace(o.l10n_latam_document_type_id.doc_code_prefix, '').replace('Reversión de: ','')[0:36] + (')' if '(' in o.display_name else '')"/> -->
                                                 <!-- <span t-if="if (o.l10n_latam_document_type_id is not null">
