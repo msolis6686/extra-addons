@@ -179,8 +179,8 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
 
         <menuitem id="auto_backup_menu" name="Back-ups" parent="base.menu_custom"/>
         <menuitem parent="auto_backup_menu" action="action_backup" id="backup_conf_menu"/>
-        <menuitem name="Ver y Descargar Backups" id="auto_backup_root_menu" web_icon="auto_backup_menu,static/description/icon.png" groups="base.group_system"  sequence="998" />
-        <menuitem name="Backup" id="restore_menu" parent="auto_backup_root_menu"/>
+        <menuitem name="Ver y Descargar Backups" id="auto_backup_root_menu" web_icon="auto_backup,static/description/odoo_icon.png" groups="auto_backup.group_manager"  sequence="25" />
+        <menuitem name="Backup" id="restore_menu" parent="auto_backup_root_menu" groups="auto_backup.group_manager"/>
         <menuitem action="view_backup_action" sequence="999" parent="restore_menu" id="backup_action_menu"/>
     </data>
 </odoo>
