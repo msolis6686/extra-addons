@@ -1475,7 +1475,7 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
 
                             });
                         })
-                    //var arg = 'this_month';
+                    var arg = 'this_year';
                     rpc.query({
                         model: "account.move",
                         //method: "bank_balance_this_month",
