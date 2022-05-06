@@ -248,9 +248,9 @@
                                 <!-- ESTA PARTE DEL CÓDIGO HABILITA EL SELECT PARA CAMBIAR MES Y AÑO -->
                                 <div class="card-tools">
                                     <select id="bank_values">
-                                        <option id="bank_this_year" value="this_year">This Year</option>
                                         <option id="bank_this_month" value="this_month">This Month</option>
                                         <option id="bank_last_month" value="last_month">Last Month</option>
+                                        <option id="bank_this_year" value="this_year">This Year</option>
                                     </select>
                                 </div>
                             </div>
