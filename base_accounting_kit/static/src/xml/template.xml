@@ -245,13 +245,14 @@
                                         <h3 class="custom-h3">BANK AND CASH BALANCE</h3>
                                     </b>
                                 </div>
-                                <!-- ESTA PARTE DEL CÓDIGO HABILITA EL SELECT PARA CAMBIAR MES Y AÑO
+                                <!-- ESTA PARTE DEL CÓDIGO HABILITA EL SELECT PARA CAMBIAR MES Y AÑO -->
                                 <div class="card-tools">
                                     <select id="bank_values">
-                                        <option id="bank_this_month" value="this_month">This Month</option>
                                         <option id="bank_this_year" value="this_year">This Year</option>
+                                        <option id="bank_this_month" value="this_month">This Month</option>
+                                        <option id="bank_last_month" value="last_month">Last Month</option>
                                     </select>
-                                </div> -->
+                                </div>
                             </div>
                             <!-- <div class="card-header" style=" padding: 17px 1.5rem !important; display: flex !IMPORTANT; justify-content: space-between; align-items: center; ">
                                 <h3 class="custom-h3 card-title">
