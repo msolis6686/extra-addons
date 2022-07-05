@@ -1,6 +1,33 @@
-from odoo import models, api, fields, _
-import mercadopago
+# -*- coding: utf-'8' "-*-"
+
+import base64
+try:
+    import simplejson as json
+except ImportError:
+    import json
 import logging
+from urllib.parse import urlparse
+from urllib.parse import urljoin
+import werkzeug.urls
+from urllib.request import urlopen
+import datetime
+import requests
+import re
+import mercadopago
+
+from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.payment_mercadopago.controllers.main import MercadoPagoController
+from odoo import osv, fields, models, api, _
+from odoo.tools.float_utils import float_compare
+from odoo import SUPERUSER_ID
+
+_logger = logging.getLogger(__name__)
+from dateutil.tz import *
+
+dateformat="%Y-%m-%dT%H:%M:%S."
+dateformatmilis="%f"
+dateformatutc="%z"
+
 
 _logger = logging.getLogger(__name__)
 
@@ -59,6 +86,14 @@ class OdooMercadopago(models.AbstractModel):
         # preference api description
         # https://www.mercadopago.com.ar/developers/es/reference/preferences/_checkout_preferences/post/
         # to-do: add suport to back_urls expires
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        acquirer = self
+
+        #tx_values = dict(values)
+        #_logger.info(tx_values)
+        #saleorder_obj = self.env['sale.order']
+        #saleorderline_obj = self.env['sale.order.line']
+
         mercadopago_client = self.env['ir.config_parameter'].get_param(
             'mercadopago_client', default=False)
         mercadopago_key = self.env['ir.config_parameter'].get_param(
@@ -92,6 +127,16 @@ class OdooMercadopago(models.AbstractModel):
                     'payment_methods': obj.mercadopago_payment_methods_dict(),
                     'notification_url': obj.mercadopago_notification_url(),
                     'items': obj.mercadopago_items(),
+                    "back_urls": {
+                                    "success": '%s' % urljoin( base_url, MercadoPagoController._return_url),
+                                    "failure": '%s' % urljoin( base_url, MercadoPagoController._cancel_url),
+                                    "pending": '%s' % urljoin( base_url, MercadoPagoController._return_url)
+                                },
+                    "auto_return": "approved",
+                    "notification_url": '%s' % urljoin( base_url, MercadoPagoController._notify_url),
+                    "expires": True,
+                    #"expiration_date_from": obj.mercadopago_dateformat( datetime.datetime.now(tzlocal())-datetime.timedelta(days=1) ),
+                    #"expiration_date_to": obj.mercadopago_dateformat( datetime.datetime.now(tzlocal())+datetime.timedelta(days=31) )
                 }
                 #preference.update(obj.mercadopago_expires_dict())
                 _logger.info("preference %r"%preference)
