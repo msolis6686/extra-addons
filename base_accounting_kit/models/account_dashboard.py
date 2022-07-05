@@ -1807,17 +1807,44 @@ class DashBoard(models.Model):
             states_arg = """ parent_state = 'posted'"""
         else:
             states_arg = """ parent_state in ('posted', 'draft')"""
+        if post[1] == 'this_month':
+            self._cr.execute((''' select account_account.name as name, sum(balance) as balance,
+                                min(account_account.id) as id from account_move_line left join
+                                account_account on account_account.id = account_move_line.account_id join
+                                account_account_type on account_account_type.id = account_account.user_type_id
+                                where account_account_type.name = 'Bank and Cash'
+                                AND %s
+                                AND account_move_line.company_id in ''' + str(tuple(company_id)) + '''
+                                AND Extract(month FROM account_move_line.date) = Extract(month FROM DATE(NOW()))
+                                AND Extract(year FROM account_move_line.date) = Extract(year FROM DATE(NOW())) 
+                                group by account_account.name
+                                                    
+                                ''') % (states_arg))
+        elif post[1] == 'last_month':
+            self._cr.execute((''' select account_account.name as name, sum(balance) as balance,
+                                min(account_account.id) as id from account_move_line left join
+                                account_account on account_account.id = account_move_line.account_id join
+                                account_account_type on account_account_type.id = account_account.user_type_id
+                                where account_account_type.name = 'Bank and Cash'
+                                AND %s
+                                AND account_move_line.company_id in ''' + str(tuple(company_id)) + '''
+                                AND Extract(month FROM account_move_line.date) = Extract(month FROM DATE(NOW()))-1
+                                AND Extract(year FROM account_move_line.date) = Extract(year FROM DATE(NOW())) 
+                                group by account_account.name
+                                                    
+                                ''') % (states_arg))
+        else:
+            self._cr.execute((''' select account_account.name as name, sum(balance) as balance,
+                                min(account_account.id) as id from account_move_line left join
+                                account_account on account_account.id = account_move_line.account_id join
+                                account_account_type on account_account_type.id = account_account.user_type_id
+                                where account_account_type.name = 'Bank and Cash'
+                                AND %s
+                                AND account_move_line.company_id in ''' + str(tuple(company_id)) + '''
+                                group by account_account.name
+                                                    
+                                ''') % (states_arg))
 
-        self._cr.execute((''' select account_account.name as name, sum(balance) as balance,
-                            min(account_account.id) as id from account_move_line left join
-                            account_account on account_account.id = account_move_line.account_id join
-                            account_account_type on account_account_type.id = account_account.user_type_id
-                            where account_account_type.name = 'Bank and Cash'
-                            AND %s
-                            AND account_move_line.company_id in ''' + str(tuple(company_id)) + '''
-                            group by account_account.name
-                                                   
-                            ''') % (states_arg))
 
         record = self._cr.dictfetchall()
 

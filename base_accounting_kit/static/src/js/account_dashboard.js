@@ -59,6 +59,16 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
             /* CAMBIOS AGREGADOS POR MARITO */
             'click #invoice_due_counts_this_year': 'invoice_due_year',
             'click #invoice_due_items_': 'invoice_due_month',
+
+            'change #bank_values': function(e) {
+                            e.stopPropagation();
+                            var $target = $(e.target);
+                            var value = $target.val();
+                            this.$('.bank_this_year').empty();
+                            this.onclick_bank_values_month(this.$('#bank_values').val());
+                                            },
+
+
             /* FIN CAMBIOS AGREGADOS POR MARITO */
             'click #unreconciled_counts_this_year': 'unreconciled_year',
             'click #unreconciled_items_': 'unreconciled_month',
@@ -467,6 +477,55 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
 
                 })
         },
+
+        //CAMBIOS DE MARITO
+        onclick_bank_values_month: function (f) {
+            var selected = $('.btn.btn-tool.income');
+            var data = $(selected[0]).data();
+            var posted = false;
+            var self = this;
+            var f = f;
+            if ($('#toggle-two')[0].checked == true) {
+                posted = "posted"
+            }
+            rpc.query({
+                model: "account.move",
+                //method: "bank_balance_this_month",
+                method: "bank_balance",
+                args: [posted,f]
+            })
+                .then(function (result) {
+                    $('#current_bank_balance').hide();
+                    $('#current_bank_balance').show();
+                    $('#current_bank_balance').empty();
+
+                    var banks = result['banks'];
+                    var amount;
+                    var balance = result['banking'];
+                    var bnk_ids = result['bank_ids'];
+                    for (var k = 0; k < banks.length; k++) {
+                        amount = self.format_currency(currency, balance[k]);
+                        //                                $('#charts').append('<li><a ' + banks[k] + '" data-user-id="' + banks[k] + '">' + banks[k] + '</a>'+  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + '<span>'+ balance[k] +'</span>' + '</li>' );
+                        $('#current_bank_balance').append('<li><div val="'+bnk_ids[k]+'"id="b_'+bnk_ids[k]+'">' + banks[k] + '</div><div>' + amount + '</div></li>');
+                        //                                $('#current_bank_balance').append('<li>' + banks[k] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ balance[k] +  '</li>' );
+                        $('#drop_charts_balance').append('<li>' + balance[k].toFixed(2) + '</li>');
+                        $('#b_'+ bnk_ids[k]).on("click", function (ev) {
+                            self.do_action({
+                                res_model: 'account.account',
+                                name: _t('Account'),
+                                views: [[false, 'form']],
+                                type: 'ir.actions.act_window',
+                                res_id: parseInt(this.id.replace('b_', '')),
+                            });
+                        });
+                    }
+                })
+        },
+
+        //FIN CAMBIOS DE MARITO
+
+        
+
 
         onclick_income_last_year: function (ev) {
             ev.preventDefault();
@@ -1416,10 +1475,12 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
 
                             });
                         })
+                    var arg = 'this_month';
                     rpc.query({
                         model: "account.move",
+                        //method: "bank_balance_this_month",
                         method: "bank_balance",
-                        args: [posted]
+                        args: [posted,arg]
                     })
                         .then(function (result) {
                             var banks = result['banks'];
@@ -1443,7 +1504,6 @@ odoo.define('AccountingDashboard.AccountingDashboard', function (require) {
                                 });
                             }
                         })
-
                     rpc.query({
                         model: "account.move",
                         method: "get_latebills",
