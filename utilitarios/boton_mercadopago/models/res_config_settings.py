@@ -23,6 +23,9 @@ class ResConfigSettings(models.TransientModel):
     mercadopago_key = fields.Char(
         string='Client secret',
     )
+    mercadopago_api = fields.Char(
+        string='API secret',
+    )
     mercadopago_journal_id = fields.Many2one(
         'account.journal',
         string='mercadopago journal',
@@ -36,6 +39,8 @@ class ResConfigSettings(models.TransientModel):
         ).get_param('mercadopago_client', default=False)
         res['mercadopago_key'] = self.env['ir.config_parameter'].sudo(
         ).get_param('mercadopago_key', default=False)
+        res['mercadopago_api'] = self.env['ir.config_parameter'].sudo(
+        ).get_param('mercadopago_api', default=False)
         res['mercadopago_sandbox'] = self.env['ir.config_parameter'].sudo(
         ).get_param('mercadopago_sandbox', default=False)
         res['mercadopago_invoice_on_post'] = self.env['ir.config_parameter'].sudo(
@@ -53,6 +58,8 @@ class ResConfigSettings(models.TransientModel):
             'mercadopago_client', self.mercadopago_client)
         self.env['ir.config_parameter'].sudo().set_param(
             'mercadopago_key', self.mercadopago_key)
+        self.env['ir.config_parameter'].sudo().set_param(
+            'mercadopago_api', self.mercadopago_api)
         self.env['ir.config_parameter'].sudo().set_param(
             'mercadopago_sandbox', self.mercadopago_sandbox)
         self.env['ir.config_parameter'].sudo().set_param(
