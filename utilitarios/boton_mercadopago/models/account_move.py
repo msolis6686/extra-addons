@@ -26,8 +26,8 @@ class AccountMove(models.Model):
             message loaded by default
         """
         self.ensure_one()
-        if len(self.mercadopago_id):
-            self.mercadopago_create_preference()
+        #if len(self.mercadopago_id):
+        self.mercadopago_create_preference()
 
         template = self.env.ref(
             'boton_mercadopago.email_template_mercadopago_invoice', False)
