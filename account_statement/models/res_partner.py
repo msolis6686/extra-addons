@@ -28,6 +28,15 @@ class account_move(models.Model):
 			aml.credit_amount = 0.0
 			aml.credit_amount = aml.amount_total_signed - aml.amount_residual_signed
 
+	def _get_credit_custom(self):
+		payment = self.env['account.payment'].search([('partner_id', '=', self.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')])
+		total_haber = 0
+		for x in payment:
+			total_haber = total_haber + x.amount
+			#vals = {'haber_m': r.haber_c}
+			#self.write(vals)
+
+
 	credit_amount = fields.Float(compute ='_get_credit',   string="Credit/paid")
 	result = fields.Float(compute ='_get_result',   string="Balance") #'balance' field is not the same
 
@@ -172,10 +181,10 @@ class Res_Partner(models.Model):
 		return unknown_mails
 
 	def do_process_monthly_statement_filter(self):
-		account_invoice_obj = self.env['account.move'] 
+		account_invoice_obj = self.env['account.move']
+		account_payment_obj = self.env['account.payment']
 		statement_line_obj = self.env['monthly.statement.line']
-		for record in self:
- 
+		for record in self: 
 			today = date.today()
 			d = today - relativedelta(months=1)
 
@@ -190,11 +199,8 @@ class Res_Partner(models.Model):
 				domain.append(('invoice_date', '>=', from_date))
 			if to_date:
 				domain.append(('invoice_date', '<=', to_date))
-				 
-				 
 			lines_to_be_delete = statement_line_obj.search([('partner_id', '=', record.id)])
 			lines_to_be_delete.unlink()
-			
 			invoices = account_invoice_obj.search(domain)
 			for invoice in invoices.sorted(key=lambda r: r.name):
 				vals = {
@@ -209,7 +215,29 @@ class Res_Partner(models.Model):
 						'invoice_id' : invoice.id,
 					}
 				ob = statement_line_obj.create(vals) 
-				
+			
+			""" #AGREGO TODOS LOS PAGOS DEL CLIENTE
+			domain = [('partner_id', '=', record.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')]
+			if from_date:
+				domain.append(('payment_date', '>=', from_date))
+			if to_date:
+				domain.append(('payment_date', '<=', to_date))
+			payment = account_payment_obj.search(domain)
+			for pay in payment.sorted(key=lambda r: r.name):
+				vals = {
+						'partner_id':pay.partner_id.id or False,
+						'state':pay.state or False,
+						'invoice_date':pay.payment_date,
+						'invoice_date_due': False,
+						'result': False,
+						'name':pay.name or '',
+						'amount_total':False,
+						'credit_amount':pay.amount or 0.0,
+						#'invoice_id' : pay.id,
+					}
+				ob = statement_line_obj.create(vals)  """
+   
+   
 	def customer_send_mail(self):
 		unknown_mails = 0
 		for partner in self:
