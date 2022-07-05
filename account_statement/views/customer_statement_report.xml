@@ -5,11 +5,11 @@
 			<t t-call="web.external_layout">
 				<t t-set="doc" t-value="doc.with_context({'lang':doc.lang})" />
 				<t t-set="company" t-value="res_company"/>
-				<div class="row" style="border: 1px solid black; border-radius: 10px; margin-top: 0px !important;">
+				<div class="row" style="margin-top: 0px !important;">
 					<div class="col-6">
-						<p>	<span t-esc="doc.name" /><br/>
-							<span t-esc="doc.street" /><br/>
-							<span t-esc="doc.city" />
+						<p><strong>Razón Social: </strong><span t-esc="doc.name" /><br/>
+						   <strong>Domicilio: </strong><span t-esc="doc.street" /><br/>
+						   <strong>Ciudad: </strong><span t-esc="doc.city" />
 						</p>
 					</div>
 					<div name="invoice_address" class="col-6">
