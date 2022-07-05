@@ -1,5 +1,5 @@
 from odoo import models, api, fields
-from mercadopago import mercadopago
+import mercadopago
 import logging
 
 _logger = logging.getLogger(__name__)
