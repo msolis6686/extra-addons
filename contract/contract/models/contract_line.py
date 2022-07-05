@@ -494,7 +494,7 @@ class ContractLine(models.Model):
                 raise ValidationError(
                     _(
                         "You must supply a date of next invoice for contract "
-                        "line '%s'"
+                        f"line '%s' on {rec.contract_id.name}"
                     )
                     % rec.name
                 )

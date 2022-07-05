@@ -14,7 +14,7 @@ from io import BytesIO, StringIO
 import psutil
 
 from odoo import models, fields, api, tools, _, http, tools
-from odoo.exceptions import Warning, AccessDenied
+from odoo.exceptions import Warning, AccessDenied, ValidationError
 import odoo
 from icecream import ic
 
@@ -350,6 +350,7 @@ class DbBackupList(models.TransientModel):
     file_path = fields.Char('Ruta')
     folder = fields.Char('Carpeta')
     parent_id = fields.Integer('ID')
+    checkbox = fields.Boolean()
 
     def download_db_file(self):
         file_path = self.file_path
@@ -385,6 +386,7 @@ class DbBackupForm(models.TransientModel):
     disk_free = fields.Char(string='Espacio libre')
     disk_used = fields.Char(string='Espacio usado')
     disk_percent = fields.Char(string='Porcentaje usado')
+    bulk_delete = fields.Boolean(string='Invisible check field', default=False)
 
     def to_gb(self, bytes):
         "Convierte bytes a gigabytes."
@@ -415,6 +417,7 @@ class DbBackupForm(models.TransientModel):
                         size = size_temp / (1024*1024)
                         size = f"{round(size,2)} MB"
                         vals={
+                            'checkbox': False,
                             'name': name,
                             'date_file': date_file,
                             'size':size,
@@ -433,8 +436,44 @@ class DbBackupForm(models.TransientModel):
         self.disk_free = "{:.2f} GB.".format(self.to_gb(disk_usage.free))
         self.disk_used = "{:.2f} GB.".format(self.to_gb(disk_usage.used))
         self.disk_percent = "{}%.".format(disk_usage.percent)
+        self.check_bulk_delete()
 
     def crear_backup(self):
         self.env['db.backup'].schedule_backup()
         aux = self.env["db.backupform"].search([('id','=',self.id)])
         aux.list_db_file()
+        aux.check_bulk_delete()
+
+    def delete_in_bulk(self):
+        id=self.id
+        view_id_bulk = self.env.ref('auto_backup.view_delete_file_bulk_wizard').id#Este dato lo sacamos de Ajustes/Tecnico/Vistas. Es el ID externo
+        return {'type': 'ir.actions.act_window',#El type tiene que ser el mismo que usa el wizard (act_window)
+                'name': _('Eliminado de Backup por Lote'),#Nombre que va a tener el wizard.
+                'res_model': 'delete.file.bulk.wizard',#El modelo del wizard o de la vista (se lo puede sacar del codigo, es el campo _name="nombre")
+                'target': 'new',#New para que se abra una nueva ventana (el wizard)
+                'view_mode': 'form',#Modo de vista (formulario para el wizard)
+                'views': [[view_id_bulk, 'form']],#El id externo de la vista que definimos en la variable mas arriba y el 'form' o tree segun necesitemos
+                }
+        """ for to_delete in self.list_files:
+            if to_delete.checkbox == True:
+                file_path = to_delete.file_path
+                _logger.info("------------ %r ----------------"%file_path)
+                try:
+                    os.remove(file_path)
+                except Exception as e:
+                    print (e)
+                    raise ValidationError(f'Error: {e}')
+        aux = self.env["db.backupform"].search([('id','=',self.id)])
+        aux.list_db_file()
+        aux.check_bulk_delete() """
+
+    @api.onchange('list_files')
+    def check_bulk_delete(self):
+        self.write({'bulk_delete':False})
+        for check in self.list_files:
+            if check.checkbox == True:
+                self.bulk_delete = True
+                break
+            else:
+                self.bulk_delete = False
+                self.write({'bulk_delete':False})

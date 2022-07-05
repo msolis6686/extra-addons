@@ -36,5 +36,6 @@
         'views/backup_view.xml',
         'data/backup_data.xml',
         'wizard/delete_file.xml',
+        'wizard/delete_file_bulk.xml',
     ],
 }

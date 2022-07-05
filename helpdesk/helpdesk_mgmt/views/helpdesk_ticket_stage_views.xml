@@ -54,6 +54,7 @@
                         </group>
                         <group name="main_right">
                             <field name="closed" />
+                            <field name="invoiced"/>
                             <field name="unattended" />
                         </group>
                     </group>
