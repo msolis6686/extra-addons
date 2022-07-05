@@ -126,8 +126,12 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                             <button name="list_db_file" type="object" string="Listar los Backups" class="oe_highlight"/>
                             <span> </span>
                             <button name="crear_backup" type="object" string="Crear nuevo Backup" class="oe_highlight"/>
+                            <span> </span>
+                            <button name="delete_in_bulk" type="object" string="Borrar Backups Tildados" class="oe_highlight" attrs="{'invisible':[('bulk_delete','=',False)]}"
+                            context="{'bulk_id': id}"/>
                         </header>
                         <group string="Estado del disco">
+                            <field name="bulk_delete" invisible="1"/>
                             <field name='disk_total' readonly="1"/>
                             <field name='disk_free' readonly="1"/>
                             <field name='disk_used' readonly="1"/>
@@ -137,13 +141,15 @@ background-repeat: no-repeat;background-position: 10px center;color: #9F6000;bac
                         <group string="Backups de la Base de Datos">
                             <field name='name' invisible="1"/>
                         </group>
-                        <field name='list_files' widget="many2many" readonly="1" force_save="1">
-                            <tree default_order="date_file desc">
-                                <field name="date_file"/>
-                                <field name="name"/>                                
-                                <field name="size"/>
+                        <!-- <field name='list_files' widget="many2many" readonly="1" force_save="1"> -->
+                        <field name='list_files' widget="many2many">
+                            <tree default_order="date_file desc" editable="bottom" delete="false" create="false">
+                                <field name="checkbox" string=" "/>
+                                <field name="date_file" readonly="1" force_save="1"/>
+                                <field name="name" readonly="1" force_save="1"/>
+                                <field name="size" readonly="1" force_save="1"/>
                                 <field name="folder" invisible="1"/>
-                                <field name="file_path"/>
+                                <field name="file_path" readonly="1" force_save="1"/>
                                 <field name="parent_id" invisible="1"/>
                                 <button
                                       name="action_done_show_wizard"
