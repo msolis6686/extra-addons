@@ -23,8 +23,8 @@ class OdooMercadopago(models.AbstractModel):
     def mercadopago_payer_dict(self):
         partner_id = self[self._mercadopago_partner_field]
         return {
-            'surname': partner_id.name,
-            'email': partner_id.name,
+            #'surname': partner_id.name,
+            'email': partner_id.email,
 
         }
 
@@ -63,6 +63,8 @@ class OdooMercadopago(models.AbstractModel):
             'mercadopago_client', default=False)
         mercadopago_key = self.env['ir.config_parameter'].get_param(
             'mercadopago_key', default=False)
+        mercadopago_api = self.env['ir.config_parameter'].get_param(
+            'mercadopago_api', default=False)
 
         if self.env['ir.config_parameter'].sudo().get_param('mercadopago_external_reference', default='obj') == 'obj':
             external_reference = self._name
@@ -74,8 +76,9 @@ class OdooMercadopago(models.AbstractModel):
         else:
             init_point = 'init_point'
 
-        if mercadopago_client and mercadopago_key:
-            mp = mercadopago.MP(mercadopago_client, mercadopago_key)
+        if mercadopago_api:
+            #mp = mercadopago.MP(mercadopago_client, mercadopago_key)
+            sdk = mercadopago.SDK(mercadopago_api)
 
             for obj in self:
                 if external_reference == 'res.partner':
@@ -90,9 +93,9 @@ class OdooMercadopago(models.AbstractModel):
                     'notification_url': obj.mercadopago_notification_url(),
                     'items': obj.mercadopago_items(),
                 }
-                preference.update(obj.mercadopago_expires_dict())
+                #preference.update(obj.mercadopago_expires_dict())
                 _logger.info("preference %r"%preference)
-                preferenceResult = mp.create_preference(preference)
+                preferenceResult = sdk.preference().create(preference)
 
                 if 'status' in preferenceResult and preferenceResult['status'] == 201:
                     self.mercadopago_url = preferenceResult[
