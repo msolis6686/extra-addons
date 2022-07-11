@@ -47,8 +47,8 @@ class ResConfigSettings(models.TransientModel):
         ).get_param('mercadopago_invoice_on_post', default=False)
         res['mercadopago_external_reference'] = self.env['ir.config_parameter'].sudo(
         ).get_param('mercadopago_external_reference', default=False)
-        res['mercadopago_journal_id'] = int(self.env['ir.config_parameter'].sudo(
-        ).get_param('mercadopago_journal_id', default=False))
+        """ res['mercadopago_journal_id'] = int(self.env['ir.config_parameter'].sudo(
+        ).get_param('mercadopago_journal_id', default=False)) """
 
         return res
 

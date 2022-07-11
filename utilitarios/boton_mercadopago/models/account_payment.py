@@ -21,7 +21,7 @@ class AccountPayment(models.Model):
 
         if mercadopago_client and mercadopago_key:
 
-            mp = mercadopago.MP(mercadopago_client,
+            mp = mercadopago.SDK.payment(mercadopago_client,
                                 mercadopago_key)
             filters = {
                 "range": "date_created",
