@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+    
+    <record id="mp_data_tree_view" model="ir.ui.view">
+        <field name="name">mp.data.tree.view</field>
+        <field name="model">mp.data</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="payment_group_id"/>
+                <field name="invoice_id"/>
+                <field name="payment_id"/>
+                <field name="payment_type" />
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    
+</odoo>

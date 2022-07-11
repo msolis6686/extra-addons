@@ -10,13 +10,13 @@ from urllib.parse import urlparse
 from urllib.parse import urljoin
 import werkzeug.urls
 from urllib.request import urlopen
-import datetime
+from datetime import date
 import requests
 import re
 import mercadopago
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
-from odoo.addons.payment_mercadopago.controllers.main import MercadoPagoController
+from odoo.addons.boton_mercadopago.controllers.main import MercadoPagoController
 from odoo import osv, fields, models, api, _
 from odoo.tools.float_utils import float_compare
 from odoo import SUPERUSER_ID
@@ -27,10 +27,6 @@ from dateutil.tz import *
 dateformat="%Y-%m-%dT%H:%M:%S."
 dateformatmilis="%f"
 dateformatutc="%z"
-
-
-_logger = logging.getLogger(__name__)
-
 
 class OdooMercadopago(models.AbstractModel):
     _name = "odoo_mercadopago"
@@ -94,6 +90,11 @@ class OdooMercadopago(models.AbstractModel):
         #saleorder_obj = self.env['sale.order']
         #saleorderline_obj = self.env['sale.order.line']
 
+        saleorder_obj = self.env['account.move']
+        saleorderline_obj = self.env['account.move.line']
+        print(saleorder_obj)
+        print(saleorderline_obj)
+
         mercadopago_client = self.env['ir.config_parameter'].get_param(
             'mercadopago_client', default=False)
         mercadopago_key = self.env['ir.config_parameter'].get_param(
@@ -148,3 +149,46 @@ class OdooMercadopago(models.AbstractModel):
                     self.mercadopago_id = preferenceResult['response']['id']
 
         return True  # for xmlrcp
+    
+    """ def create_payment(self, post, fact_id):
+        _logger.info('ENTRE A LA FUNCION')
+        _logger.info('ENTRE A LA FUNCION')
+        _logger.info('ENTRE A LA FUNCION')
+        _logger.info('ENTRE A LA FUNCION')
+        _logger.info('ENTRE A LA FUNCION')
+        factura = self.env['account.move'].sudo().search([('id','=',fact_id)])
+        _logger.info(f"FACTURA: {factura}")
+        #COSAS DE LA FOCA PARA SIMULAR MERCADOPAGO.
+        move_line = self.env['account.move.line'].sudo().search([('move_id','=',fact_id),('account_internal_type','=','receivable')])
+        payment_receipt_data = {
+                                'localization': 'argentina',
+                                'receiptbook_id': 1,
+                                'name': 'Cobro Automatico Mercadopago: ' + factura.name,
+                                'company_id': 1,
+                                'partner_type': 'customer',
+                                'partner_id': factura.partner_id.id,
+                                'currency_id': factura.currency_id.id,
+                                'payment_date': date.today(),
+                                'state': 'draft',
+                                'has_outstanding': False,
+                                'sent': False,
+                                'payment_ids': [(0, 0, {
+                                    'state': 'draft',
+                                    'payment_type': 'inbound',
+                                    'payment_method_id': 1,
+                                    'partner_type': 'customer',
+                                    'partner_id': factura.partner_id.id,
+                                    'amount': factura.amount_total,
+                                    'currency_id': factura.currency_id.id,
+                                    'payment_date': date.today(),
+                                    'journal_id': 13,
+                                    'payment_difference_handling': 'open',
+                                    'writeoff_label': 'Write-Off',
+                                })]
+                                }
+        temp_payment = self.env['account.payment.group']
+        _logger.info(f"TEMP PAYMENT: {temp_payment}")
+        temp_payment.sudo().create(payment_receipt_data)
+        #payment = request.env['account.payment.group'].sudo().create(payment_receipt_data)
+        temp_payment.write({'debt_move_line_ids': [(4,move_line.id)]})# = [(4,[move_line.id])]
+        temp_payment.post() """
