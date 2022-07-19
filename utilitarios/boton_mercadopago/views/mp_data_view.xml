@@ -5,7 +5,7 @@
         <field name="name">mp.data.tree.view</field>
         <field name="model">mp.data</field>
         <field name="arch" type="xml">
-            <tree string="">
+            <tree delete="false" create="false">
                 <field name="payment_group_id"/>
                 <field name="invoice_id"/>
                 <field name="payment_id"/>

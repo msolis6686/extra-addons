@@ -140,7 +140,7 @@ class OdooMercadopago(models.AbstractModel):
                     #"expiration_date_to": obj.mercadopago_dateformat( datetime.datetime.now(tzlocal())+datetime.timedelta(days=31) )
                 }
                 #preference.update(obj.mercadopago_expires_dict())
-                _logger.info("preference %r"%preference)
+                _logger.info(f"LA PREFERENCIA CREADA ES:{preference}")
                 preferenceResult = sdk.preference().create(preference)
 
                 if 'status' in preferenceResult and preferenceResult['status'] == 201:
