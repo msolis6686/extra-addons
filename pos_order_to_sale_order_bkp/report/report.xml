@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="pos_ord_session_reprt" string="Pos Order Report" model="sale.wizard" report_type="qweb-pdf" file="pos_order_to_sale_order.pos_order_template" name="pos_order_to_sale_order.pos_order_template" />
+        <record id="paperformat_all_portrait" model="report.paperformat">
+            <field name="name">TicketFormat</field>
+            <field name="default" eval="False"/>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="format">A7</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">8</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name = "header_spacing">0</field>
+            <field name="dpi">120</field>
+        </record>
+        <template id="pos_order_template">
+            <t t-call="web.html_container">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"/>
+            <t t-set="base_url" t-value="request.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
+                <span t-esc="company_name"/>
+                <br/>
+                <span t-esc="comp_street"/> <span t-esc="comp_street_2"/>
+                <br/>
+                <span>
+                    <t t-esc="comp_city"/> - <t t-esc="comp_state"/> - <t t-esc="comp_zip"/> - <t t-esc="comp_phone"/>
+                </span>
+                <br/>
+                <span>RFC:</span><t t-esc="comp_rfc"/>
+                <!-- <t t-call="web.external_layout"> -->
+                <br/>
+                    <div class="text-center">***VENTA***</div>
+                    <br/>
+                    <t t-esc="date"/> - Folio: <t t-esc='folio'/>
+                    <!-- Cliente: <t t-esc='client_name'/> -->
+                    <br/>
+                    <div class="text-center">
+                        <!-- <img t-att-src="'http://localhost:8069/report/barcode/Code128/%s' % folio" height="40px" width="100%"/> -->
+                        <img t-att-src="'%s/report/barcode/Code128/%s' % (base_url, folio)" height="40px" width="100%"/>
+                        <span class="text-center"><t t-esc='folio'/></span>
+                    </div>
+                    Caja: <t t-esc='pos_name'/>
+                    <span t-esc="pos_session_user"/>
+                    <br/>
+                    <t t-foreach="request.env['sale.order'].search([('id','=',int(sale_id))])" t-as='sale'>
+                            <ul style="list-style:none">
+                                <t t-foreach="sale.order_line" t-as="line">
+                                    <li><span t-esc="line.name"/>&#160;&#160;&#160;<span t-esc="'{0:,.2f}'.format(int(line.price_unit))"/></li>
+                                </t>
+                            </ul>
+                    <div class="text-right"><span>TOTAL: $<t t-esc="'{0:,.2f}'.format(int(amount))"/></span></div>
+                        <br/>
+                    </t>
+                    <div class="text-center">
+                        <!-- <img t-att-src="'http://localhost:8069/report/barcode/Code128/%s' % folio_numbers" height="40px" width="100%"/> -->
+                        <img t-att-src="'%s/report/barcode/Code128/%s' % (base_url, folio_numbers)" height="40px" width="100%"/>
+                        <span t-esc="folio_numbers"/>
+                    </div>
+                    <div class="text-center">
+                        <!-- <img t-att-src="'http://localhost:8069/report/barcode/Code128/%s' % bar_code_final" height="50px" width="100%"/> -->
+                        <img t-att-src="'%s/report/barcode/Code128/%s' % (base_url, bar_code_final)" height="50px" width="100%"/>
+                        <span t-esc="bar_code_final"/>
+                    </div>
+            </t>
+        </template>
+    </data>
+</odoo>
