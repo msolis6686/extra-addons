@@ -27,7 +27,7 @@
 										<field name="mercadopago_key" password="True"/>
 									</div>
 									<div class="row">
-										<label class="col-lg-3 o_light_label" for="mercadopago_key" string="API secret"/>
+										<label class="col-lg-3 o_light_label" for="mercadopago_key" string="Access Token"/>
 										<field name="mercadopago_api" password="True"/>
 									</div>
 								</div>
@@ -48,9 +48,17 @@
 										<label class="col-lg-4 o_light_label" for="mercadopago_external_reference" string="Extenal Reference to"/>
 										<field name="mercadopago_external_reference"/>
 									</div>
-									<div class="row ">
+									<div class="row">
 										<label class="col-lg-4 o_light_label" for="mercadopago_journal_id" string="Mercadopago journal"/>
 										<field name="mercadopago_journal_id" domain="[('type','=','bank')]"/>
+									</div>
+									<div class="row">
+										<label class="col-lg-4 o_light_label" for="mercadopago_payment_group_journal_id" string="MercadoPago Payment Group Journal"/>
+										<field name="mercadopago_payment_group_journal_id" domain="[('partner_type','=','customer')]"/>
+									</div>
+									<div class="row">
+										<label class="col-lg-4 o_light_label" for="payment_method" string="MercadoPago Payment Method"/>
+										<field name="mercadopago_payment_method" domain="[('payment_type','=','inbound')]"/>
 									</div>
 								</div>
 							</div>

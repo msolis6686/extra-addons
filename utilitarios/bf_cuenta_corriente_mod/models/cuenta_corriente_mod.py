@@ -30,15 +30,13 @@ class bf_cuenta_corriente_mod(models.Model):
                 diff = r.debe_m - r.debe_c
             
             if diff > 0.1:
-                ic("ACTUALIZO DEBE")
-                ic(r.id)
                 vals = {'debe_m': r.debe_c}
                 r.write(vals)
                 self.reload_page()
     
     def _get_haber_c(self):
         for r in self:
-            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted')])
+            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')])
             total_haber = 0
             for x in payment:
                 total_haber = total_haber + x.amount
@@ -50,9 +48,6 @@ class bf_cuenta_corriente_mod(models.Model):
                 diff = r.haber_m - r.haber_c
             
             if diff > 0.1:
-                ic("ACTUALIZO HABER")
-                ic(r.id)
-                ic(r.haber_c)
                 vals = {'haber_m': r.haber_c}
                 r.write(vals)
                 self.reload_page()
@@ -67,10 +62,6 @@ class bf_cuenta_corriente_mod(models.Model):
                 diff = r.saldo_m - r.saldo_c
             
             if diff > 0.1:
-                ic("ACTUALIZO SALDOS")
-                ic(r.id)
-                ic(r.saldo_c)
-                ic(r.saldo_m)
                 vals = {'saldo_m': r.saldo_c}
                 r.write(vals)
                 self.reload_page()
@@ -83,36 +74,21 @@ class bf_cuenta_corriente_mod(models.Model):
             for x in facturas:
                 total_debe = total_debe + x.amount_total_signed
             r.debe_c = total_debe
-            diff=0
-            if r.debe_c > r.debe_m:
-                diff = r.debe_c - r.debe_m
-            else:
-                diff = r.debe_m - r.debe_c
-            
+            diff = abs(r.debe_c - r.debe_m)
             if diff > 0.01:
-                ic("ACTUALIZO DEBE")
-                ic(r.id)
                 vals = {'debe_m': r.debe_c}
                 r.write(vals)
                 #self.reload_page()
     
     def _get_haber_computed(self):
         for r in self:
-            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted')])
+            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')])
             total_haber = 0
             for x in payment:
                 total_haber = total_haber + x.amount
             r.haber_c = total_haber
-            diff=0
-            if r.haber_c > r.haber_m:
-                diff = r.haber_c - r.haber_m
-            else:
-                diff = r.haber_m - r.haber_c
-            
+            diff = abs(r.haber_c - r.haber_m)
             if diff > 0.01:
-                ic("ACTUALIZO HABER")
-                ic(r.id)
-                ic(r.haber_c)
                 vals = {'haber_m': r.haber_c}
                 r.write(vals)
                 #self.reload_page()
@@ -121,19 +97,9 @@ class bf_cuenta_corriente_mod(models.Model):
         for r in self:
             total_saldo = r.debe_m - r.haber_m
             r.saldo_c = total_saldo
-            diff = 0
-            """ if r.saldo_c > r.saldo_m:
-                diff = r.saldo_c - r.saldo_m
-            else:
-                diff = r.saldo_m - r.saldo_c """
             diff = abs(r.saldo_m - r.saldo_c)
             if diff >= 0.01:
-                ic("ACTUALIZO SALDOS")
-                ic(r.id)
-                ic(r.saldo_c)
-                ic(r.saldo_m)
                 new_value = round(r.saldo_c,2)
-                ic(new_value)
                 vals = {'saldo_m': new_value}
                 r.write(vals)
     
@@ -143,7 +109,7 @@ class bf_cuenta_corriente_mod(models.Model):
             #invoices |= contract.recurring_create_invoice()
         return {
             "type": "ir.actions.act_window",
-            "name": _("Invoices"),
+            "name": _(f"Facturas de {self.name}"),
             "res_model": "account.move",
             "domain": [("id", "in", invoices.ids)],
             "view_mode": "tree,form",
@@ -151,13 +117,13 @@ class bf_cuenta_corriente_mod(models.Model):
         }
               
     def action_show_payments(self):
-        payments = self.env["account.payment"].search([('partner_id', '=', self.id),('state', '=', 'posted')])
+        payments = self.env["account.payment.group"].search([('partner_id', '=', self.id),('state', '=', 'posted'),('partner_type','=','customer')])
         #for contract in self.contract_to_invoice_ids:
             #invoices |= contract.recurring_create_invoice()
         return {
             "type": "ir.actions.act_window",
-            "name": _("Invoices"),
-            "res_model": "account.payment",
+            "name": _(f"Recibos de Pagos de {self.name}"),
+            "res_model": "account.payment.group",
             "domain": [("id", "in", payments.ids)],
             "view_mode": "tree,form",
             "context": self.env.context,

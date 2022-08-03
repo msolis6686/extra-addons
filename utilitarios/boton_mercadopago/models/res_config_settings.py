@@ -30,6 +30,14 @@ class ResConfigSettings(models.TransientModel):
         'account.journal',
         string='mercadopago journal',
     )
+    mercadopago_payment_group_journal_id = fields.Many2one(
+        'account.payment.receiptbook',
+        string='MercadoPago Payment Group Journal'
+    )
+    mercadopago_payment_method = fields.Many2one(
+        'account.payment.method',
+        string='MercadoPago Payment Method'
+    )
 
 
 
@@ -47,8 +55,8 @@ class ResConfigSettings(models.TransientModel):
         ).get_param('mercadopago_invoice_on_post', default=False)
         res['mercadopago_external_reference'] = self.env['ir.config_parameter'].sudo(
         ).get_param('mercadopago_external_reference', default=False)
-        res['mercadopago_journal_id'] = int(self.env['ir.config_parameter'].sudo(
-        ).get_param('mercadopago_journal_id', default=False))
+        """ res['mercadopago_journal_id'] = int(self.env['ir.config_parameter'].sudo(
+        ).get_param('mercadopago_journal_id', default=False)) """
 
         return res
 
@@ -68,4 +76,8 @@ class ResConfigSettings(models.TransientModel):
             'mercadopago_external_reference', self.mercadopago_external_reference)
         self.env['ir.config_parameter'].sudo().set_param(
             'mercadopago_journal_id', self.mercadopago_journal_id.id)
+        self.env['ir.config_parameter'].sudo().set_param(
+            'mercadopago_payment_group_journal_id', self.mercadopago_payment_group_journal_id.id)
+        self.env['ir.config_parameter'].sudo().set_param(
+            'mercadopago_payment_method', self.mercadopago_payment_method.id)
         super(ResConfigSettings, self).set_values()

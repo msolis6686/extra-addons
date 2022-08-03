@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="aceptado_process">
+        <t t-call="website.layout">
+            <!-- ERROR CRITICO -->
+            <t t-if="error_critico">
+                <t t-set="title">Error en Pago</t>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_text_image pb0 pt0 text-center" data-name="Text - Image">                        <!-- bg-success -->
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-header" style="background: lightsalmon;">
+                                    <div style="border:solid 5px;border-radius:100px; height:100px; width:100px; margin:0 auto;color:red">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="90" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                    <font style="font-size: 48px;color:black;">ERROR</font><br/>
+                                    <t t-esc="error_description"/>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">X</h5>
+                                    <br/>
+                                </div>
+                                <div class="card-footer text-dark" style="font-size: 20px;">
+                                        X
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+            <!-- ERROR CRITICO -->
+
+
+            <!-- PAGO REPETIDO -->
+            <t t-if="error_critico == False and pago_repetido == True">
+                <t t-set="title">Pago Exitoso</t>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_text_image pb0 pt0 text-center" data-name="Text - Image">                        <!-- bg-success -->
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-header" style="background: #0DCAF0;">
+                                    <div style="border:solid 5px;border-radius:100px; height:100px; width:100px; margin:0 auto;color:#14f410">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
+                                        </svg>
+                                    </div>
+                                    <font style="font-size: 48px;color:black;">!Listo! Gracias por el pago</font>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-1" style="padding-right:0px;padding-left:0px">
+                                            <div data-oe-model="ir.ui.view" data-oe-id="1363" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/t[2]/div[1]/section[1]/div[1]/div[1]/div[1]/div[1]" style="border:solid 2px;border-radius:30px; height:30px; width:30px; margin:0 auto;color:gold;float:right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-info-lg" viewBox="0 0 16 16" width="20" height="20">
+                                                    <path d="m9.708 6.075-3.024.379-.108.502.595.108c.387.093.464.232.38.619l-.975 4.577c-.255 1.183.14 1.74 1.067 1.74.72 0 1.554-.332 1.933-.789l.116-.549c-.263.232-.65.325-.905.325-.363 0-.494-.255-.402-.704l1.323-6.208Zm.091-2.755a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0Z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <span class='text-center' style="font-size: 20px;font-weight: bold">Nota Importante: <t t-esc="error_description"/>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Monto Pagado : </h5>
+                                    <span style="font-size: 20px;color:#04AEEC">$</span>
+                                    <span t-esc="recibo.payments_amount" style="font-size: 20px;color:#04AEEC"></span>
+                                    <br/>
+                                    <a class="btn btn-info btn-block o_download_btn" t-att-href="factura.get_portal_url(report_type='pdf', download=True)" title="Download">
+                                        <i class="fa fa-download"/>
+                                        Descargar Factura</a>
+                                    <a class="btn btn-info btn-block o_download_btn" t-att-href="'/report/pdf/account_payment_group.report_payment_group/%s' % recibo.id" title="Download">
+                                        <i class="fa fa-download"/>
+                                        Descargar Recibo Pago</a>
+                                </div>
+                                <div class="card-footer text-dark" style="font-size: 20px;">
+                                        Comprobante : <span t-esc="payment_id"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+            <!-- PAGO REPETIDO -->
+
+
+            <!-- PAGO EXITOSO -->
+            <t t-if="error_critico == False and pago_repetido == False">
+                <t t-set="title">Pago Exitoso</t>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_text_image pb0 pt0 text-center" data-name="Text - Image">                        <!-- bg-success -->
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-header" style="background: #E9FFE0;">
+                                    <div style="border:solid 5px;border-radius:100px; height:100px; width:100px; margin:0 auto;color:#14f410">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
+                                        </svg>
+                                    </div>
+                                    <font style="font-size: 48px;color:black;">!Listo! Gracias por el pago</font>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Monto Pagado : </h5>
+                                    <span style="font-size: 20px;color:#04AEEC">$</span>
+                                    <span t-esc="factura.amount_total" style="font-size: 20px;color:#04AEEC"></span>
+                                    <br/>
+                                    <a class="btn btn-info btn-block o_download_btn" t-att-href="factura.get_portal_url(report_type='pdf', download=True)" title="Download">
+                                        <i class="fa fa-download"/>
+ Descargar Factura</a>
+                                    <a class="btn btn-info btn-block o_download_btn" t-att-href="'/report/pdf/account_payment_group.report_payment_group/%s' % recibo.id" title="Download">
+                                        <i class="fa fa-download"/>
+ Descargar Recibo Pago</a>
+                                </div>
+                                <div class="card-footer text-dark" style="font-size: 20px;">
+                                        Comprobante : <span t-esc="payment_id"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+            <!-- PAGO EXITOSO -->
+        </t>
+    </template>
+
+    <record id="aceptado_page" model="website.page">
+        <field name="name">Pagos</field>
+        <field name="website_published">True</field>
+        <field name="url">/aceptado</field>
+        <field name="view_id" ref="aceptado_process"/>
+    </record>
+    <template id="cancel_process">
+        <t t-call="website.layout">
+            <t t-set="title">cancelado</t>
+            <div id="wrap" class="oe_structure oe_empty text-center">
+                <section class="s_text_image bg-danger pb0 pt0 text-center" data-name="Text - Image">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-12 pt16 pb16">
+                                <h2>
+                                    <b>
+                                        <font style="font-size: 48px;">Error en Pago</font>
+                                    </b>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+    <record id="cancelado_page" model="website.page">
+        <field name="name">Cancelado</field>
+        <field name="website_published">True</field>
+        <field name="url">/cancelado</field>
+        <field name="view_id" ref="cancel_process"/>
+    </record>
+
+
+
+</odoo>
