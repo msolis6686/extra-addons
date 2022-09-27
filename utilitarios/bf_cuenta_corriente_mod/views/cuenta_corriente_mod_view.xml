@@ -9,12 +9,12 @@
                 <attribute name="decoration-danger">saldo_m&gt;0</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='vat']" position="after">
-              <field name="debe_m"/>
-              <field name="haber_m"/>
-              <field name="saldo_m"/>
-              <field name="debe_c" attrs="{'column_invisible':True}"/>
-              <field name="haber_c" attrs="{'column_invisible':True}"/>
-              <field name="saldo_c" attrs="{'column_invisible':True}"/>
+              <field name="debe_m" attrs="{'column_invisible':True}"/>
+              <field name="haber_m" attrs="{'column_invisible':True}"/>
+              <field name="saldo_m" attrs="{'column_invisible':True}"/>
+              <field name="debe_c" attrs="{'column_invisible':False}"/>
+              <field name="haber_c" attrs="{'column_invisible':False}"/>
+              <field name="saldo_c" attrs="{'column_invisible':False}"/>
                 <button
                     name="action_show_invoices"
                     string="Facturas del Cliente"

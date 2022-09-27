@@ -12,59 +12,9 @@ class bf_cuenta_corriente_mod(models.Model):
     haber_m = fields.Float(string="Haber", related="haber_c", default = 0.0,  store=True)
     saldo_m = fields.Float(string="Saldo", related="saldo_c", default = 0.0, store=True)
 
-    debe_c = fields.Float(compute='_get_debe_computed', default = 0.0, string="Debe Calculado")
-    haber_c = fields.Float(compute='_get_haber_computed', default = 0.0, string="Haber Calculado")
-    saldo_c = fields.Float(compute='_get_saldo_computed', default = 0.0, string="Saldo Calculado")
-    
-    def _get_debe_c(self):
-        for r in self:
-            facturas = self.env['account.move'].search([('partner_id', '=', r.id),('state', '=', 'posted'),'|',('type', '=', 'out_invoice'),('type','=','out_refund')])
-            total_debe = 0
-            ##### AL ENCONTRAR UNA NOTA DE CREDITO, TOMA EL VALOR COMO NEGATIVO, SI LO QUERES RESTAR, LO SUMA (-*- = +)
-            for x in facturas:
-                total_debe = total_debe + x.amount_total_signed
-            r.debe_c = total_debe
-            if r.debe_c > r.debe_m:
-                diff = r.debe_c - r.debe_m
-            else:
-                diff = r.debe_m - r.debe_c
-            
-            if diff > 0.1:
-                vals = {'debe_m': r.debe_c}
-                r.write(vals)
-                self.reload_page()
-    
-    def _get_haber_c(self):
-        for r in self:
-            payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')])
-            total_haber = 0
-            for x in payment:
-                total_haber = total_haber + x.amount
-            r.haber_c = total_haber
-            
-            if r.haber_c > r.haber_m:
-                diff = r.haber_c - r.haber_m
-            else:
-                diff = r.haber_m - r.haber_c
-            
-            if diff > 0.1:
-                vals = {'haber_m': r.haber_c}
-                r.write(vals)
-                self.reload_page()
-
-    def _get_saldo_c(self):
-        for r in self:
-            total_saldo = r.debe_c - r.haber_c
-            r.saldo_c = total_saldo
-            if r.saldo_c > r.saldo_m:
-                diff = r.saldo_c - r.saldo_m
-            else:
-                diff = r.saldo_m - r.saldo_c
-            
-            if diff > 0.1:
-                vals = {'saldo_m': r.saldo_c}
-                r.write(vals)
-                self.reload_page()
+    debe_c = fields.Float(compute='_get_debe_computed', default = 0.0, string="Debe")
+    haber_c = fields.Float(compute='_get_haber_computed', default = 0.0, string="Haber")
+    saldo_c = fields.Float(compute='_get_saldo_computed', default = 0.0, string="Saldo")
     
     def _get_debe_computed(self):
         for r in self:
@@ -75,11 +25,12 @@ class bf_cuenta_corriente_mod(models.Model):
                 total_debe = total_debe + x.amount_total_signed
             r.debe_c = total_debe
             diff = abs(r.debe_c - r.debe_m)
-            if diff > 0.01:
-                vals = {'debe_m': r.debe_c}
-                r.write(vals)
+            """ if diff > 0.01: """
+            vals = {'debe_m': r.debe_c}
+            r.write(vals)
                 #self.reload_page()
-    
+        self.reload_page()
+        
     def _get_haber_computed(self):
         for r in self:
             payment = self.env['account.payment'].search([('partner_id', '=', r.id),('state', '=', 'posted'),('payment_type', '=', 'inbound')])
@@ -88,21 +39,23 @@ class bf_cuenta_corriente_mod(models.Model):
                 total_haber = total_haber + x.amount
             r.haber_c = total_haber
             diff = abs(r.haber_c - r.haber_m)
-            if diff > 0.01:
-                vals = {'haber_m': r.haber_c}
-                r.write(vals)
+            """ if diff > 0.01: """
+            vals = {'haber_m': r.haber_c}
+            r.write(vals)
                 #self.reload_page()
-    
+        self.reload_page()
+        
     def _get_saldo_computed(self):
         for r in self:
             total_saldo = r.debe_m - r.haber_m
             r.saldo_c = total_saldo
             diff = abs(r.saldo_m - r.saldo_c)
-            if diff >= 0.01:
-                new_value = round(r.saldo_c,2)
-                vals = {'saldo_m': new_value}
-                r.write(vals)
-    
+            """ if diff >= 0.01: """
+            new_value = round(r.saldo_c,2)
+            vals = {'saldo_m': new_value}
+            r.write(vals)
+        self.reload_page()
+        
     def action_show_invoices(self):
         invoices = self.env["account.move"].search([('partner_id', '=', self.id),('state', '=', 'posted'),'|',('type', '=', 'out_invoice'),('type','=','out_refund')])
         #for contract in self.contract_to_invoice_ids:
