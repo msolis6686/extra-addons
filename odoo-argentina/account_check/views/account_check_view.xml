@@ -55,7 +55,6 @@
                 <button context="{'default_action_type': 'claim'}" name="%(action_account_check_action_wizard)d" type="action" string="Reclamar a Cliente" attrs="{'invisible': ['|', ('state', '!=', 'rejected'), ('type', '!=', 'third_check')]}" help="It will create a draft debit note to customer and change check state"/>
                 <button context="{'default_action_type': 'customer_return'}" name="%(action_account_check_action_wizard)d" type="action" string="Devolver a Cliente" attrs="{'invisible': ['|', ('state', '!=', 'holding'), ('type', '!=', 'third_check')]}" help="It will create a draft debit note to customer and change check state"/>
                 <button context="{'default_action_type': 'bank_debit'}" name="%(action_account_check_action_wizard)d" type="action" string="Debitar" states="handed" help="It will create a journal entry from Deferred Check Account to bank account and change check state"/>
-                <button context="{'default_action_type': 'reject'}" name="%(action_account_check_action_wizard)d" type="action" string="Retorno del Proveedor/Rechazo" states="handed" help="It will create a draft debit note from supplier and change check state"/>
                 <button context="{'default_action_type': 'reject'}" name="%(action_account_check_action_wizard)d" type="action" string="Rechazo del Proveedor" states="delivered" help="It will create a debit note from supplier in draft state and change check state"/>
                 <button context="{'default_action_type': 'reject'}" name="%(action_account_check_action_wizard)d" type="action" string="Rechazo Bancario" states="deposited" help="It will create an account entry from bank account to company rejection account and change check state"/>
                 <button context="{'default_action_type': 'reject'}" name="%(action_account_check_action_wizard)d" type="action" string="Rechazo de la Venta" states="selled" help="It will create an account entry from cash account to company rejection account and change check state"/>
@@ -88,13 +87,13 @@
                 </group>
                 <group string="Operations">
                     <field name="operation_ids" nolabel="1" readonly="1">
-                        <tree>
+                        <tree create="0" edit="0" delete="0">
                             <field name="date"/>
                             <field name="operation"/>
                             <field name="origin_name" string="Origin"/>
                             <field name="partner_id"/>
                         </tree>
-                        <form>
+                        <form edit="0" create="0" delete="0">
                             <group>
                                 <field name="date"/>
                                 <field name="operation"/>

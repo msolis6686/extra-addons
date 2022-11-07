@@ -17,6 +17,7 @@ _logger = logging.getLogger(__name__)
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
+    sequences = fields.One2many(comodel_name='ir.sequence',inverse_name='journal_id',string='Secuencias')
     _afip_ws_selection = (
         lambda self, *args, **kwargs: self._get_afip_ws_selection(
             *args, **kwargs))
@@ -84,11 +85,11 @@ class AccountJournal(models.Model):
     def sync_document_local_remote_number(self):
         if self.type != 'sale':
             return True
-        #fix diferents issues here
-        for sequence in self.l10n_ar_sequence_ids:
-            doc_type = sequence.l10n_latam_document_type_id
-            last_doc = int (doc_type.get_pyafipws_last_invoice(None,doc_type,self,sequence)['result'])
-            sequence.number_next_actual = last_doc + 1    
+        for journal_document_type in self.journal_document_type_ids:
+            next_by_ws = int(
+                journal_document_type.get_pyafipws_last_invoice(
+                )['result']) + 1
+            journal_document_type.sequence_id.number_next_actual = next_by_ws
 
     def check_document_local_remote_number(self):
         msg = ''

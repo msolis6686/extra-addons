@@ -26,6 +26,7 @@ class AccountPayment(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
+    communication = fields.Text('Notas')
 
     def post(self):
         without_number = self.filtered(

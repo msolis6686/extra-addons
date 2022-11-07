@@ -30,7 +30,6 @@ class AccountPaymentGroup(models.Model):
         copy=False,
         readonly=True,
         states={'draft': [('readonly', False)]},
-        track_visibility='always',
         index=True,
     )
     document_sequence_id = fields.Many2one(
@@ -44,7 +43,6 @@ class AccountPaymentGroup(models.Model):
         'account.payment.receiptbook',
         'Talonario de Recibos',
         readonly=True,
-        track_visibility='always',
         states={'draft': [('readonly', False)]},
         ondelete='restrict',
         auto_join=True,
@@ -65,7 +63,7 @@ class AccountPaymentGroup(models.Model):
     )
     company_id = fields.Many2one(
         'res.company',
-        string='Company',
+        string='Compania',
         required=True,
         index=True,
         change_default=True,
@@ -80,7 +78,6 @@ class AccountPaymentGroup(models.Model):
     )
     partner_type = fields.Selection(
         [('customer', 'Customer'), ('supplier', 'Vendor')],
-        track_visibility='always',
         change_default=True,
     )
     partner_id = fields.Many2one(
@@ -89,7 +86,6 @@ class AccountPaymentGroup(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
-        track_visibility='always',
         change_default=True,
         index=True,
     )
@@ -103,7 +99,6 @@ class AccountPaymentGroup(models.Model):
         default=lambda self: self.env.user.company_id.currency_id,
         readonly=True,
         states={'draft': [('readonly', False)]},
-        track_visibility='always',
     )
     payment_date = fields.Date(
         string='Fecha de Pago',
@@ -151,7 +146,7 @@ class AccountPaymentGroup(models.Model):
         compute='_compute_selected_debt',
     )
     unreconciled_amount = fields.Monetary(
-        string='Adjustment / Advance',
+        string='Ajuste / Adelanto',
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
@@ -163,12 +158,10 @@ class AccountPaymentGroup(models.Model):
         # string='Total To Pay Amount',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        track_visibility='always',
     )
     payments_amount = fields.Monetary(
         compute='_compute_payments_amount',
-        string='Amount',
-        track_visibility='always',
+        string='Monto',
     )
     state = fields.Selection([
         ('draft', 'Borrador'),
@@ -182,7 +175,6 @@ class AccountPaymentGroup(models.Model):
         default='draft',
         copy=False,
         string="Status",
-        track_visibility='onchange',
         index=True,
     )
     move_lines_domain = [
@@ -200,7 +192,7 @@ class AccountPaymentGroup(models.Model):
         # actualiza bien con el onchange, hacemos computado mejor
         compute='_compute_debt_move_line_ids',
         inverse='_inverse_debt_move_line_ids',
-        string="Debt Lines",
+        string="Lineas de deuda",
         # no podemos ordenar por due date porque esta hardecodeado en
         # funcion _get_pair_to_reconcile
         help="Payment will be automatically matched with the oldest lines of "
@@ -233,6 +225,7 @@ class AccountPaymentGroup(models.Model):
     matched_move_line_ids = fields.Many2many(
         'account.move.line',
         compute='_compute_matched_move_line_ids',
+        string='Lineas pagadas',
         help='Lines that has been matched to payments, only available after '
         'payment validation',
     )
@@ -546,7 +539,8 @@ class AccountPaymentGroup(models.Model):
         for rec in self:
             lines = rec.move_line_ids.browse()
             # not sure why but self.move_line_ids dont work the same way
-            payment_lines = rec.payment_ids.mapped('move_line_ids')
+            #payment_lines = rec.payment_ids.mapped('move_line_ids')
+            payment_lines = rec.payment_ids.mapped('invoice_line_ids')
 
             reconciles = rec.env['account.partial.reconcile'].search([
                 ('credit_move_id', 'in', payment_lines.ids)])
@@ -558,10 +552,11 @@ class AccountPaymentGroup(models.Model):
 
             rec.matched_move_line_ids = lines - payment_lines
 
-    @api.depends('payment_ids.move_line_ids')
+    # @api.depends('payment_ids.move_line_ids')
+    @api.depends('payment_ids.invoice_line_ids')
     def _compute_move_lines(self):
         for rec in self:
-            rec.move_line_ids = rec.payment_ids.mapped('move_line_ids')
+            rec.move_line_ids = rec.payment_ids.mapped('invoice_line_ids')
 
     @api.depends('partner_type')
     def _compute_account_internal_type(self):
@@ -650,10 +645,11 @@ class AccountPaymentGroup(models.Model):
             ('account_id.internal_type', '=',
                 self.account_internal_type),
             ('account_id.reconcile', '=', True),
-            ('move_id.type', 'in', ['out_invoice','out_refund','in_invoice','in_refund']),
+            ('move_id.move_type', 'in', ['out_invoice','out_refund','in_invoice','in_refund']),
             ('reconciled', '=', False),
             ('full_reconcile_id', '=', False),
             ('company_id', '=', self.company_id.id),
+            ('move_id.state','=','posted'),
             # '|',
             # ('amount_residual', '!=', False),
             # ('amount_residual_currency', '!=', False),
@@ -731,8 +727,8 @@ class AccountPaymentGroup(models.Model):
                 # TODO borrar esto si con el de arriba va bien
                 # if rec.to_pay_move_line_ids:
                 #     move.line_ids.remove_move_reconcile()
-            rec.payment_ids.cancel()
-            rec.payment_ids.write({'invoice_ids': [(5, 0, 0)]})
+            rec.payment_ids.action_cancel()
+            #rec.payment_ids.write({'invoice_line_ids': [(5, 0, 0)]})
         self.write({'state': 'cancel'})
 
     def action_draft(self):
@@ -808,17 +804,19 @@ class AccountPaymentGroup(models.Model):
             # al crear desde website odoo crea primero el pago y lo postea
             # y no debemos re-postearlo
             if not create_from_website and not create_from_expense:
-                rec.payment_ids.filtered(lambda x: x.state == 'draft').post()
+                rec.payment_ids.filtered(lambda x: x.state == 'draft').action_post()
 
-            counterpart_aml = rec.payment_ids.mapped('move_line_ids').filtered(
+            #counterpart_aml = rec.payment_ids.mapped('move_line_ids').filtered(
+            counterpart_aml = rec.payment_ids.mapped('invoice_line_ids').filtered(
                 lambda r: not r.reconciled and r.account_id.internal_type in (
                     'payable', 'receivable'))
 
             # porque la cuenta podria ser no recivible y ni conciliable
             # (por ejemplo en sipreco)
             if counterpart_aml and rec.to_pay_move_line_ids:
-                (counterpart_aml + (rec.to_pay_move_line_ids)).reconcile(
-                    writeoff_acc_id, writeoff_journal_id)
+                #(counterpart_aml + (rec.to_pay_move_line_ids)).reconcile(
+                #    writeoff_acc_id, writeoff_journal_id)
+                (counterpart_aml + (rec.to_pay_move_line_ids)).reconcile()
 
             rec.state = 'posted'
             if rec.receiptbook_id.mail_template_id:

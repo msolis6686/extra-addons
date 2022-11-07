@@ -10,7 +10,7 @@
 			<button name="compute_taxes" type="object" string="Computar Impuestos" states="draft" />
 		</field>
 		<field name="line_ids" position="after">
-			<field name="move_tax_ids" readonly="1" attrs="{'invisible': [('type','=','entry')]}">
+			<field name="move_tax_ids" readonly="1" attrs="{'invisible': [('move_type','=','entry')]}">
 				<tree>
 					<field name="move_id" />
 					<field name="tax_id" />
@@ -26,6 +26,39 @@
 			</group>
 		</field>
 	</field>
+</record>
+
+
+    <record id="view_account_move_tax_tree" model="ir.ui.view">
+        <field name="model">account.move.tax</field>
+        <field name="name">account.move.tax.tree</field>
+	<field name="arch" type="xml">
+		<tree create="0" delete="0" edit="0">
+			<field name="move_id" />
+			<field name="tax_id" />
+			<field name="partner_id" />
+			<field name="state_id" />
+			<field name="move_type" />
+			<field name="l10n_latam_document_type_id" />
+			<field name="l10n_ar_afip_responsibility_type_id" />
+			<field name="invoice_date" />
+			<field name="base_amount" />
+			<field name="tax_amount" />
+		</tree>
+	</field>
     </record>
+
+
+    <record id="action_account_move_tax" model="ir.actions.act_window">
+        <field name="name">Impuestos</field>
+        <field name="res_model">account.move.tax</field>
+        <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+    <menuitem
+        id="menu_account_move_tax"
+        action="action_account_move_tax"
+        parent="l10n_ar.account_reports_ar_statements_menu"
+        sequence="40"/>
 
 </odoo>

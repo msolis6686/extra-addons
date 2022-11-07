@@ -13,14 +13,32 @@ class AfipwsConnection(models.Model):
     _inherit = "afipws.connection"
 
     # TODO use _get_afip_ws_selection to add values to this selection
-    afip_ws = fields.Selection(
-        selection_add=[
-            ('wsfe', 'Mercado interno -sin detalle- RG2485 (WSFEv1)'),
-            ('wsmtxca', 'Mercado interno -con detalle- RG2904 (WSMTXCA)'),
-            ('wsfex', 'Exportación -con detalle- RG2758 (WSFEXv1)'),
-            ('wsbfe', 'Bono Fiscal -con detalle- RG2557 (WSBFE)'),
-            ('wscdc', 'Constatación de Comprobantes (WSCDC)'),
-        ])
+    #afip_ws = fields.Selection(
+    #    selection_add=[
+    #        ('wsfe', 'Mercado interno -sin detalle- RG2485 (WSFEv1)'),
+    #        ('wsmtxca', 'Mercado interno -con detalle- RG2904 (WSMTXCA)'),
+    #        ('wsfex', 'Exportación -con detalle- RG2758 (WSFEXv1)'),
+    #        ('wsbfe', 'Bono Fiscal -con detalle- RG2557 (WSBFE)'),
+    #        ('wscdc', 'Constatación de Comprobantes (WSCDC)'),
+    #    ],string='AFIP WS',
+    #    setdefault='wsfe',
+    #    ondelete='cascade')
+
+    afip_ws = fields.Selection([
+        ('wsfe', 'Mercado interno -sin detalle- RG2485 (WSFEv1)'),
+        ('wsmtxca', 'Mercado interno -con detalle- RG2904 (WSMTXCA)'),
+        ('wsfex', 'Exportación -con detalle- RG2758 (WSFEXv1)'),
+        ('wsbfe', 'Bono Fiscal -con detalle- RG2557 (WSBFE)'),
+        ('wscdc', 'Constatación de Comprobantes (WSCDC)'),
+        ('ws_sr_padron_a4', 'Servicio de Consulta de Padrón Alcance 4'),
+        ('ws_sr_padron_a5', 'Servicio de Consulta de Padrón Alcance 5'),
+        ('ws_sr_padron_a10', 'Servicio de Consulta de Padrón Alcance 10'),
+        ('ws_sr_padron_a100', 'Servicio de Consulta de Padrón Alcance 100'),
+    ],
+    'AFIP WS',
+    required=True,
+    )
+
 
     @api.model
     def _get_ws(self, afip_ws):

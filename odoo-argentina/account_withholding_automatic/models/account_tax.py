@@ -62,6 +62,8 @@ class AccountTax(models.Model):
         ('based_on_rule', 'Based On Rule'),
         # ('fixed', 'Fixed Amount'),
         ('code', 'Python Code'),
+        ('tabla_ganancias', 'Tabla Ganancias'),
+        ('partner_tax', 'Alícuota en el Partner'),
         # ('balance', 'Balance')
     ],
         'Type',

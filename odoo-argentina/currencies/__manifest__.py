@@ -21,10 +21,12 @@
     'category': 'Accounting & Finance',
     'data': [
         'views/currency_view.xml',
+        'data/currencies_data.xml'
     ],
     'demo': [
     ],
     'depends': [
+        'base',
         'l10n_ar',
         'l10n_ar_afipws',
     ],

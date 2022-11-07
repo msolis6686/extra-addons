@@ -10,7 +10,6 @@
 				<group>
 					<field name="rejected_check_account_id" />
 					<field name="deferred_check_account_id" />
-					<field name="holding_check_account_id" />
 				</group>
 			</page>
 		</notebook>

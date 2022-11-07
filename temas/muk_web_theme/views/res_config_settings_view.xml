@@ -2,9 +2,9 @@
 
 <!--
 
-    Copyright (c) 2017-2019 MuK IT GmbH.
+    Copyright (c) 2017-today MuK IT GmbH.
 
-    This file is part of MuK Backend Theme 
+    This file is part of MuK Theme
     (see https://mukit.at).
 
     This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
   -->
-
+  
 <odoo>
 
 	<record id="res_config_settings_view_form" model="ir.ui.view">
@@ -29,7 +29,7 @@
 	    <field name="model">res.config.settings</field>
 	    <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
 	    <field name="arch" type="xml">
-	        <div id="business_documents" position="after">
+	        <div id="companies" position="after">
 	            <h2 id="web_theme_title">Backend Theme</h2>
 	            <div class="row mt16 o_settings_container" name="web_theme">
 	            	<div class="col-12 col-lg-6 o_setting_box">
@@ -107,9 +107,6 @@
                                     <div class="w-100"></div>
                                 	<label for="theme_color_menu" string="Apps Color" class="col-3 o_light_label"/>
                                     <field name="theme_color_menu" widget="color" class="oe_inline"/>
-                                    <div class="w-100"></div>
-                                	<label for="theme_background_blend_mode" string="Apps Blend" class="col-3 o_light_label"/>
-                                    <field name="theme_background_blend_mode" class="col-5"/>
                                 </div>
                             </div>
 	                    </div>
@@ -125,58 +122,14 @@
                             </div>
                             <div class="content-group">
                                 <div class="mt16 row">
-                                    <field name="theme_background_image" widget="image" class="ml-4" required="1"/>
+                                	<label for="theme_background_blend_mode" string="Blend Mode" class="col-3 o_light_label"/>
+                                    <field name="theme_background_blend_mode" class="col-5"/>
+                                    <div class="w-100"></div>
+                                    <field name="theme_background_image" widget="image" class="ml-4 w-75"/>
                                 </div>
                             </div>
 	                    </div>
 	                </div>
-	            </div>
-                <h2 id="web_theme_extension_title">Backend Theme Extensions</h2>
-            	<div class="row mt16 o_settings_container" name="web_theme_extension">
-	                <div class="col-12 col-lg-6 o_setting_box">
-		                <div class="o_setting_left_pane">
-		                    <field name="module_muk_web_theme_mail"/>
-		                </div>
-		                <div class="o_setting_right_pane">
-		                    <label for="module_muk_web_theme_mail"/>
-		                    <div class="text-muted">
-		                        Optimizes the mail chatter for the theme
-		                    </div>
-		                </div>
-		            </div>
-	                <div class="col-12 col-lg-6 o_setting_box">
-		                <div class="o_setting_left_pane">
-		                    <field name="module_muk_web_theme_branding"/>
-		                </div>
-		                <div class="o_setting_right_pane">
-		                    <label for="module_muk_web_theme_branding"/>
-		                    <div class="text-muted">
-		                        Customize the theme according to your needs
-		                    </div>
-		                </div>
-		            </div>
-					<div class="col-12 col-lg-6 o_setting_box">
-		                <div class="o_setting_left_pane">
-		                    <field name="module_muk_web_theme_website"/>
-		                </div>
-		                <div class="o_setting_right_pane">
-		                    <label for="module_muk_web_theme_website"/>
-		                    <div class="text-muted">
-		                        Add theme styled website navigation
-		                    </div>
-		                </div>
-		            </div>
-	                <div class="col-12 col-lg-6 o_setting_box">
-		                <div class="o_setting_left_pane">
-		                    <field name="module_muk_web_theme_mobile"/>
-		                </div>
-		                <div class="o_setting_right_pane">
-		                    <label for="module_muk_web_theme_mobile"/>
-		                    <div class="text-muted">
-		                        Allow Odoo to be used as a PWA app
-		                    </div>
-		                </div>
-		            </div>
 	            </div>
 	        </div>
 	    </field>

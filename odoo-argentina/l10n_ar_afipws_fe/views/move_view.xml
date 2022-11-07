@@ -27,6 +27,18 @@
         </field>
     </record -->
 
+    <record id="l10n_ar_view_account_move_reversal" model="ir.ui.view">
+            <field name="name">l10n_ar.account.move.reversal.form</field>
+            <field name="model">account.move.reversal</field>
+            <field name="inherit_id" ref="account.view_account_move_reversal"></field>
+            <field name="arch" type="xml">
+                    <field name="refund_method" position="attributes">
+                            <attribute name="readonly">1</attribute>
+                    </field>
+            </field>
+    </record>
+
+
     <record id="view_move_form" model="ir.ui.view">
         <field name="model">account.move</field>
         <field name="name">account.move.afip.form</field>
@@ -36,7 +48,20 @@
             <button name="action_post" position="attributes">
                 <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('validation_type', '!=', False)]}</attribute>
                 <attribute name="states"></attribute>
-	    </button>
+            </button>
+            <xpath expr="//button[@name='action_post'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('validation_type', '!=', False)]}</attribute>
+                <attribute name="states"></attribute>
+            </xpath>
+            <button name="action_reverse" position="after">
+                    <field name="show_credit_button" invisible="1" />
+            </button>
+            <button name="action_reverse" position="attributes">
+                    <attribute name="attrs">{'invisible': [('show_credit_button','=',False)]}</attribute>
+            </button>
+            <button name="%(account_debit_note.action_view_account_move_debit)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+            </button>
 
             <button name="action_post" position="after">
 		    <button name="action_post" type="object" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('validation_type', '!=', 'production')]}"
@@ -47,6 +72,7 @@
 
             <field name="l10n_ar_afip_concept" position="after">
 		<field name="afip_fce_es_anulacion"/>
+		<field name="afip_mypyme_sca_adc"/>
 	    	<field name="l10n_ar_currency_rate" readonly="1"/>	    
             </field>
             <notebook>

@@ -98,10 +98,10 @@
 	        </thead>
 	        <tbody class="invoice_tbody">
 	            <tr t-foreach="o.payment_ids" t-as="p">
-	              <td><span t-field="p.communication"/></td>
+	              <td><span t-field="p.name"/></td>
 	              <td><span t-field="p.payment_type_copy"/></td>
 	              <td><span t-field="p.journal_id"/></td>
-	              <td><span t-field="p.payment_date"/></td>
+	              <td><span t-field="p.date"/></td>
 	              <td><span t-field="p.state"/></td>
 	              <td class="text-right">
 	                  <span t-field="p.amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>

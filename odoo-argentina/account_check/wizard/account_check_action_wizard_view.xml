@@ -8,8 +8,10 @@
             <form string="Check Action">
                 <field name="action_type" invisible="1"/>
                 <group >
-                    <field name="date"/>
-		    <field name="journal_id" attrs="{'invisible': [('action_type','!=','bank_deposit')]}" domain="[('type','=','bank')]"/>
+                    <field name="date" string="Fecha"/>
+		    <field name="journal_id" attrs="{'invisible': [('action_type','!=','bank_deposit')]}" 
+			    domain="[('type','=','bank')]"
+			    string="Diario" />
                 </group>
                 <footer>
                     <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"/>

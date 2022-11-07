@@ -332,7 +332,7 @@ class AccountPayment(models.Model):
         self.check_ids = [(4, check.id, False)]
         if operation:
             check._add_operation(
-                operation, self, self.partner_id, date=self.payment_date)
+                operation, self, self.partner_id, date=self.date)
         return check
 
     def do_checks_operations(self, vals=None, cancel=False):
@@ -402,9 +402,9 @@ class AccountPayment(models.Model):
                 # get the account before changing the journal on the check
                 vals['account_id'] = rec.check_ids.get_third_check_account().id
                 rec.check_ids._add_operation(
-                    'transfered', rec, False, date=rec.payment_date)
+                    'transfered', rec, False, date=rec.date)
                 rec.check_ids._add_operation(
-                    'holding', rec, False, date=rec.payment_date)
+                    'holding', rec, False, date=rec.date)
                 rec.check_ids.write({
                     'journal_id': rec.destination_journal_id.id})
                 vals['name'] = _('Transfer checks %s') % ', '.join(
@@ -417,7 +417,7 @@ class AccountPayment(models.Model):
 
                 _logger.info('Sell Check')
                 rec.check_ids._add_operation(
-                    'selled', rec, False, date=rec.payment_date)
+                    'selled', rec, False, date=rec.date)
                 vals['account_id'] = rec.check_ids.get_third_check_account().id
                 vals['name'] = _('Sell check %s') % ', '.join(
                     rec.check_ids.mapped('name'))
@@ -430,7 +430,7 @@ class AccountPayment(models.Model):
 
                 _logger.info('Deposit Check')
                 rec.check_ids._add_operation(
-                    'deposited', rec, False, date=rec.payment_date)
+                    'deposited', rec, False, date=rec.date)
                 vals['account_id'] = rec.check_ids.get_third_check_account().id
                 vals['name'] = _('Deposit checks %s') % ', '.join(
                     rec.check_ids.mapped('name'))
@@ -448,7 +448,7 @@ class AccountPayment(models.Model):
 
             _logger.info('Deliver Check')
             rec.check_ids._add_operation(
-                'delivered', rec, rec.partner_id, date=rec.payment_date)
+                'delivered', rec, rec.partner_id, date=rec.date)
             for check in rec.check_ids:
                 check.state = 'delivered'
             try:
@@ -524,7 +524,7 @@ class AccountPayment(models.Model):
                     rec.destination_journal_id.type)))
         return vals
 
-    def post(self):
+    def action_post(self):
         for rec in self:
             if rec.check_ids and not rec.currency_id.is_zero(
                     sum(rec.check_ids.mapped('amount')) - rec.amount):
@@ -539,9 +539,9 @@ class AccountPayment(models.Model):
                     'de cheque en cada línea de pago.\n'
                     '* ID del pago: %s') % rec.id)
 
-        res = super(AccountPayment, self).post()
+
+        res = super(AccountPayment, self).action_post()
         for rec in self:
-            #raise ValidationError('estamos aca %s'%(rec.payment_method_id.code))
             if rec.payment_method_id.code in ['received_third_check','delivered_third_check','issue_check']:
                 rec.do_checks_operations()
         return res
@@ -672,3 +672,5 @@ class AccountPayment(models.Model):
                 x.check_deposit_type == 'detailed'):
             self._split_aml_line_per_check(transfer_debit_aml.move_id)
         return transfer_debit_aml
+
+

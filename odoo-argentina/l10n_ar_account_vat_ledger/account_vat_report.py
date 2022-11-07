@@ -6,8 +6,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 import time
-import logging
-_logger = logging.getLogger(__name__)
+
 
 class account_vat_ledger(models.Model):
 
@@ -243,7 +242,7 @@ class AccountVatLedgerXlsx(models.AbstractModel):
             money_format = workbook.add_format({'num_format': '$#,##0'})
             bold = workbook.add_format({'bold': True})
             sheet.write(1, 0, vat_ledger.display_name, bold)
-            titles = ['Fecha','Cliente','CUIT','Tipo Comprobante','Responsabilidad AFIP','Nro Comprobante','Monto gravado 21%','Monto gravado 10,5%','Monto gravado 27%','No gravado','Exento','IVA 21','IVA 10.5','IVA 27','Precepciones IVA','Percepciones IIBB Bs As','Percepciones IIBB CABA','Impuestos Internos','Total']
+            titles = ['Fecha','Cliente','CUIT','Tipo Comprobante','Responsabilidad AFIP','Nro Comprobante','Neto gravado','Neto Exento','IVA 21','IVA 10.5','Otros Impuestos','Total gravado']
             for i,title in enumerate(titles):
                 sheet.write(3, i, title, bold)
             row = 4
@@ -272,48 +271,15 @@ class AccountVatLedgerXlsx(models.AbstractModel):
                     else:
                         other_taxes_amount += move_tax.tax_amount
 
-                #sheet.write(row + index, 6, vat_taxable_amount,money_format)
-                #sheet.write(row + index, 7, vat_exempt_base_amount,money_format)
-
-                if vat_ledger.type == 'sale':
-                    for tax_line in obj.move_tax_ids:
-                        if tax_line.tax_id.amount == 21:
-                            sheet.write(row + index, 11, tax_line.tax_amount, money_format)
-                            sheet.write(row + index, 6, (100*(tax_line.tax_amount)) / 21, money_format)
-                        if tax_line.tax_id.amount == 10.5:
-                            sheet.write(row + index, 12, tax_line.tax_amount,money_format)
-                            sheet.write(row + index, 7, (100*(tax_line.tax_amount)) / 10.5, money_format)
-                        if tax_line.tax_id.amount == 27:
-                            sheet.write(row + index, 13, tax_line.tax_amount,money_format)
-                            sheet.write(row + index, 8, (100*(tax_line.tax_amount)) / 27, money_format)
-                        if tax_line.tax_id.tax_group_id.l10n_ar_vat_afip_code == '1':
-                            sheet.write(row + index, 9, tax_line.debit, money_format)
-                        if tax_line.tax_id.tax_group_id.tax_type == 'withholdings':
-                            if tax_line.tax_line_id.tax_group_id.l10n_ar_tribute_afip_code == '06':
-                                sheet.write(row + index, 15, tax_line.debit, money_format)
-                else:
-                    for tax_line in obj.l10n_latam_tax_ids:
-                        if tax_line.tax_line_id.amount == 21:
-                            sheet.write(row + index, 11, tax_line.debit, money_format)
-                            sheet.write(row + index, 6, (100*(tax_line.debit)) / 21, money_format)
-                        if tax_line.tax_line_id.amount == 10.5:
-                            sheet.write(row + index, 12, tax_line.debit, money_format)
-                            sheet.write(row + index, 7, (100*(tax_line.debit)) / 10.5, money_format)
-                        if tax_line.tax_line_id.amount == 27:
-                            sheet.write(row + index, 13, tax_line.debit, money_format)
-                            sheet.write(row + index, 8, (100*(tax_line.debit)) / 27, money_format)
-                        if tax_line.tax_line_id.tax_group_id.l10n_ar_vat_afip_code == '1':
-                            sheet.write(row + index, 9, tax_line.debit, money_format)
-                        if tax_line.tax_line_id.tax_group_id.tax_type == 'withholdings':
-                            if tax_line.tax_line_id.tax_group_id.l10n_ar_tribute_afip_code == '06':
-                                sheet.write(row + index, 15, tax_line.debit, money_format)
-
-                if obj.l10n_latam_document_type_id.code == '11' or obj.l10n_latam_document_type_id.code == '15':
-                    sheet.write(row + index, 10, obj.amount_untaxed, money_format)
-
-                sheet.write(row + index, 17, other_taxes_amount,money_format)
-                sheet.write(row + index, 18, obj.amount_total,money_format)
-
+                sheet.write(row + index, 6, vat_taxable_amount,money_format)
+                sheet.write(row + index, 7, vat_exempt_base_amount,money_format)
+                for tax_line in obj.move_tax_ids:
+                    if tax_line.tax_id.amount == 21:
+                        sheet.write(row + index, 8, tax_line.tax_amount,money_format)
+                    if tax_line.tax_id.amount == 10.5:
+                        sheet.write(row + index, 9, tax_line.tax_amount,money_format)
+                sheet.write(row + index, 10, other_taxes_amount,money_format)
+                sheet.write(row + index, 11, obj.amount_total,money_format)
                 #sheet.write(row + index, 9, obj.vat_amount)
                 #sheet.write(row + index, 10, obj.amount_tax - obj.vat_amount)
                 #sheet.write(row + index, 11, obj.currency_id.name)

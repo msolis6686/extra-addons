@@ -56,15 +56,16 @@ class AccountPayment(models.Model):
     )
     exchange_rate = fields.Float(
         string='Tipo de Cambio',
-        #compute='_compute_exchange_rate',
+        compute='_compute_exchange_rate',
         # readonly=False,
-        # inverse='_inverse_exchange_rate',
+        #inverse='_inverse_exchange_rate',
         digits=(16, 4),
     )
     company_currency_id = fields.Many2one(
         related='company_id.currency_id',
         string='Company currency',
     )
+
 
     @api.depends(
         'amount', 'payment_type', 'partner_type', 'amount_company_currency')
@@ -95,9 +96,12 @@ class AccountPayment(models.Model):
 
     @api.depends('amount', 'other_currency', 'amount_company_currency')
     def _compute_exchange_rate(self):
-        for rec in self.filtered('other_currency'):
-            rec.exchange_rate = rec.amount and (
-                rec.amount_company_currency / rec.amount) or 0.0
+        for rec in self:
+            if rec.other_currency:
+                rec.exchange_rate = rec.amount and (
+                    rec.amount_company_currency / rec.amount) or 0.0
+            else:
+                rec.exchange_rate = 1
 
     # this onchange is necesary because odoo, sometimes, re-compute
     # and overwrites amount_company_currency. That happends due to an issue
@@ -109,7 +113,7 @@ class AccountPayment(models.Model):
             if rec.other_currency and rec.amount_company_currency != \
                     rec.currency_id._convert(
                         rec.amount, rec.company_id.currency_id,
-                        rec.company_id, rec.payment_date):
+                        rec.company_id, rec.date):
                 force_amount_company_currency = rec.amount_company_currency
             else:
                 force_amount_company_currency = False
@@ -130,7 +134,7 @@ class AccountPayment(models.Model):
             else:
                 amount_company_currency = rec.currency_id._convert(
                     rec.amount, rec.company_id.currency_id,
-                    rec.company_id, rec.payment_date)
+                    rec.company_id, rec.date)
             rec.amount_company_currency = amount_company_currency
 
     @api.onchange('payment_type_copy')
@@ -277,17 +281,23 @@ class AccountPayment(models.Model):
                 'company_id': company_id,
                 'partner_type': vals.get('partner_type'),
                 'partner_id': vals.get('partner_id'),
-                'payment_date': vals.get(
-                    'payment_date', fields.Date.context_today(self)),
+                'payment_date': vals.get('date', fields.Date.context_today(self)),
                 'communication': vals.get('communication'),
             })
             vals['payment_group_id'] = payment_group.id
         payment = super(AccountPayment, self).create(vals)
+        if payment.move_id and payment.currency_id.id != payment.company_id.currency_id.id \
+                and abs(payment.amount_company_currency) > 0:
+            for move_line in payment.move_id.line_ids:
+                if move_line.debit > 0:
+                    move_line.with_context({'check_move_validity': False}).write({'debit': abs(payment.amount_company_currency)})
+                if move_line.credit > 0:
+                    move_line.with_context({'check_move_validity': False}).write({'credit': abs(payment.amount_company_currency)})
         if create_payment_group:
             payment.payment_group_id.post()
         return payment
 
-    @api.depends('invoice_ids', 'payment_type', 'partner_type', 'partner_id')
+    @api.depends('invoice_line_ids', 'payment_type', 'partner_type', 'partner_id')
     def _compute_destination_account_id(self):
         """
         If we are paying a payment gorup with paylines, we use account

@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from odoo import models, api, fields
-from odoo.exceptions import ValidationError
+
 
 class AccountPaymentGroup(models.Model):
 
@@ -40,7 +40,6 @@ class AccountPaymentGroup(models.Model):
         compute='_company_regimenes_ganancias',
     )
     temp_payment_ids = fields.Char('temp_payment_ids')
-    prev_invoices = fields.Boolean('prev_invoices',default=False)
 
     #@api.depends('company_id.regimenes_ganancias_ids')
     def _company_regimenes_ganancias(self):
@@ -48,17 +47,11 @@ class AccountPaymentGroup(models.Model):
         Lo hacemos con campo computado y no related para que solo se setee
         y se exija si es pago de o a proveedor
         """
-        #for rec in self.filtered(lambda x: x.partner_type == 'supplier'):
-        for rec in self:
-            #if rec.company_id.regimenes_ganancias_ids:
-            #    rec.company_regimenes_ganancias_ids = [(6,0,rec.company_id.regimenes_ganancias_ids.ids)]
-            #else:
-            #    rec.company_regimenes_ganancias_ids = [(6,0,[])]
-            if rec.partner_type == 'supplier':
-                rec.company_regimenes_ganancias_ids = (rec.company_id.regimenes_ganancias_ids)
-            else:
-                rec.company_regimenes_ganancias_ids = [(6,0,[])]
-
+        for rec in self.filtered(lambda x: x.partner_type == 'supplier'):
+            rec.company_regimenes_ganancias_ids = (
+                rec.company_id.regimenes_ganancias_ids)
+        for rec in self.filtered(lambda x: x.partner_type == 'customer'):
+            rec.company_regimenes_ganancias_ids = [(6,0,[])]
 
     @api.onchange('commercial_partner_id')
     def change_retencion_ganancias(self):
@@ -114,9 +107,5 @@ class AccountPaymentGroup(models.Model):
             if withholding == True:
                 for payment in rec.payment_ids:
                     payment.write({'used_withholding': True})
-            if rec.matched_move_line_ids:
-                rec.prev_invoices = True
 
         return res
-
-

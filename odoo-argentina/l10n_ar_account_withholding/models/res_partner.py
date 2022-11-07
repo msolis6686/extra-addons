@@ -74,10 +74,15 @@ class ResPartnerArbaAlicuot(models.Model):
         required=True,
         ondelete='cascade',
     )
+    tax_id = fields.Many2one(
+        'account.tax',
+        'Impuesto',
+        domain=[('type_tax_use', '=', 'supplier')],
+    )
+    percent = fields.Float('Porcentaje',digits=(6,4))
     tag_id = fields.Many2one(
         'account.account.tag',
         domain=[('applicability', '=', 'taxes')],
-        required=True,
         change_default=True,
     )
     company_id = fields.Many2one(

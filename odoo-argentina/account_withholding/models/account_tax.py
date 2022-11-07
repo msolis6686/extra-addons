@@ -1,15 +1,22 @@
 from odoo import models, fields, api
 
 
+TYPE_TAX_USE = [
+    ('sale', 'Sales'),
+    ('purchase', 'Purchases'),
+    ('customer', 'Customer Payment'),
+    ('supplier', 'Supplier Payment'),
+    ('none', 'None'),
+]
+
+
+
 class AccountTaxTemplate(models.Model):
     _inherit = "account.tax.template"
 
-    type_tax_use = fields.Selection(
-        selection_add=[
-            ('customer', 'Customer Payment'),
-            ('supplier', 'Supplier Payment'),
-        ],
-    )
+    type_tax_use = fields.Selection(TYPE_TAX_USE, string='Tax Type', required=True, default="sale",
+        help="Determines where the tax is selectable. Note : 'None' means a tax can't be used by itself, however it can still be used in a group. 'adjustment' is used to perform tax adjustment.")
+
 
 
 class AccountTax(models.Model):
@@ -18,12 +25,8 @@ class AccountTax(models.Model):
     """
     _inherit = "account.tax"
 
-    type_tax_use = fields.Selection(
-        selection_add=[
-            ('customer', 'Customer Payment'),
-            ('supplier', 'Supplier Payment'),
-        ],
-    )
+    type_tax_use = fields.Selection(TYPE_TAX_USE, string='Tax Type', required=True, default="sale",
+        help="Determines where the tax is selectable. Note : 'None' means a tax can't be used by itself, however it can still be used in a group. 'adjustment' is used to perform tax adjustment.")
     amount = fields.Float(
         default=0.0,
     )

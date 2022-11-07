@@ -10,7 +10,7 @@ from io import BytesIO
 import logging
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, date
 _logger = logging.getLogger(__name__)
 
 try:
@@ -18,10 +18,18 @@ try:
 except ImportError:
     _logger.debug('Can not `from pyafipws.soap import SoapFault`.')
 
+class AccountJournal(models.Model):
+    _inherit = 'account.journal'
+
+class IrSequence(models.Model):
+    _inherit = 'ir.sequence'
+
+    journal_id = fields.Many2one('account.journal','Diario facturacion')
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    afip_mypyme_sca_adc = fields.Selection(selection=[('SCA','Sistema Circulacion Abierta'),('ADC','Agente Deposito Colectivo')],string='SCA o ADC',default='SCA')
     afip_auth_verify_type = fields.Selection(
         related='company_id.afip_auth_verify_type',
     )
@@ -131,6 +139,23 @@ class AccountMove(models.Model):
         '- NO: sí el comprobante asociado (original) NO se encuentra rechazado por el comprador'
     )
 
+    def _compute_show_credit_button(self):
+        for rec in self:
+            res = True
+            if rec.move_type in ['in_invoice','out_invoice']:
+                if rec.state == 'posted':
+                    if rec.payment_state not in ['paid','reversed']:
+                        res = True
+                    else:
+                        res = False
+                else:
+                    res = False
+            else:
+                res = False
+            rec.show_credit_button = res
+
+    show_credit_button = fields.Boolean('show_credit_button',compute=_compute_show_credit_button)
+
     @api.depends('journal_id', 'afip_auth_code')
     def _compute_validation_type(self):
         for rec in self:
@@ -231,6 +256,8 @@ class AccountMove(models.Model):
         The last thing we do is request the cae because if an error occurs
         after cae requested, the invoice has been already validated on afip
         """
+        for rec in self:
+            rec.compute_taxes()
         res = super(AccountMove, self).action_post()
         self.check_afip_auth_verify_required()
         self.do_pyafipws_request_cae()
@@ -284,7 +311,7 @@ class AccountMove(models.Model):
             "54", "60", "61", "63", "64"
         ]
         verification_required = self.filtered(
-            lambda inv: inv.type in ['in_invoice', 'in_refund'] and
+            lambda inv: inv.move_type in ['in_invoice', 'in_refund'] and
             inv.afip_auth_verify_type == 'required' and
             (inv.document_type_id and
              inv.document_type_id.code in verify_codes) and
@@ -431,6 +458,7 @@ print "Observaciones:", wscdc.Obs
                 continue
 
             # get the electronic invoice type, point of sale and afip_ws:
+            # import pdb;pdb.set_trace()
             commercial_partner = inv.commercial_partner_id
             country = commercial_partner.country_id
             journal = inv.journal_id
@@ -502,7 +530,11 @@ print "Observaciones:", wscdc.Obs
                 fecha_serv_desde = fecha_serv_hasta = None
 
             # invoice amount totals:
-            imp_total = str("%.2f" % inv.amount_total)
+            amount_total = inv.amount_untaxed
+            for move_tax in inv.move_tax_ids:
+                amount_total += move_tax.tax_amount
+
+            imp_total = str("%.2f" % amount_total)
             # ImpTotConc es el iva no gravado
             imp_tot_conc = str("%.2f" % inv.vat_untaxed_base_amount)
             # imp_tot_conc = str("%.2f" % inv.amount_untaxed)
@@ -516,12 +548,14 @@ print "Observaciones:", wscdc.Obs
                 #imp_neto = str("%.2f" % inv.vat_taxable_amount)
                 imp_neto = str("%.2f" % inv.vat_taxable_amount)
             imp_trib = str("%.2f" % inv.other_taxes_amount)
-            imp_iva = str("%.2f" % (inv.amount_total - (inv.amount_untaxed + inv.other_taxes_amount)))
+            # imp_iva = str("%.2f" % (inv.amount_total - (inv.amount_untaxed + inv.other_taxes_amount)))
+            imp_iva = str("%.2f" % (inv.vat_amount))
             # se usaba para wsca..
             # imp_subtotal = str("%.2f" % inv.amount_untaxed)
             imp_op_ex = str("%.2f" % inv.vat_exempt_base_amount)
             moneda_id = inv.currency_id.l10n_ar_afip_code
-            moneda_ctz = round(1/inv.currency_id.rate,2)
+            #moneda_ctz = round(1/inv.currency_id.rate,2)
+            moneda_ctz = inv.currency_id.rate
             if not moneda_id:
                 raise ValidationError('No esta definido el codigo AFIP en la moneda')
 
@@ -530,6 +564,7 @@ print "Observaciones:", wscdc.Obs
 
             # create the invoice internally in the helper
             if afip_ws == 'wsfe':
+                moneda_ctz = 1 / moneda_ctz
                 inv.l10n_ar_currency_rate = moneda_ctz
                 ws.CrearFactura(
                     concepto, tipo_doc, nro_doc, doc_afip_code, pos_number,
@@ -656,26 +691,15 @@ print "Observaciones:", wscdc.Obs
                     # agregamos cbu para factura de credito electronica
                     ws.AgregarOpcional(
                         opcional_id=2101,
-                        valor=inv.invoice_partner_bank_id.cbu)
-                    # agregamos tipo de transmision si esta definido
-                    transmission_type = self.env['ir.config_parameter'].sudo().get_param('l10n_ar_edi.fce_transmission', 'SCA')
-                    if transmission_type:
-                        ws.AgregarOpcional(
-                            opcional_id=27,
-                            valor=transmission_type)
-
+                        valor=inv.partner_bank_id.cbu)
+                    ws.AgregarOpcional(
+                        opcional_id=27,
+                        valor=inv.afip_mypyme_sca_adc)
                 elif int(doc_afip_code) in [202, 203, 207, 208, 212, 213]:
                     valor = inv.afip_fce_es_anulacion and 'S' or 'N'
                     ws.AgregarOpcional(
                         opcional_id=22,
                         valor=valor)
-                    # agregamos tipo de transmision si esta definido
-                    transmission_type = self.env['ir.config_parameter'].sudo().get_param('l10n_ar_edi.fce_transmission', 'SCA')
-                    if transmission_type:
-                        ws.AgregarOpcional(
-                            opcional_id=27,
-                            valor=transmission_type)
-
 
             # TODO ver si en realidad tenemos que usar un vat pero no lo
             # subimos
@@ -708,21 +732,33 @@ print "Observaciones:", wscdc.Obs
 
             if CbteAsoc:
                 # fex no acepta fecha
+                doc_number = CbteAsoc.document_number.split('-')[1]
+                invoice_date = str(CbteAsoc.invoice_date).replace('-','')
                 if afip_ws == 'wsfex':
                     ws.AgregarCmpAsoc(
                         CbteAsoc.l10n_latam_document_type_id.document_type_id.code,
                         CbteAsoc.journal_id.l10n_ar_afip_pos_number,
-                        CbteAsoc.document_number[5:],
+                        doc_number,
                         self.company_id.vat,
                     )
                 else:
                     ws.AgregarCmpAsoc(
                         CbteAsoc.l10n_latam_document_type_id.code,
                         CbteAsoc.journal_id.l10n_ar_afip_pos_number,
-                        CbteAsoc.document_number[5:],
+                        doc_number,
                         self.company_id.vat,
-                        afip_ws != 'wsmtxca' and self.date.strftime('%Y%m%d') or self.invoice_date.strftime('%Y-%m-%d'),
+                        invoice_date,
                     )
+            # Notas de debito
+            if inv.l10n_latam_document_type_id.code in ['2','7']:
+                year = date.today().year
+                month = date.today().month
+                day = date.today().day
+                fecha_desde = str(year) + str(month).zfill(2) + '01'
+                fecha_hasta = str(year) + str(month).zfill(2) + str(day).zfill(2)
+                ws.AgregarPeriodoComprobantesAsociados(fecha_desde,fecha_hasta)
+
+
 
             # analize line items - invoice detail
             # wsfe do not require detail
@@ -835,7 +871,8 @@ print "Observaciones:", wscdc.Obs
                 'afip_message': msg,
                 'afip_xml_request': ws.XmlRequest,
                 'afip_xml_response': ws.XmlResponse,
-                'document_number': str(pos_number).zfill(4) + '-' + str(cbte_nro).zfill(8)
+                'document_number': str(pos_number).zfill(5) + '-' + str(cbte_nro).zfill(8),
+                'name': inv.l10n_latam_document_type_id.doc_code_prefix + ' ' + str(pos_number).zfill(5) + '-' + str(cbte_nro).zfill(8),
             })
             # si obtuvimos el cae hacemos el commit porque estoya no se puede
             # volver atras

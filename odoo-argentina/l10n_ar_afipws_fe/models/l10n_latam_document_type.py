@@ -129,7 +129,7 @@ class L10nLatamDocumentType(models.Model):
 
         next_ws = int(last or 0) + 1
         if invoice:
-            sequence = self.env['ir.sequence'].search([('l10n_latam_journal_id','=',invoice.journal_id.id),('l10n_latam_document_type_id','=',invoice.l10n_latam_document_type_id.id)])
+            sequence = self.env['ir.sequence'].search([('journal_id','=',invoice.journal_id.id),('l10n_latam_document_type_id','=',invoice.l10n_latam_document_type_id.id)])
         else:
             sequence = sequence
         if not sequence or len(sequence) > 1:

@@ -27,20 +27,13 @@
     'images': [
     ],
     'depends': [
-        # 'account',
-        # for bank and cash menu and also for better usability
         'account_payment_fix',
-        # TODO we should move field amount_company_currency to
-        # account_payment_fix so that we dont need to depend on
-        # account_payment_group
         'base',
         'account_payment_group',
     ],
     'data': [
         'data/account_payment_method_data.xml',
-        'data/ir_actions_server_data.xml',
         'wizard/account_check_action_wizard_view.xml',
-        'wizard/print_pre_numbered_checks_view.xml',
         'wizard/res_config_settings_view.xml',
         'views/res_company_view.xml',
         'views/account_payment_view.xml',

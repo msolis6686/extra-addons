@@ -17,11 +17,10 @@
         <!--ARTICLE -->
         <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
           <!--HEADER-->
-          <div class="header"  style="margin-bottom: 0px !important;">
+          <div class="fe_header"  style="margin-bottom: 0px !important;">
             <div class="row" style="border: 1px solid black; border-radius: 10px; margin-bottom: 0px !important;">
                 <!--COMPANY LOGO-->
                 <div class="col-3 text-left">
-                    <!--<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="display: block !important; float: left !important; position: absolute !important; margin-top: 0px !important; margin-bottom: 0px !important; top: 10px !important; left: 10px !important; bottom: auto !important; max-height: 95px;"/>-->
                     <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-width: 230px; max-height: 60px; margin-top: 30px;" alt="Logo"/>
                 </div><!--END COMPANY LOGO-->
                 <!--FE-->
@@ -55,7 +54,7 @@
                 <!--END DATOS FACTURA-->
             </div>
             <div class="row" style="border: 1px solid black; border-radius: 10px; margin-top: 10px !important; margin-bottom: 0px !important;">
-                <div  class="col-8" t-if="o.type == 'out_invoice' and (o.state == 'posted') and o.l10n_ar_afip_service_start and o.l10n_ar_afip_service_end">
+                <div  class="col-8" t-if="o.move_type == 'out_invoice' and (o.state == 'posted') and o.l10n_ar_afip_service_start and o.l10n_ar_afip_service_end">
                     <strong>Período facturado desde:</strong>
                     <span t-if="o.l10n_ar_afip_service_start">
                       <span t-field="o.l10n_ar_afip_service_start"  t-options="{'format': 'dd/MM/yyyy'}"/>
@@ -65,7 +64,7 @@
                       <span t-field="o.l10n_ar_afip_service_end"  t-options="{'format': 'dd/MM/yyyy'}"/>
                     </span>
                   </div>
-                  <div class="col-4" t-if="o.type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
+                  <div class="col-4" t-if="o.move_type == 'out_invoice' and (o.state == 'posted' or o.state == 'paid')">
                     <strong>Fecha Vto:</strong>
                     <span t-if="o.invoice_date_due">
                       <span t-field="o.invoice_date_due"/>
@@ -77,7 +76,9 @@
               </div>
           </div><!--END HEADER-->
           <!--PAGE-->
-          <div class="page" style="margin-top: 0px !important;">
+	  <div class="page" style="margin-top: 0px !important;">
+
+	     <t t-call="l10n_ar.custom_header"></t>
 
              <!--MY COMPANY-->
               <div class="row" style="border: 1px solid black; border-radius: 10px; margin-top: 0px !important;">
@@ -108,7 +109,7 @@
               </div>
               <!-- END CLIENTE  -->
               <!-- ENCABEZADO FACTURA -->
-              <div class="row mt20 mb20">
+              <div class="row mt32 mb32">
                 <div class="col-2" t-if="o.currency_id">
                   <strong>Moneda: </strong>
                   <p t-field="o.currency_id.name"/>
@@ -190,8 +191,8 @@
               </table><!-- END TABLA ITEMS -->
 
               <!--SUBTOTAL E IMPUESTOS INTEGRADOS-->
-              <div class="row">
-                  <div class="col-7"/>
+              <div class="row mt32 mb32">
+                  <div class="col-8"/>
                   <div class="col-4">
                       <table class="table table-condensed">
                           <tr class="border-black" t-if="o.l10n_latam_document_type_id.l10n_ar_letter != 'B'">
@@ -282,7 +283,7 @@
 
           </div><!--END PAGE-->
           <!-- CAE -->
-            <div class="footer" style="border: 1px solid black;">
+            <div class="fe_footer" style="border: 1px solid black;">
               <div class="row" style="margin-bottom: 0px !important; padding-top: 2px;">
                 <div class="col-4" t-if="o.afip_cae">
                   <p/>

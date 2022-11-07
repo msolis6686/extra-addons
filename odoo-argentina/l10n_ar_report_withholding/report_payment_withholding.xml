@@ -7,8 +7,8 @@
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <div class="page">
                 <div class="row mt64">
-                    <div class="col-6" t-if="o.payment_date">
-                        <strong>Fecha Recibo </strong> <span t-field="o.payment_date"/>
+                    <div class="col-6" t-if="o.date">
+                        <strong>Fecha Recibo </strong> <span t-field="o.date"/>
                     </div>
                 </div>
 		<h3><strong>Datos Sujeto Retenido:</strong></h3>

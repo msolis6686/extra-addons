@@ -14,7 +14,8 @@ class AccountJournalDocumentType(models.Model):
 
     afip_ws = fields.Selection(
         related='journal_id.afip_ws',
-        redaonly=True,
+        readonly=True,
+        ondelete='restrict',
     )
 
 

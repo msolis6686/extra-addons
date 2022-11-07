@@ -16,7 +16,6 @@ class ResCompany(models.Model):
         ('available', 'Available'),
         ('required', 'Required'),
     ],
-        required=True,
         default='not_available',
         string='AFIP authorization verification',
         help='It adds an option on invoices to verify the afip authorization '

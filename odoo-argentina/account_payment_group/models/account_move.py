@@ -191,7 +191,7 @@ class AccountMove(models.Model):
 
     def action_account_invoice_payment_group(self):
         self.ensure_one()
-        if self.state != 'posted' or self.invoice_payment_state != 'not_paid':
+        if self.state != 'posted' or self.payment_state not in ['not_paid','in_payment']:
             raise ValidationError(_('You can only register payment if invoice is posted and unpaid'))
         return {
             'name': _('Register Payment'),

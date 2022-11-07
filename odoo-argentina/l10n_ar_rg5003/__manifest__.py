@@ -6,11 +6,13 @@
     'license': 'AGPL-3',
     'summary': '',
     'depends': [
-        'l10n_ar'
+        'l10n_ar',
+        'l10n_ar_report_fe'
     ],
     'external_dependencies': {
     },
     'data': [
+        'report_view.xml'
     ],
     'demo': [
     ],

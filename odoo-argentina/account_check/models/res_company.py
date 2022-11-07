@@ -21,18 +21,10 @@ class ResCompany(models.Model):
         'Deferred Checks Account',
         help='Deferred Checks account, for eg. "Deferred Checks"',
     )
-    holding_check_account_id = fields.Many2one(
-        'account.account',
-        'Holding Checks Account',
-        help='Holding Checks account for third checks, '
-        'for eg. "Holding Checks"',
-    )
 
     def _get_check_account(self, check_type):
         self.ensure_one()
-        if check_type == 'holding':
-            account = self.holding_check_account_id
-        elif check_type == 'rejected':
+        if check_type == 'rejected':
             account = self.rejected_check_account_id
         elif check_type == 'deferred':
             account = self.deferred_check_account_id
