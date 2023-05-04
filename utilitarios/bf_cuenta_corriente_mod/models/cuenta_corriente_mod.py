@@ -27,7 +27,7 @@ class bf_cuenta_corriente_mod(models.Model):
             diff = abs(r.debe_c - r.debe_m)
             """ if diff > 0.01: """
             vals = {'debe_m': r.debe_c}
-            r.write(vals)
+            r.sudo().write(vals)
                 #self.reload_page()
         self.reload_page()
         
@@ -41,7 +41,7 @@ class bf_cuenta_corriente_mod(models.Model):
             diff = abs(r.haber_c - r.haber_m)
             """ if diff > 0.01: """
             vals = {'haber_m': r.haber_c}
-            r.write(vals)
+            r.sudo().write(vals)
                 #self.reload_page()
         self.reload_page()
         
@@ -53,7 +53,7 @@ class bf_cuenta_corriente_mod(models.Model):
             """ if diff >= 0.01: """
             new_value = round(r.saldo_c,2)
             vals = {'saldo_m': new_value}
-            r.write(vals)
+            r.sudo().write(vals)
         self.reload_page()
         
     def action_show_invoices(self):
