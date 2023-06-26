@@ -3,7 +3,7 @@ import os
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from datetime import date, datetime
-from icecream import ic
+#from icecream import ic
 import logging
 _logger = logging.getLogger(__name__)
 
