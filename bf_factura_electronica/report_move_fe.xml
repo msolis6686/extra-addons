@@ -35,7 +35,7 @@
                                     <!-- <t t-if="len(o.company_id.name) &gt; 11 "> -->
                                     <img t-att-src="image_data_uri(o.company_id.logo_web)" style="width: 120px;float:left;margin-top:10px;margin-right:10px;"/>
                                     <br/>
-                                    <h4 class="py-2">
+                                    <h4 class="py-1">
                                         <strong>
                                             <span t-field="o.company_id.name"></span>
                                         </strong>
