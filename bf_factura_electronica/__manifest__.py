@@ -11,7 +11,6 @@
     'depends': [
         'l10n_ar_afipws_fe',
     ],
-    'external_dependencies': {'python':['icecream']},
     'installable': True,
     'license': 'AGPL-3',
     'name': 'bf_factura_electronica',

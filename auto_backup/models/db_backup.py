@@ -16,7 +16,7 @@ import psutil
 from odoo import models, fields, api, tools, _, http, tools
 from odoo.exceptions import Warning, AccessDenied, ValidationError
 import odoo
-from icecream import ic
+#from icecream import ic
 
 import logging
 _logger = logging.getLogger(__name__)

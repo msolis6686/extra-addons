@@ -3,14 +3,14 @@
 from odoo import models, fields, api
 import json
 import base64
-from icecream import ic
+#from icecream import ic
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
     
     def _get_name_invoice(self):
         aux = self.name
-        ic(self.l10n_latam_document_type_id)
+        #ic(self.l10n_latam_document_type_id)
         if (self.l10n_latam_document_type_id.id in [3,8,13,35]):
             name = f"{aux} ({self.invoice_origin})"
         else:
