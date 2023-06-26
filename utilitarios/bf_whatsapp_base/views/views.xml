@@ -1,0 +1,158 @@
+<odoo>
+  <data>
+    <!-- vista tree -->
+    <record model="ir.ui.view" id="view_bf_whatsapp_message_tree">
+      <field name="name">view.bf.whatsapp.message.tree</field>
+      <field name="model">bf.whatsapp.message</field>
+      <field name="arch" type="xml">
+        <tree string='Whatsapp Message'>
+          <field name="id_w"/>
+          <field name="name"/>
+          <field name="phone"/>
+          <field name="message"/>
+          <field name="server_name"/>
+          <field name="create_date"/>
+          <field name="sent_date"/>
+          <field name="send_state"/>
+        </tree>
+      </field>
+    </record>
+    <!-- vista form -->
+    <record model="ir.ui.view" id="view_bf_whatsapp_message_form">
+      <field name="name">view.bf.whatsapp.message.form</field>
+      <field name="model">bf.whatsapp.message</field>
+      <field name="arch" type="xml">
+        <form string='Whatsapp Message'>
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button name="send_message" type="object" class="oe_stat_button" string="Send..." icon="fa-play-circle"/>
+            </div>
+            <group name='group_top'>
+              <field name="id_w"/>
+              <field name="name" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="phone" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="message" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="attachment_ids" widget="many2many_binary" invisible="0" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="create_date" readonly="True" force_save="True"/>
+              <field name="sent_date" readonly="True" force_save="True"/>
+              <field name="send_state" invisible="True"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- vista tree -->
+    <record model="ir.ui.view" id="view_bf_whatsapp_config_tree">
+      <field name="name">view.bf.whatsapp.config.tree</field>
+      <field name="model">bf.whatsapp.config</field>
+      <field name="arch" type="xml">
+        <tree string='Whatsapp Config'>
+          <field name="name"/>
+          <field name="link_api"/>
+          <field name="user_name"/>
+          <field name="user_pass" password="True"/>
+          <field name="active_conf"/>          
+        </tree>
+      </field>
+    </record>
+    <!-- vista form -->
+    <record model="ir.ui.view" id="view_bf_whatsapp_config_form">
+      <field name="name">view.bf.whatsapp.config.form</field>
+      <field name="model">bf.whatsapp.config</field>
+      <field name="arch" type="xml">
+        <form string='Whatsapp Config'>
+          <sheet>
+            <header>
+              <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>
+              <!-- <button name="destroy_services" type="object" class="oe_stat_button" string="Desconectar" icon="fa-play-circle"/> -->
+              <button name="initializing_services" type="object" class="oe_stat_button" string="Inicializar Servicio" icon="fa-play-circle"/>
+              <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
+              <button name="active_config" type="object" class="oe_stat_button" string="Predeterminado" icon="fa-play-circle"/>
+            </header>
+            <!-- <div class="oe_button_box" name="button_box">
+              <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>
+              <button name="destroy_services" type="object" class="oe_stat_button" string="Desconectar" icon="fa-play-circle"/>
+              <button name="x_services" type="object" class="oe_stat_button" string="x function..." icon="fa-play-circle"/>
+              <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
+            </div> -->
+            <group name='group_top'>
+              <field name="name"/>
+              <field name="link_api"/>
+              <field name="user_name" password="True"/>
+              <field name="user_pass" password="True"/>
+              <field name="num_msg"/>
+              <field name="header_message"/>
+              <field name="footer_message"/>
+              <field name="phone_company"/>
+              <field name="logo" widget='image' style="width:200px;" filename="logo_name"/>
+              <field name="logo_name" invisible="1"/>
+              <field name="logo_url" widget='url'/>
+              <field name="active_conf"/>
+              <field name="qr_w" widget="ace"/>
+              <field name="qrs_strings" readonly="True" force_save="True">
+                <tree>
+                  <field name="qr_image" widget="image" style="width:300px;"/>
+                </tree>
+              </field>
+              
+              <!-- <field name='qr_image' widget="image" style="width:250px;"/> -->
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="bf_whatsapp_base_messages_action_window">
+      <field name="name">Whatsapp Message</field>
+      <field name="res_model">bf.whatsapp.message</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Listado de Mensajes
+        </p>
+        <p>
+          Click 'Nuevo' para añadir nuevos elementos
+        </p>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="bf_whatsapp_config_action_windows">
+      <field name="name">Whatsapp Config</field>
+      <field name="res_model">bf.whatsapp.config</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- vista search -->
+    <record model="ir.ui.view" id="view_bf_whatsapp_message_search">
+      <field name="name">view.bf.whatsapp.message.search</field>
+      <field name="model">bf.whatsapp.message</field>
+      <field name="arch" type="xml">
+        <search string="Filtrar Mensajes">
+          <field name="id_w"/>
+          <field name="name"/>
+          <field name="phone"/>
+          <field name="message"/>          
+        </search>
+      </field>
+    </record>
+    <!-- Top menu item -->
+
+    <!-- Top menu item -->
+    <menuitem
+        id="bf_whatsapp_base.menu_root"
+        name="Whatsapp Message"
+        web_icon="bf_whatsapp_base,static/description/w_icon.png"
+        sequence="20"/>
+
+    <menuitem name="Whatsapp Message" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Mensajes enviados" id="bf_whatsapp_base.messages_list" parent="bf_whatsapp_base.messages"
+              action="bf_whatsapp_base_messages_action_window"/>
+
+    <menuitem name="Whatsapp Config" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Conectar Servidor" id="bf_whatsapp_base.config_setup" parent="bf_whatsapp_base.config" 
+              action="bf_whatsapp_config_action_windows"/>
+
+  </data>
+</odoo>

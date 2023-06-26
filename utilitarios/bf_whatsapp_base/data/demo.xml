@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+          <record id="object0" model="bf.whatsapp.templates">
+            <field name="name">Factura Electrónica</field>
+            <field name="model">account.move</field>
+            <!-- <field name="model_id">account.move</field> -->
+            <field name="header_message">company_name</field>
+            <field name="footer_message">Responder a https://wa.me/549xxx</field>
+            <field name="message">Estimado/a *{partner_name}*,
+Se remite adjunta su factura *{invoice}* (con referencia: {reference}) de {company_name}
+Consulte los detalles de plazo y modo de pago en el documento.
+
+En caso de requerir cualquier aclaración, por favor no dude en contactarnos:
+
+⏰ De lunes a viernes de 9hs a 20hs, sábado de 9hs a 13hs
+☎ Tel: 421xxxx
+📞 Cel: 387xxxxxxx
+
+Por consultas o sugerencias, comunicarse vía whatsapp
+👉 *https://wa.me/549387xxxxxxx*
+
+❗❗❗*IMPORTANTE*
+Por favor agende éste número para poder seguir recibiendo este tipo de notificaciones.
+Seguimos trabajando para mejorar nuestros servicios.
+            </field>
+          </record>
+    </data>
+</odoo>

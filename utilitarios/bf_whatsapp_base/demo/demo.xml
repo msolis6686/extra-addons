@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+<!--
+          <record id="object1" model="bf_antanet_cards.bf_antanet_cards">
+            <field name="name">Factura Electrónica</field>
+            <field name="message">Estimado/a *{partner_name}*,
+Se remite adjunta su *{invoice}* (con referencia: {reference}) de {company_name}.
+Consulte los detalles de plazo y modo de pago en el documento.
+
+En caso de requerir cualquier aclaración, por favor no dude en contactarnos.
+
+Saludos cordiales.</field>
+          </record>
+-->
+    </data>
+</odoo>
