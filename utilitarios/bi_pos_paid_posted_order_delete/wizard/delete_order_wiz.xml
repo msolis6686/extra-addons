@@ -1,0 +1,36 @@
+
+<odoo>
+	<record id="pos_order_delete_wiz_form" model="ir.ui.view">
+		<field name="name"></field>
+		<field name="model">pos.order.delete</field>
+		<field name="arch" type="xml">
+			<form string="Delete POS Order">
+				<group>
+					<group>
+						<field name="company_id" invisible="1"/>
+						<field name="set_paid_delete_order" invisible="1"/>
+						<field name="validate_pin" attrs="{'invisible': [('set_paid_delete_order' ,'=', 'without_code')]}"/>
+						<lable attrs="{'invisible': [('set_paid_delete_order' ,'=', 'with_code')]}">Are you sure you want to delete this record ?</lable>
+					</group>
+				</group>
+					
+				
+				<footer>
+					<button name="delete_order" string="Confirm" type="object" class="btn-primary"/>
+					<button string="Cancel" class="btn-secondary" special="cancel"/>
+				</footer>
+
+			
+			</form>
+		</field>
+	</record>
+
+	<act_window 
+        id="paid_posted_order_delete"
+        name="Delete POS Order"
+        res_model="pos.order.delete"
+        binding_model="pos.order"
+        view_mode="form"
+        target="new"
+        />
+</odoo>	

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-extend="ListView.buttons">
+        <t t-jquery="div.o_list_buttons" t-operation="append">
+            <button type="button" t-if='widget.modelName == "bf.mercadopago.subscriptions"' 
+                class="oe_new_custom_button btn btn-primary">Actualizar Lista de Subscripciones
+            </button>
+        </t>
+    </t>
+</templates>

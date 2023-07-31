@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="bf_mp_cancel_subscription">
+        <field name="model">bf.mercadopago.cancel.subscription.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Actualizar Datos de Suscripción">
+                <group string="Cancelacion de Suscripción">
+                    <field name="mp_id" invisible="True"/>
+                    <p>Se cancelara la siguiente suscripción:<field name="reason" string="Nombre" readonly="True" force_save="True"/></p>
+                </group>
+                <p>La cancelación del plan es <b style="color:red;">irreversible</b>. No podrás modificarlo ni volver a activarlo.<br/>
+                    Los suscriptores adheridos a este plan seguirán activos. Si no querés continuar cobrándoles, podés cancelarlos desde el sector Suscriptores en la pagina de MercadoPago.</p>
+                <footer>
+                    <button string="CANCELAR SUSCRIPCIÓN" name="send_and_cancel_subscription" type="object" class="btn-danger"/>
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

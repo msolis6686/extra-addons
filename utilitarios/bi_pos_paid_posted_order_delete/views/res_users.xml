@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    
+    <record id="project_inherit_view" model="ir.ui.view">
+        <field name="name">project.config.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]/div[@data-key='point_of_sale']" position="inside">
+                <h2 groups="bi_pos_paid_posted_order_delete.group_pos_delete_paid">Delete POS Order</h2>
+
+                <div class="row mt16 o_settings_container" groups="bi_pos_paid_posted_order_delete.group_pos_delete_paid">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="delete_paid_order"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="delete_paid_order"/>
+                            <div class="text-muted">
+                                Delete POS order...
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('delete_paid_order' ,'=', False)]}">
+                                <div class="mt16">
+                                    <field name="set_paid_delete_order" widget="radio" class="o_light_label"/>
+                                </div>
+
+                                <div class="mt16" attrs="{'invisible': [('set_paid_delete_order' ,'!=', 'with_code')]}">
+                                    <label for="code"/> : 
+                                    <field name="code" attrs="{'required': [('set_paid_delete_order' ,'==', 'with_code')]}"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </xpath>
+        </field>
+    </record>
+</odoo>

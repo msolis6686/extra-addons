@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- VISTA FORM DE LAS SUBSCRIPCIONES ACTIVAS -->
+        <record id="mp_active_subscriptions_form_view" model="ir.ui.view">
+            <field name="name">mp.active.subscriptions.form.view</field>
+            <field name="model">bf.mercadopago.active.subscriptions</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <group>
+                        <field name="partner_id" string="Cliente" readonly="True" force_save="True"/>
+                        <field name="subscription_id" string="Subscripción" readonly="True" force_save="True"/>
+                        <field name="status" string="Estado de la Subscripción" readonly="True" force_save="True"/>
+                        <field name="active_since" string="Subscripcion Activa Desde" readonly="True" force_save="True"/>
+                        <field name="ended_in" string="Subscripcion Finalizada En" readonly="True" force_save="True"/>
+                        <field name="active_months" string="Meses Activos" readonly="True" force_save="True"/>
+                        <field name="total_recaudado" string="Total Recaudado" readonly="True" force_save="True"/>
+                        <field name="notes" string="Notas Internas"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- VISTA FORM DE LAS SUBSCRIPCIONES ACTIVAS -->
+
+        <!-- VISTA TREE DE LAS SUBSCRIPCIONES ACTIVAS -->
+        <record id="mp_active_subscriptions_tree_view" model="ir.ui.view">
+            <field name="name">mp.active.subscriptions.tree.view</field>
+            <field name="model">bf.mercadopago.active.subscriptions</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                <field name="partner_id" string="Cliente"/>
+                <field name="subscription_id" string="Subscripción"/>
+                <field name="status" string="Estado"/>
+                <field name="active_months" string="Meses Activos"/>
+                <field name="total_recaudado" string="Total Recaudado"/>
+                </tree>
+            </field>
+        </record>
+        <!-- VISTA TREE DE LAS SUBSCRIPCIONES ACTIVAS -->
+
+        <!-- ARMADO DE ACCION PARA PODER INGRESAR A LA VISTA -->
+        <record id="mp_active_subscriptions_menu_action" model="ir.actions.act_window">
+            <field name="name">Subscripciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bf.mercadopago.active.subscriptions</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- ARMADO DE ACCION PARA PODER INGRESAR A LA VISTA -->
+
+        <!-- BOTON PARA ACCEDER A LA ACCION QUE DIRIGE A LA VISTA -->
+        <menuitem id="menu_mp_active_subscriptions"
+                    name="Subscripciones"
+                    parent="account.menu_finance_receivables"
+                    action="mp_active_subscriptions_menu_action"
+                    sequence="999"/>
+        <!-- BOTON PARA ACCEDER A LA ACCION QUE DIRIGE A LA VISTA -->
+    </data>
+
+</odoo>

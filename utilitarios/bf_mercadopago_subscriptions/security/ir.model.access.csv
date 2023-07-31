@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+52,Subscripciones MercadoPago,model_bf_mercadopago_subscriptions,account.group_account_manager,1,1,1,1
+53,Subscripciones Activas,model_bf_mercadopago_active_subscriptions,account.group_account_manager,1,1,1,1

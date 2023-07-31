@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="bf_mp_update_subscription">
+        <field name="model">bf.mercadopago.update.subscription.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Actualizar Datos de Subscripción">
+                <group string="Datos Basicos de la Subscripción">
+                    <field name="mp_id" invisible="True"/>
+                    <field name="reason" string="Nombre" required="True"/>
+                    <field name="transaction_amount" string="Monto" required="True"/>
+                    <field name="external_reference" string="Referencia Externa" required="True"/>
+                    <field name="back_url" string="URL de Redireccion" required="True"/>
+                </group>
+                <group string="Recurrencia">
+                    <!-- <field name="has_repetitions" string="Subscripción Limitada"/>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO -->
+                    <field name="frequency_type" string="Tipo de Frecuencia"/>
+                    <field name="frequency" string="Frecuencia"/>
+                    <field name="billing_day" string="Día de Facturación" attrs="{'invisible': ['|',('frequency_type','!=','months'),('frequency','!=',1)]}"/>
+                    <!-- <field name="repetitions" string="Repeticiones" attrs="{'invisible': [('has_repetitions', '=', False)], 'required': [('has_repetitions','=',True)]}"/>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO -->
+                    <field name="billing_day_proportional" string="Facturacion Proporcional"/>
+                </group>
+                <!-- <group string="Prueba Gratuita">
+                    <field name="has_free_trial" string="Prueba Gratuita"/>
+                    <field name="free_trial_frequency_type" string="Tipo de Frecuencia" attrs="{'invisible': [('has_free_trial', '=', False)], 'required': [('has_free_trial','=',True)]}"/>
+                    <field name="free_trial_frequency" string="Frecuencia" attrs="{'invisible': [('has_free_trial', '=', False)], 'required': [('has_free_trial','=',True)]}"/>
+                </group>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO -->
+                <footer>
+                    <button string="Actualizar Subscripción" name="send_and_update_subscription" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

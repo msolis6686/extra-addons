@@ -3,9 +3,8 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
     <template id="partner_statement.activity_statement_document">
-        <!-- <t t-call="web.external_layout"> -->
         <t t-call="web.external_layout">
-            <!-- <t t-set="o" t-value="o.with_context({'lang': lang})" />
+            <t t-set="o" t-value="o.with_context({'lang': lang})" />
             <t t-set="address">
                 <address
                     t-esc="get_inv_addr(o)"
@@ -14,7 +13,7 @@
                 <div t-if="o.vat" class="mt16"><t
                         t-esc="company.country_id.vat_label or 'Tax ID'"
                     />: <span t-field="o.vat" /></div>
-            </t> -->
+            </t>
             <div class="page">
                 <h2>Statement of Account</h2>
                 <div id="informations" class="row mt32 mb32">
@@ -26,19 +25,13 @@
                         <strong>Partner Name:</strong>
                         <p t-field="o.name" class="m-0" />
                     </div>
-                    <!-- AGREGADO POR MARITO -->
-                    <div class="col-3 bm-2">
-                        <strong><t t-esc="company.country_id.vat_label or 'Tax ID'"/></strong>
-                        <p t-field="o.vat" class="m-0" />
-                    </div>
-                    <!-- FIN AGREGADO POR MARITO -->
                     <div t-if="o.ref" class="col-3 bm-2">
                         <strong>Partner Code:</strong>
                         <p t-field="o.ref" class="m-0" />
                     </div>
                 </div>
                 <t t-if="d['currencies']">
-                    <!-- <br /> -->
+                    <br />
                     <t t-foreach="d['currencies'].items()" t-as="currency">
                         <t t-set="display_currency" t-value="Currencies[currency[0]]" />
                         <t t-set="currency" t-value="currency[1]" />
@@ -177,4 +170,21 @@
         name="partner_statement.activity_statement"
         file="partner_statement.activity_statement"
     />
+    <report
+        id="action_print_activity_statement_html"
+        model="res.partner"
+        report_type="qweb-html"
+        menu="False"
+        string="Activity Statement"
+        name="partner_statement.activity_statement"
+        file="partner_statement.activity_statement"
+    />
+    <record id="action_print_activity_statement_xlsx" model="ir.actions.report">
+        <field name="name">Activity Statement XLSX</field>
+        <field name="model">res.partner</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">p_s.report_activity_statement_xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">report_activity_statement</field>
+    </record>
 </odoo>

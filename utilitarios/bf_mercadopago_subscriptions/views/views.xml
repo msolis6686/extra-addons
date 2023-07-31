@@ -1,0 +1,153 @@
+<odoo>
+    <data>
+
+      <!-- INHERIT DE RES PARTNER PARA PONER EL TIPO DE SUBSCRIPCION DEL CLIENTE -->
+      <record id="res_partner_form_subscription_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.subscription.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//sheet" position="before">
+            <header>
+              <button string="Crear Subscripcion" 
+                name="compose_subscription_mercadopago" 
+                type="object" 
+                class="btn-info" 
+                attrs="{'invisible': [('subscription_confirmed','=',True)]}"/>
+              <button string="Forzar Reenvio de Correo" 
+                name="compose_subscription_mercadopago" 
+                type="object" 
+                class="btn-warning"
+                attrs="{'invisible': [('subscription_confirmed','=',False)]}"/>
+            </header>
+          </xpath>
+          <xpath expr="//field[@name='website']" position="before">
+            <field name="subscription_type" string="Tipo de Subscripción" options="{'no_create':True, 'no_edit':True, 'no_open':True}"/>
+            <field name="mail_counter" string="Intentos de Contacto" readonly="1" force_save="1" attrs="{'invisible':[('subscription_confirmed','=', True)]}"/>
+            <field name="subscription_confirmed" string="Subscripcion Confirmada" attrs="{'invisible':[('subscription_type','=', False)]}"/>
+          </xpath>
+        </field>
+      </record>
+      <!-- INHERIT DE RES PARTNER PARA PONER EL TIPO DE SUBSCRIPCION DEL CLIENTE -->
+
+    <!-- VISTA FORM DE LOS TIPOS DE SUBSCRIPCIONES -->
+    <record id="mp_tipo_subscripciones_form_view" model="ir.ui.view">
+        <field name="name">mp.tipo.subscripciones.form.view</field>
+        <field name="model">bf.mercadopago.subscriptions</field>
+        <field name="arch" type="xml">
+            <form edit='false'>
+              <header>
+                <button
+                  name="mp_update_subscription_wizard"
+                  type="object"
+                  class="btn btn-info"
+                  string="Actualizar Datos de la Subscripción"
+                  attrs="{'invisible': [('status', '=', 'cancelled')]}"
+                />
+                <button
+                  name="mp_cancel_subscription_wizard"
+                  type="object"
+                  class="btn btn-danger"
+                  string="CANCELAR SUBSCRIPCIÓN"
+                  attrs="{'invisible': [('status', '=', 'cancelled')]}"
+                />
+              </header>
+                <sheet>
+                  <widget name="web_ribbon" title="CANCELADO" bg_color="bg-danger" attrs="{'invisible': [('status', '!=', 'cancelled')]}"/>
+                  <group col="2">
+                    <group string='Datos Principales'>
+                      <field name="mp_validated" string="Validado" invisible="True"/>
+                      <field name="reason" string="Nombre" required="True"/>
+                      <field name="status" string="Estado" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="subscribed" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="init_point" string="Link MercadoPago" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="back_url" string="URL de Redireccion" required="True"/>
+                      <field name="transaction_amount" widget="monetary" string="Monto" required="True"/>
+                      <field name="currency_id" string="Moneda" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                    </group>
+                    <group string="Datos de Recurrencia">
+                      <field name="frequency_type" string="Tipo de Frecuencia" required="True"/>
+                      <field name="frequency" string="Frecuencia" required="True"/>
+                      <field name="billing_day" string="Día de Facturacion" attrs="{'invisible': ['|',('frequency_type','=','days'),('frequency','!=',1)]}"/>
+                      <!-- <field name="has_repetitions" string="Subscripción Limitada"/>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO-->
+                      <!-- <field name="repetitions" string="Repeticiones" attrs="{'invisible': [('has_repetitions','=',False)], 'required': [('has_repetitions','=',True)]}"/>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO -->
+                      <field name="billing_day_proportional" string="Facturacion Proporcional"/>
+                    </group>
+                    <group string="Datos Técnicos">
+                      <field name="mp_id" string="ID de Subscripción" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="application_id" string="ID de Aplicación" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="collector_id" string="ID de Vendedor" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="external_reference" string="Referencia Externa" required="True"/>
+                      <field name="date_created" string="Fecha de Creación" readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                      <field name="last_modified" string="Fecha de Última Modificación." readonly="True" force_save="True" attrs="{'invisible': [('mp_validated','=',False)]}"/>
+                    </group>
+                    <!-- <group string="Prueba Gratuita">
+                      <field name="has_free_trial" string="Prueba Gratuita"/>
+                      <field name="free_trial_frequency_type" string="Medida de Tiempo" attrs="{'invisible': [('has_free_trial','=',False)], 'required': [('has_free_trial', '=', True)]}"/>
+                      <field name="free_trial_frequency" string="Tiempo" attrs="{'invisible': [('has_free_trial','=',False)], 'required': [('has_free_trial', '=', True)]}"/>
+                    </group>DESHABILITADO POR PROBLEMAS CON MERCADOPAGO -->
+                    <!-- <group string="Metodos de Pago">
+                      <field name="payment_method_id" readonly="True" force_save="True"/>
+                    </group> -->
+                  </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <template id="button_render_js" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script src="bf_mercadopago_subscriptions/static/src/js/get_update_subscriptions.js" type="text/javascript"/>
+            </xpath>
+    </template>
+    
+    <!-- VISTA FORM DE LOS TIPOS DE SUBSCRIPCIONES -->
+
+    <!-- VISTA TREE DE LOS TIPOS DE SUBSCRIPCIONES -->
+    <record id="mp_tipo_subscripciones_tree_view" model="ir.ui.view">
+        <field name="name">mp.tipo.subscripciones.tree.view</field>
+        <field name="model">bf.mercadopago.subscriptions</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="status == 'cancelled'">
+              <field name="reason" string="Nombre de Subscripción"/>
+              <field name="subscribed" string="Subscriptores"/>
+              <field name="billing_day" string="Dia de Facturación"/>
+              <field name="frequency_type" string="Tipo de Recurrencia"/>
+              <field name="transaction_amount" string="Monto"/>
+              <field name="status" string="Estado"/>
+            </tree>
+        </field>
+    </record>
+    <!-- VISTA TREE DE LOS TIPOS DE SUBSCRIPCIONES -->
+
+    <!-- ARMADO DE ACCION PARA PODER INGRESAR A LA VISTA -->
+    <record id="mp_subscriptions_menu_action" model="ir.actions.act_window">
+          <field name="name">Tipos de Subscripciones de MercadoPago</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">bf.mercadopago.subscriptions</field>
+          <field name="view_mode">tree,form</field>
+    </record>
+    <!-- ARMADO DE ACCION PARA PODER INGRESAR A LA VISTA -->
+
+    <!-- BOTON PARA ACCEDER A LA ACCION QUE DIRIGE A LA VISTA -->
+    <menuitem id="menu_mp_subscriptions"
+                  name="Tipos de Subscripciones"
+                  parent="account.menu_finance_receivables"
+                  action="mp_subscriptions_menu_action"
+                  sequence="1000"/>
+    <!-- BOTON PARA ACCEDER A LA ACCION QUE DIRIGE A LA VISTA -->
+    </data>
+
+    <!-- ACCION DE SERVER PARA AGREGAR EL BOTON DE "Enviar Subscripciones" EN EL MODELO DE RES.PARTNER -->
+    <record id="action_mass_subscription" model="ir.actions.server">
+      <field name="name">Enviar Subscripciones</field>
+      <field name="model_id" ref="base.model_res_partner"/>
+      <field name="binding_model_id" ref="base.model_res_partner"/>
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="code">
+        action = records.prepare_mass_subscription()
+      </field>
+    </record>
+    <!-- ACCION DE SERVER PARA AGREGAR EL BOTON DE "Enviar Subscripciones" EN EL MODELO DE RES.PARTNER -->
+</odoo>
