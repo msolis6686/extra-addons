@@ -217,8 +217,9 @@ class AccountMove(models.Model):
             return self.search([
                 ('commercial_partner_id', '=', self.commercial_partner_id.id),
                 ('company_id', '=', self.company_id.id),
-                ('document_number', '=', self.invoice_origin),
-                ('id', '!=', self.id),
+                #('document_number', '=', self.invoice_origin),
+                ('id', '=', self.reversed_entry_id.id),
+                #('id', '!=', self.id),
                 ('l10n_latam_document_type_id.l10n_ar_letter', '=', self.l10n_latam_document_type_id.l10n_ar_letter),
                 ('l10n_latam_document_type_id', '!=', self.l10n_latam_document_type_id.id),
                 ('state', 'not in', ['draft', 'cancel'])],
