@@ -68,6 +68,10 @@
                         <field name='afip_message'/>
                         <field name='afip_xml_request' groups="base.group_no_one"/>
                         <field name='afip_xml_response' groups="base.group_no_one"/>
+
+                        <field name='debit_origin_id'/>
+                        <field name='reversal_move_id'/>
+
                     </group>
                 </page>
             </notebook>
