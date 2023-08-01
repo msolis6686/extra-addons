@@ -8,7 +8,7 @@ class AccountMoveReversal(models.TransientModel):
     _inherit = 'account.move.reversal'
     _description = 'bf Account Move Reversal AFIP'
 
-    def reverse_moves(self):
+    def bf_reverse_moves(self):
         moves = self.env['account.move'].browse(self.env.context['active_ids']) if self.env.context.get('active_model') == 'account.move' else self.move_id
         # Create default values.
         default_values_list = []

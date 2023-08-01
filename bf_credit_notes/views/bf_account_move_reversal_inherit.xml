@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bf_l10n_ar_view_account_move_reversal" model="ir.ui.view">
+            <field name="name">l10n_ar.account.move.reversal.form</field>
+            <field name="model">account.move.reversal</field>
+            <field name="inherit_id" ref="account.view_account_move_reversal"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='reverse_moves']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='reverse_moves']" position="after">
+                    <button string="Revertir" name="bf_reverse_moves" type="object" class="btn-primary"/>
+                </xpath>
+            </field>
+    </record>
+
+</odoo>
+

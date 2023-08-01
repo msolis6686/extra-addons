@@ -18,7 +18,7 @@
                     "remoteRoot": "/mnt/extra-addons"
                 }
             ],
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }
