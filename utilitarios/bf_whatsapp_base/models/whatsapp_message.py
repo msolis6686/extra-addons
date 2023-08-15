@@ -102,7 +102,6 @@ class bf_whatsapp_message(models.Model):
         cant_servers = len(config)
         global I_SERV
         I_SERV=(I_SERV+1)%(cant_servers)
-        _logger.info("SERVER Seleccionado: ",I_SERV)
         return(config[I_SERV])
     
     def connect_api(self):
@@ -202,7 +201,7 @@ class bf_whatsapp_message(models.Model):
         #print(media[:20])
         if not reg.send_state:
             try:
-                resp = self.send_command("send_message",data)
+                resp = self.send_command("send_message",data,config)
                 resp = resp.json()
                 band = True
             except Exception as e:
@@ -247,7 +246,7 @@ class bf_whatsapp_message(models.Model):
         config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
         cant_servers = len(config)
         
-        count = 1
+        count = 0
         for reg in messages:
             print('Send menssage: ', count)
             self.send_message(reg)
