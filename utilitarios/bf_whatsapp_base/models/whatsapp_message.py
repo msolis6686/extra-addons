@@ -102,7 +102,7 @@ class bf_whatsapp_message(models.Model):
         cant_servers = len(config)
         global I_SERV
         I_SERV=(I_SERV+1)%(cant_servers)
-        #print(I_SERV)
+        _logger.info("SERVER Seleccionado: ",I_SERV)
         return(config[I_SERV])
     
     def connect_api(self):
