@@ -68,7 +68,7 @@
               <!-- <button name="destroy_services" type="object" class="oe_stat_button" string="Desconectar" icon="fa-play-circle"/> -->
               <button name="initializing_services" type="object" class="oe_stat_button" string="Inicializar Servicio" icon="fa-play-circle"/>
               <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
-              <button name="active_config" type="object" class="oe_stat_button" string="Predeterminado" icon="fa-play-circle"/>
+              <!-- <button name="active_config" type="object" class="oe_stat_button" string="Predeterminado" icon="fa-play-circle"/> -->
             </header>
             <!-- <div class="oe_button_box" name="button_box">
               <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>

@@ -19,6 +19,7 @@ from odoo.exceptions import UserError
 from datetime import datetime
 import time
 
+I_SERV = 0
 #from odoo.addons.queue_job.job import Job
 
 _logger = logging.getLogger(__name__)
@@ -96,14 +97,25 @@ class bf_whatsapp_message(models.Model):
         }
         return resp
     
+    def selectServer(self):
+        config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
+        cant_servers = len(config)
+        global I_SERV
+        I_SERV=(I_SERV+1)%(cant_servers)
+        #print(I_SERV)
+        return(config[I_SERV])
+    
     def connect_api(self):
         config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
         for c in config:
            api_link = c.link_api          
         return(api_link)
     
-    def send_command(self,command,data):
-        api_link = self.connect_api()
+    def send_command(self,command,data,config=False):
+        if config:
+            api_link = config.link_api
+        else:
+            api_link = self.connect_api()
         api_serv = api_link + "/" + command
         
         try:
@@ -120,8 +132,10 @@ class bf_whatsapp_message(models.Model):
         if not reg:
             reg = self
         
-        config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
-        
+        #config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
+        # SELECCIONO EL SERVER SECUENCIALMENTE
+        config = self.selectServer()
+
         if config.header_message and config.footer_message:
             mess = "*" + config.header_message + "* \n\n" +  reg.message + "\n\n" + config.footer_message
         else:
@@ -230,15 +244,20 @@ class bf_whatsapp_message(models.Model):
         
     def cron_send_message(self):
         config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
+        cant_servers = len(config)
+
         messages = self.env['bf.whatsapp.message'].search([("send_state","=",False)], order="id", limit=config.num_msg)
         band=False
         count = 1
         for reg in messages:
             print('Send menssage: ', count)
             self.send_message(reg)
-            rnd = random.randint(11, 15)
-            time.sleep(rnd)            
             count+=1
+            if (count%cant_servers==0):
+                rnd = random.randint(10, 12)
+                time.sleep(rnd)
+            else:
+                time.sleep(1)
             
     #ESTA FUNCIÓN DE CRON MARCA LOS MENSAJES COMO ENVIADOS, PARA QUE NO SE VUELVAN A ENVIAR EN CASO DE FALLO...
     def cron_send_status_true(self):

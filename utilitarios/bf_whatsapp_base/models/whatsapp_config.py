@@ -38,7 +38,7 @@ class bf_whatsapp_config(models.Model):
     logo_url = fields.Char(string= 'URL Logo Company')
     qr_w = fields.Text(string = 'QR Conect', readonly=True)
     qrs_strings = fields.One2many(comodel_name='bf.whatsapp.qrs', inverse_name='id_qrs', string='Qrs Strings')    
-    active_conf = fields.Boolean(string="Active", readonly=True)
+    active_conf = fields.Boolean(string="Active")
     
     def notifications(self,title,message):
         resp = {
@@ -59,11 +59,12 @@ class bf_whatsapp_config(models.Model):
         self.active_conf = True
     
     def connect_api(self):
-        config = self.env['bf.whatsapp.config'].search([("active_conf","=",True)])
+        """ config = self.env['bf.whatsapp.config'].search([("active_conf","=",True)])
         for c in config:
-           api_link = c.link_api          
+            api_link = c.link_api"""
+        api_link = self.link_api       
         return(api_link)
-    
+        
     def send_command(self,command):
         api_link = self.connect_api()
         api_serv = api_link + "/" + command
