@@ -28,7 +28,7 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/account_invoice.xml',
+        #'views/account_invoice.xml',
         'views/res_partner.xml',
         'wizard/create_message.xml',
         'data/demo.xml',
