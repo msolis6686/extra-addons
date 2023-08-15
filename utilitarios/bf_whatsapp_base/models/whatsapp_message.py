@@ -246,7 +246,7 @@ class bf_whatsapp_message(models.Model):
         config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
         cant_servers = len(config)
 
-        messages = self.env['bf.whatsapp.message'].search([("send_state","=",False)], order="id", limit=config.num_msg)
+        messages = self.env['bf.whatsapp.message'].search([("send_state","=",False)], order="id", limit=10)
         band=False
         count = 1
         for reg in messages:
