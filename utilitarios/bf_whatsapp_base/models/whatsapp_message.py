@@ -19,10 +19,10 @@ from odoo.exceptions import UserError
 from datetime import datetime
 import time
 
-I_SERV = 0
 #from odoo.addons.queue_job.job import Job
 
 _logger = logging.getLogger(__name__)
+I_SERV = 0
 
 class bf_whatsapp_message(models.Model):
     _name = 'bf.whatsapp.message'
@@ -243,11 +243,10 @@ class bf_whatsapp_message(models.Model):
             return message
         
     def cron_send_message(self):
+        messages = self.env['bf.whatsapp.message'].search([("send_state","=",False)], order="id", limit=10)
         config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
         cant_servers = len(config)
-
-        messages = self.env['bf.whatsapp.message'].search([("send_state","=",False)], order="id", limit=10)
-        band=False
+        
         count = 1
         for reg in messages:
             print('Send menssage: ', count)
