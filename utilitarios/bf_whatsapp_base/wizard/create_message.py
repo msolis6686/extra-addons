@@ -10,12 +10,10 @@ import base64
 import logging
 
 _logger = logging.getLogger(__name__)
-I_SERV = 0
 
 class bf_whatsapp_create_messages(models.TransientModel):
     _name = 'bf.whatsapp.create.messages'
     _description = 'Whatsapp envio de facturas'
-
 
     def get_model(self):
         return self.env.context.get('model')
@@ -142,16 +140,10 @@ class bf_whatsapp_create_messages(models.TransientModel):
                 if cod_pais != "54":
                     phone = "54" + phone
                 
-                config = self.env['bf.whatsapp.message'].selectServer()
-
-                if config.header_message and config.footer_message:
-                    mess = "*" + config.header_message + "* \n\n" +  mensaje + "\n\n" + config.footer_message
-                
-                #mess = "*" + self.template_id.header_message + "* \n\n" +  mensaje + "\n\n" + self.template_id.footer_message
                 msj_wa = self.env['bf.whatsapp.message']
                 r = msj_wa.create({
                     'name':reg.partner_id.id,
-                    'message':mess,
+                    'message':mensaje,
                     'phone':phone,
                     'attachment_ids': atta                    
                 })     
