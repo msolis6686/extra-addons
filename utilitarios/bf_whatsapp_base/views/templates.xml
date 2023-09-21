@@ -26,8 +26,8 @@
                     <group>
                         <field name="model_id" required="1" options="{'no_create': True}"/>
                         <field name="model"/>
-                        <field name="header_message"/>
-                        <field name="footer_message"/>
+                        <!-- <field name="header_message"/>
+                        <field name="footer_message"/> -->
                         <field name="message"/>
                         <field name="attachment_ids" widget="many2many_binary"/>
                         <field name="attachment_file"/>

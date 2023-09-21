@@ -16,4 +16,19 @@
             <field name="nextcall" >2022-10-07 08:00:00</field>
         </record>
     </data>
+    <data noupdate="1">
+        <record forcecreate="True" id="ir_cron_copy_mobiles" model="ir.cron">
+            <field name="name">Copiar mobiles al nuevo campo de wa mobile</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_copy_mobiles()</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">0</field>
+            <field name="doall" eval="False"/>
+            <field name="nextcall" >2022-10-07 08:00:00</field>
+        </record>
+    </data>
 </odoo>

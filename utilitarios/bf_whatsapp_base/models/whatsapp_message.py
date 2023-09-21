@@ -29,12 +29,11 @@ class bf_whatsapp_message(models.Model):
     _description = 'bf.whatsapp.message'
 
     id_w = fields.Char(string = 'ID Whatsapp', copy=False, readonly=True)
-    name = fields.Many2one(string="Cliente", comodel_name='res.partner', required=True)
-    message = fields.Text(string = 'Message', required=True)
+    name = fields.Many2one(string="Cliente", comodel_name='res.partner')
+    message = fields.Text(string = 'Message')
     media = fields.Char(string = 'file')
     
-    #phone = fields.Char(string = 'Phone', related='name.mobile', required=True)
-    phone = fields.Char(string = 'Phone', required=True)
+    phone = fields.Char(string = 'Phone')
     
     server_name = fields.Char(string = 'Server Name', copy=False, readonly=True)
     server_phone = fields.Char(string = 'Server Phone', copy=False, readonly=True)
@@ -75,7 +74,7 @@ class bf_whatsapp_message(models.Model):
     @api.onchange('name')
     def set_phone_partner(self):
         if self.name:
-            phone = self.name.mobile
+            phone = self.name.wa_mobile
             if phone:
                 phone = phone.replace(" ", "").replace("+","").replace("-","")
                 #PREGUNTO SI EL NÚMERO TIENE EL CÓDIGO DEL PAIS, SINO LO TIENE LO AGREGA.

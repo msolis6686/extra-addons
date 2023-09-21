@@ -144,7 +144,8 @@
         id="bf_whatsapp_base.menu_root"
         name="Whatsapp Message"
         web_icon="bf_whatsapp_base,static/description/w_icon.png"
-        sequence="20"/>
+        sequence="20"
+        groups="bf_whatsapp_base.group_what_admin"/>
 
     <menuitem name="Whatsapp Message" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root"/>
     <menuitem name="Mensajes enviados" id="bf_whatsapp_base.messages_list" parent="bf_whatsapp_base.messages"

@@ -10,10 +10,13 @@ import base64
 import logging
 
 _logger = logging.getLogger(__name__)
+I_SERV = 0
 
 class bf_whatsapp_create_messages(models.TransientModel):
     _name = 'bf.whatsapp.create.messages'
-    
+    _description = 'Whatsapp envio de facturas'
+
+
     def get_model(self):
         return self.env.context.get('model')
     
@@ -55,7 +58,7 @@ class bf_whatsapp_create_messages(models.TransientModel):
     def _model_context(self):
         self._context.get('active_model')
             
-    def create_messages(self):
+    def prepare_messages(self):
         if self._context.get('active_model') == 'account.move':
             domain = [('id', 'in', self._context.get('active_ids', []))]
         elif self._context.get('active_model') == 'account.journal':
@@ -75,7 +78,7 @@ class bf_whatsapp_create_messages(models.TransientModel):
         j=0
         for reg in moves:
             client = reg.partner_id.name.strip()
-            phone = reg.partner_id.mobile
+            phone = reg.partner_id.wa_mobile
             invoice = reg.name.strip()
             reference = reg.invoice_origin.strip() if reg.invoice_origin else False
             total = reg.amount_total
@@ -139,7 +142,12 @@ class bf_whatsapp_create_messages(models.TransientModel):
                 if cod_pais != "54":
                     phone = "54" + phone
                 
-                mess = "*" + self.template_id.header_message + "* \n\n" +  mensaje + "\n\n" + self.template_id.footer_message
+                config = self.env['bf.whatsapp.message'].selectServer()
+
+                if config.header_message and config.footer_message:
+                    mess = "*" + config.header_message + "* \n\n" +  mensaje + "\n\n" + config.footer_message
+                
+                #mess = "*" + self.template_id.header_message + "* \n\n" +  mensaje + "\n\n" + self.template_id.footer_message
                 msj_wa = self.env['bf.whatsapp.message']
                 r = msj_wa.create({
                     'name':reg.partner_id.id,
@@ -162,7 +170,8 @@ class bf_whatsapp_create_messages(models.TransientModel):
             message = s_mjs
         else:
             message = s_mjs + e_mjs + c_mjs
-        return {
+
+        """ return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
@@ -170,4 +179,4 @@ class bf_whatsapp_create_messages(models.TransientModel):
                 "message": message,
                 "sticky": True,
                 }
-            }
+            } """
