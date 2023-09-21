@@ -13,7 +13,7 @@
                     icon="fa-whatsapp"
                     class="btn-primary"
                     title="Enviar por WhatsApp"
-                    attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('invoice_sent', '=', True), ('type', 'not in', ('out_invoice', 'out_refund'))]}"
+                    attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('invoice_sent', '=', False), ('type', 'not in', ('out_invoice', 'out_refund'))]}"
                     groups="base.group_user"
                     context="{'model':'account.move'}"
                 />                    
@@ -25,7 +25,7 @@
                     class="btn-success"
                     string="  Enviar por WhatsApp"
                     title="Enviar por WhatsApp"
-                    attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('invoice_sent', '=', False), ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"
+                    attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('invoice_sent', '=', True), ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"
                     groups="base.group_user"
                     context="{'model':'account.move'}"
                 />
