@@ -31,6 +31,7 @@
         'views/account_invoice.xml',
         'views/res_partner.xml',
         'wizard/create_message.xml',
+        'wizard/massive_wa_send_wizard.xml',
         'data/demo.xml',
         'data/registros.xml',
     ],

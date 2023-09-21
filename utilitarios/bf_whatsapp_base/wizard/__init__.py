@@ -1,1 +1,1 @@
-from . import create_message
+from . import create_message, massive_wa_send_wizard

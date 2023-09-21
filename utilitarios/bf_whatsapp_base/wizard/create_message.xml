@@ -7,9 +7,12 @@
             <field name="arch" type="xml">
                 <form string="Enviar Facturas al whatsapp">
                     <span class="o_form_label">Se enviarán por whatsapp todas las facturas que haya seleccionado.</span>
-                    <field name="message" string="Comunicado"/>
+                    <field name="message" string="Comunicado" required="1"/>
                     <group>
-                        <field name="template_id" domain="[('model','=',model)]" options="{'no_create': True, 'no_edit': True}"/>
+                        <field name="template_id"
+                            string="Plantilla"
+                            domain="[('model','=',model)]"
+                            options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
                         <field name="model" invisible="1"/>
                     </group>
                     <footer>
@@ -18,18 +21,6 @@
                     </footer>
                 </form>
             </field>
-        </record>
-        <record id="action_create_messages" model="ir.actions.act_window">
-            <field name="name">Enviar por Whatsapp</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">bf.whatsapp.create.messages</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="create_message_view"/>
-            <field name="context">{'model':'account.move'}</field>
-            <field name="target">new</field>
-            <field name="help">Este wizard enviará por whatsapp las facturas que hayas seleccionado.</field>
-            <field name="binding_model_id" ref="account.model_account_move" />
-            <field name="binding_view_types">list,form</field>
         </record>
     </data>
 </odoo>
