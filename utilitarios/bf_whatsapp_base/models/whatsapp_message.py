@@ -223,7 +223,7 @@ class bf_whatsapp_message(models.Model):
                         reg.server_phone = item['server_phone']
                         reg.sent_date = now
                         reg.send_state = True
-                        reg.message = mess
+                        #reg.message = mess
                 
                 title = "Mensajes enviados"
                 mess = "Se envió su mensaje correctamente"
