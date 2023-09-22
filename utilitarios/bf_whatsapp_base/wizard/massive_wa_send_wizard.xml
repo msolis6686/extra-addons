@@ -12,7 +12,6 @@
                         <field name="wa_template"
                             string="Plantilla"
                             options="{'no_create': True, 'no_open': True}"
-                            domain="[('model','=',model)]"
                             required="1"/>
                         <field name="error" invisible="1"/>                        
                     </group>
