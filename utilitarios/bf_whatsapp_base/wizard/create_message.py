@@ -145,14 +145,14 @@ class bf_whatsapp_create_messages(models.TransientModel):
                     phone = "54" + phone
                 if not phone:
                     raise UserError(_(f"El cliente {reg.partner_id.name} no")
-                        ("tiene un numero de telefono de WhatsApp definido."))
+                        ("tiene un numero de WhatsApp definido."))
                 self.env['bf.whatsapp.message'].create({
                     'name':reg.partner_id.id,
                     'message':mensaje,
                     'phone':phone,
                     'attachment_ids': atta                    
                 })
-                reg.message_post(body="Se creo un mensaje de WhatsApp exitosamente para ser enviado.",
+                reg.message_post(body=f"Se creo el mensaje de WhatsApp exitosamente para ser enviado a: {phone}",
                                     subject="WhatsApp")
                 i=i+1
             else:
@@ -161,7 +161,7 @@ class bf_whatsapp_create_messages(models.TransientModel):
                 mobile_omitted.append(phone)
                 if phone == False:
                     phone = "Sin n° de WhatsApp"
-                reg.message_post(body=f"Fallo la creacion del mensaje de WhatsApp. Por favor revise el numero de telefono: {phone}",
+                reg.message_post(body=f"Falló la creación del mensaje. Por favor revise el número registrado en el contacto: {phone}",
                                     subject="WhatsApp")
         s_mjs = f"Mensajes creados correctamente: {i}\n"
         e_mjs = f"Mensajes Omitidos: {j} (núm. False)\n"
