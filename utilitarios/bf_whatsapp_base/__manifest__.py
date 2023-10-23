@@ -20,18 +20,22 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account'],
+    'depends': ['base', 'sale', 'web', 'stock', 'purchase','account','contacts'],
     
     # always loaded
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
-        'views/templates.xml',
+        #'views/templates.xml',
+        'views/template.xml',
         'views/account_invoice.xml',
         'views/res_partner.xml',
         'wizard/create_message.xml',
         'wizard/massive_wa_send_wizard.xml',
+        'wizard/message_wizard.xml',
+        'wizard/wizard_contact.xml',
+        'wizard/wizard.xml',
         'data/demo.xml',
         'data/registros.xml',
     ],
