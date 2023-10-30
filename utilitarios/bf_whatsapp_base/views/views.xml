@@ -6,14 +6,14 @@
       <field name="model">bf.whatsapp.message</field>
       <field name="arch" type="xml">
         <tree string='Whatsapp Message'>
-          <field name="id_w"/>
-          <field name="name"/>
-          <field name="phone"/>
-          <field name="message"/>
-          <field name="server_name"/>
-          <field name="create_date"/>
-          <field name="sent_date"/>
-          <field name="send_state"/>
+          <field name="id_w" string="ID"/>
+          <field name="name" string="Nombre"/>
+          <field name="phone" string="Celular"/>
+          <field name="message" string="Mensaje"/>
+          <field name="server_name" string="Nombre del Servidor"/>
+          <field name="create_date" string="Fecha de Creación"/>
+          <field name="sent_date" string="Fecha de Envio"/>
+          <field name="send_state" string="Estado"/>
         </tree>
       </field>
     </record>
@@ -22,20 +22,20 @@
       <field name="name">view.bf.whatsapp.message.form</field>
       <field name="model">bf.whatsapp.message</field>
       <field name="arch" type="xml">
-        <form string='Whatsapp Message'>
+        <form string='Mensaje de WhatsApp'>
           <sheet>
             <div class="oe_button_box" name="button_box">
-              <button name="send_message" type="object" class="oe_stat_button" string="Send..." icon="fa-play-circle"/>
+              <button name="send_message" type="object" class="oe_stat_button" string="Enviar" icon="fa-play-circle"/>
             </div>
             <group name='group_top'>
               <field name="id_w"/>
-              <field name="name" attrs="{'readonly':[('send_state','=',True)]}"/>
-              <field name="phone" attrs="{'readonly':[('send_state','=',True)]}"/>
-              <field name="message" attrs="{'readonly':[('send_state','=',True)]}"/>
-              <field name="attachment_ids" widget="many2many_binary" invisible="0" attrs="{'readonly':[('send_state','=',True)]}"/>
-              <field name="create_date" readonly="True" force_save="True"/>
-              <field name="sent_date" readonly="True" force_save="True"/>
-              <field name="send_state" invisible="True"/>
+              <field name="name" string="Nombre" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="phone" string="Celular" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="message" string="Mensaje" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="attachment_ids" string="Adjuntos" widget="many2many_binary" invisible="0" attrs="{'readonly':[('send_state','=',True)]}"/>
+              <field name="create_date" string="Fecha de Creación" readonly="True" force_save="True"/>
+              <field name="sent_date" string="Fecha de Envio" readonly="True" force_save="True"/>
+              <field name="send_state" string="Estado" invisible="True"/>
             </group>
           </sheet>
         </form>
@@ -47,12 +47,12 @@
       <field name="name">view.bf.whatsapp.config.tree</field>
       <field name="model">bf.whatsapp.config</field>
       <field name="arch" type="xml">
-        <tree string='Whatsapp Config'>
-          <field name="name"/>
-          <field name="link_api"/>
-          <field name="user_name"/>
-          <field name="user_pass" password="True"/>
-          <field name="active_conf"/>          
+        <tree string='Configuración de WhatsApp'>
+          <field name="name" string="Nombre"/>
+          <field name="link_api" string="Link de API"/>
+          <field name="user_name" string="Usuario"/>
+          <field name="user_pass" string="Contraseña" password="True"/>
+          <field name="active_conf" string="¿Activo?"/>          
         </tree>
       </field>
     </record>
@@ -61,7 +61,7 @@
       <field name="name">view.bf.whatsapp.config.form</field>
       <field name="model">bf.whatsapp.config</field>
       <field name="arch" type="xml">
-        <form string='Whatsapp Config'>
+        <form string='Configuración de WhatsApp'>
           <sheet>
             <header>
               <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>
@@ -77,22 +77,22 @@
               <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
             </div> -->
             <group name='group_top'>
-              <field name="name"/>
-              <field name="link_api"/>
-              <field name="user_name" password="True"/>
-              <field name="user_pass" password="True"/>
-              <field name="num_msg"/>
-              <field name="header_message"/>
-              <field name="footer_message"/>
-              <field name="phone_company"/>
-              <field name="logo" widget='image' style="width:200px;" filename="logo_name"/>
+              <field name="name" string="Nombre"/>
+              <field name="link_api" string="Link de API"/>
+              <field name="user_name" string="Usuario" password="True"/>
+              <field name="user_pass" string="Contraseña" password="True"/>
+              <field name="num_msg" string="N° de Msg."/>
+              <field name="header_message" string="Cabecera del mensaje"/>
+              <field name="footer_message" string="Pie del mensaje"/>
+              <field name="phone_company" string="Celular de Compañia"/>
+              <field name="logo" string="Logo de la Compañia" widget='image' style="width:200px;" filename="logo_name"/>
               <field name="logo_name" invisible="1"/>
               <field name="logo_url" widget='url'/>
-              <field name="active_conf"/>
+              <field name="active_conf" string="¿Activo?"/>
               <field name="qr_w" widget="ace"/>
               <field name="qrs_strings" readonly="True" force_save="True">
                 <tree>
-                  <field name="qr_image" widget="image" style="width:300px;"/>
+                  <field name="qr_image" string="Imagen QR" widget="image" style="width:300px;"/>
                 </tree>
               </field>
               
@@ -104,7 +104,7 @@
     </record>
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="bf_whatsapp_base_messages_action_window">
-      <field name="name">Whatsapp Message</field>
+      <field name="name">Mensajes de WhatsApp</field>
       <field name="res_model">bf.whatsapp.message</field>
       <field name="view_mode">tree,form</field>
       <field name="help" type="html">
@@ -118,7 +118,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="bf_whatsapp_config_action_windows">
-      <field name="name">Whatsapp Config</field>
+      <field name="name">Configuración de WhatsApp</field>
       <field name="res_model">bf.whatsapp.config</field>
       <field name="view_mode">tree,form</field>
     </record>
@@ -130,10 +130,10 @@
       <field name="model">bf.whatsapp.message</field>
       <field name="arch" type="xml">
         <search string="Filtrar Mensajes">
-          <field name="id_w"/>
-          <field name="name"/>
-          <field name="phone"/>
-          <field name="message"/>          
+          <field name="id_w" string="ID"/>
+          <field name="name" string="Nombre"/>
+          <field name="phone" string="Celular"/>
+          <field name="message" string="Mensaje"/>
         </search>
       </field>
     </record>
@@ -146,7 +146,7 @@
         <field name="inherit_id" ref="sale.view_order_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='action_cancel']" position="after">
-                <button name="sale_whatsapp" type="object" class="oe_highlight" string="Enviar por Whatsapp"
+                <button name="sale_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -158,7 +158,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='action_cancel']" position="after">
                 <button name="inventory_whatsapp" type="object" class="oe_highlight"
-                        string="Enviar por Whatsapp"
+                        string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -169,7 +169,7 @@
         <field name="inherit_id" ref="account.view_move_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='button_draft']" position="after">
-                <button name="invoice_whatsapp" type="object" class="oe_highlight" string="Enviar por Whatsapp"
+                <button name="invoice_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -180,7 +180,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='button_cancel']" position="after">
-                <button name="purchase_whatsapp" type="object" class="oe_highlight" string="Enviar por Whatsapp"
+                <button name="purchase_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatAapp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -202,16 +202,16 @@
     <!-- Top menu item -->
     <menuitem
         id="bf_whatsapp_base.menu_root"
-        name="Whatsapp Message"
+        name="WhatsApp"
         web_icon="bf_whatsapp_base,static/description/w_icon.png"
         sequence="20"
         groups="bf_whatsapp_base.group_what_admin"/>
 
-    <menuitem name="Whatsapp Message" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Mensajes de WhatsApp" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root"/>
     <menuitem name="Mensajes enviados" id="bf_whatsapp_base.messages_list" parent="bf_whatsapp_base.messages"
               action="bf_whatsapp_base_messages_action_window"/>
 
-    <menuitem name="Whatsapp Config" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Configuración de WhatsApp" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root"/>
     <menuitem name="Conectar Servidor" id="bf_whatsapp_base.config_setup" parent="bf_whatsapp_base.config" 
               action="bf_whatsapp_config_action_windows"/>
 

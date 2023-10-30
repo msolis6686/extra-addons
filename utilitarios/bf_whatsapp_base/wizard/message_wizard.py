@@ -38,6 +38,11 @@ class SendMessage(models.TransientModel):
         for fname, value in values.items():
             setattr(self, fname, value)
 
+    @api.onchange('user_id')
+    def get_partner_number(self):
+        if self.user_id.wa_mobile:
+            self.mobile_number = self.user_id.wa_mobile
+
     def onchange_template_id(self, template_id, model, res_id):
         if template_id:
             values = self.generate_email_for_composer(template_id, [res_id])[res_id]

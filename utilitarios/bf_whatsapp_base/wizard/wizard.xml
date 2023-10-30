@@ -6,22 +6,17 @@
             <field name="model">whatsapp.wizard</field>
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
-                <form string="Send Whatsapp Message">
+                <form string="Enviar WhatsApp">
+                    <field name="template_id" string="Plantilla" options="{'no_create': True, 'no_edit': True}" invisible="1"/>
+                    <field name="model" invisible="1"/>
                     <group>
-                        <group>
-                            <field name="user_id"/>
-                            <field name="message"/>
-                        </group>
-                        <field name="model" invisible="1"/>
-                        <group>
-                            <label for="mobile_number" string="Whatsapp Number" style="margin-left:25px !important;width:120px !important"/>
-                            <field name="mobile_number" nolabel="1"/>
-                            <field name="template_id" options="{'no_create': True, 'no_edit': True}" invisible="1"/>
-                        </group>
+                        <field name="user_id" string="Cliente" readonly="1" force_save="1"/>
+                        <field name="mobile_number" string="N° de Celular" readonly="1" force_save="1"/>
+                        <field name="message" string="Mensaje"/>
                     </group>
                     <footer>
-                        <button name="prepare_messages" string="Send" type="object" style="background-color:#7C7BAD;color:#FFFFFF"/>
-                        <button name="cancel" string="Cancel" special="cancel"/>
+                        <button name="prepare_messages" string="Enviar" type="object" class="oe_highlight"/>
+                        <button name="cancel" string="Cancelar" special="cancel"/>
                     </footer>
                 </form>
             </field>

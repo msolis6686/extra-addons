@@ -5,7 +5,7 @@
             <field name="name">Enviar Facturas</field>
             <field name="model">bf.whatsapp.create.messages</field>
             <field name="arch" type="xml">
-                <form string="Enviar Facturas al whatsapp">
+                <form string="Enviar Facturas por WhatsApp">
                     <span class="o_form_label">Se enviarán por whatsapp todas las facturas que haya seleccionado.</span>
                     <field name="message" string="Comunicado" required="1"/>
                     <group>
