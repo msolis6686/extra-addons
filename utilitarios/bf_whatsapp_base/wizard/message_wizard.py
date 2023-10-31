@@ -4,6 +4,8 @@ from odoo.tools import html2plaintext, plaintext2html
 from odoo.tools.mimetypes import guess_mimetype
 from odoo.tools import config, human_size, ustr, html_escape
 import html2text
+from odoo.tools import plaintext2html
+from odoo.tools.safe_eval import safe_eval
 import urllib.parse as parse
 
 import os
@@ -72,20 +74,6 @@ class SendMessage(models.TransientModel):
             values[res_id] = res_id_values
         return multi_mode and values or values[res_ids[0]]
 
-    """ def send_custom_message(self):
-        if self.message and self.mobile_number:
-            message_string = parse.quote(self.message)
-            message_string = message_string[:(len(message_string) - 3)]
-            number = self.user_id.mobile
-            link = "https://web.whatsapp.com/send?phone=" + number
-            send_msg = {
-                'type': 'ir.actions.act_url',
-                'url': link + "&text=" + message_string,
-                'target': 'new',
-                'res_id': self.id,
-            }
-            return send_msg """
-    
     def prepare_messages(self):
         if self.message:
             mensaje = self.message
@@ -97,37 +85,58 @@ class SendMessage(models.TransientModel):
                 model = self.template_id.model
                 self.model = self.env[model]
                 reg = self.env[model].browse(res_id)
-                Attachment = self.env['ir.attachment']
-                res_name = self.template_id.report_template.display_name + '_' + reg.name.replace('/', '_')
-                domain = [('res_id', '=', res_id), ('name', 'like', res_name + '%'), ('res_model', '=', model)]
-                is_attachment_exists = Attachment.search(domain, limit=1)
                 
-                atta = self.env['ir.attachment']
-                if is_attachment_exists:
-                    atta += is_attachment_exists
+                logging.info("El reporte no existe, creando...")
+                template = self.template_id
+                report = template.report_template
+                report_service = report.report_name
+                if report.report_type not in ['qweb-html', 'qweb-pdf']:
+                    raise UserError(_('Unsupported report type %s found.') % report.report_type)
+                res, format = report.render_qweb_pdf([reg.id])
+
+                if self.template_id.report_template.print_report_name:
+                    res_name = safe_eval(self.template_id.report_template.print_report_name, {'object': reg}) + '.' + format
                 else:
-                    logging.info("El reporte no existe, creando...")
-                    template = self.template_id
-                    report = template.report_template
-                    report_service = report.report_name
-                    if report.report_type not in ['qweb-html', 'qweb-pdf']:
-                        raise UserError(_('Unsupported report type %s found.') % report.report_type)
-                    res, format = report.render_qweb_pdf([reg.id])
-                    b64_pdf = base64.b64encode(res)
-                    if not res_name:
-                        res_name = 'report.' + report_service
-                    ext = "." + format
-                    if not res_name.endswith(ext):
-                        res_name += ext
-                    att_id = self.env['ir.attachment'].create({
-                        'name': res_name,
-                        'type': 'binary',
-                        'datas': b64_pdf,
-                        'res_model': model,
-                        'res_id': res_id,
-                        'mimetype': 'application/x-pdf'
-                    })
-                    atta += att_id
+                    res_name = self.template_id.report_template.display_name + '.' + format
+                    #res_name = self.template_id.report_template.display_name + '_' + reg.name.replace('/', '_')
+
+                b64_pdf = base64.b64encode(res)
+                if not res_name:
+                    res_name = 'report.' + report_service
+                ext = "." + format
+                if not res_name.endswith(ext):
+                    res_name += ext
+
+                att_id = self.env['ir.attachment'].create({
+                    'name': res_name,
+                    'type': 'binary',
+                    'datas': b64_pdf,
+                    'res_model': model,
+                    'res_id': res_id,
+                    'mimetype': 'application/pdf'
+                })
+                atta = self.env['ir.attachment']
+                atta += att_id
+                
+                #attachment = self._generate_attachment_from_report(reg)
+
+                #Attachment = self.env['ir.attachment']
+                #
+                #report_content, report_format = self.template_id.report_template._render_qweb_pdf(self.template_id.report_template.id, reg.id)
+                #if self.template_id.report_template.print_report_name:
+                #    res_name = safe_eval(self.report_id.print_report_name, {'object': reg}) + '.' + report_format
+                #else:
+                #    res_name = self.template_id.report_template.display_name + '.' + report_format
+                #    #res_name = self.template_id.report_template.display_name + '_' + reg.name.replace('/', '_')
+                #
+                #
+                #domain = [('res_id', '=', res_id), ('name', 'like', res_name + '%'), ('res_model', '=', model)]
+                #is_attachment_exists = Attachment.search(domain, limit=1)
+                #
+                #atta = self.env['ir.attachment']
+                #if is_attachment_exists:
+                #    atta += is_attachment_exists
+                
                 
 
             """ res_name = False
