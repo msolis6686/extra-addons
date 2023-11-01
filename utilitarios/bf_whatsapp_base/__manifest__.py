@@ -33,7 +33,15 @@
         'wizard/message_wizard.xml',
         'wizard/wizard_contact.xml',
         'wizard/wizard.xml',
+        #'wizard/whatsapp_preview_wizard.xml',
         'data/template.xml',
         'data/registros.xml',
     ],
+    #'assets': {
+    #    'web.assets_backend': [
+    #        'bf_whatsapp_base/static/src/**/*',
+    #        # Don't include dark mode files in light mode
+    #        ('remove', 'bf_whatsapp_base/static/src/**/*.dark.scss'),
+    #    ]
+    #},
 }

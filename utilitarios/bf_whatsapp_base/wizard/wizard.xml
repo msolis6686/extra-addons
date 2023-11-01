@@ -6,6 +6,9 @@
             <field name="model">whatsapp.wizard</field>
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
+            <script>$(document).ready(function(){ $('.modal-dialog').css({'max-width': '600px'});
+                    });
+            </script>
                 <form string="Enviar WhatsApp">
                     <field name="template_id" string="Plantilla" options="{'no_create': True, 'no_edit': True}" invisible="1"/>
                     <field name="model" invisible="1"/>

@@ -3,6 +3,7 @@
     <record id="whatsapp_sales_template" model="mail.template">
         <field name="name">WhatsApp Sale template</field>
         <field name="subject">Plantilla de Ventas</field>
+        <field name="is_wa_template">True</field>
         <field name="model_id" ref="sale.model_sale_order"/>
         <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
          <div>
@@ -29,11 +30,12 @@
     <record id="whatsapp_inventory_template" model="mail.template">
         <field name="name">Whatsapp Inventory template</field>
         <field name="subject">Plantilla de Inventario</field>
+        <field name="is_wa_template">True</field>
         <field name="model_id" ref="stock.model_stock_picking"/>
         <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
          <p style="margin: 0px; padding: 0px; font-size: 13px;">
          <div>
-            Saludos, *${object.partner_id.name or ''}*,
+            Sr/a, *${object.partner_id.name or ''}*,
          </div>
          <div>
              % if object.state == 'draft':
@@ -95,6 +97,7 @@
     <record id="whatsapp_invoice_template" model="mail.template">
         <field name="name">Whatsapp Invoice template</field>
         <field name="subject">Plantilla de Facturación</field>
+        <field name="is_wa_template">True</field>
         <field name="model_id" ref="account.model_account_move"/>
         <field name="body_html">
             <![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
@@ -114,11 +117,12 @@
     <record id="whatsapp_purchase_template" model="mail.template">
         <field name="name">Whatsapp Purchase template</field>
         <field name="subject">Plantilla de Compras</field>
+        <field name="is_wa_template">True</field>
         <field name="model_id" ref="purchase.model_purchase_order"/>
         <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
              <p style="margin: 0px; padding: 0px; font-size: 13px;">
              <div>
-                Saludos *${object.partner_id.name or ''}*,
+                Sr/a *${object.partner_id.name or ''}*,
              </div>
             % if object.state == 'draft' or object.state == 'sent':
                 Le hacemos llegar el pedido de presupuesto *${object.name}* con los siguientes detalles:
@@ -155,6 +159,7 @@
     <record id="whatsapp_contacts_template" model="mail.template">
         <field name="name">Whatsapp Contact template</field>
         <field name="subject">Plantilla de Contacto</field>
+        <field name="is_wa_template">True</field>
         <field name="model_id" ref="model_res_partner"/>
         <field name="body_html"></field>
     </record>

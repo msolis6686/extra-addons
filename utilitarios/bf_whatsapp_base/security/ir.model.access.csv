@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-whatsapp_admin,Admin Whatsapp,model_bf_whatsapp_message,group_what_admin,1,1,1,1
-whatsapp_create_messages,Whatsapp Create Messages,model_bf_whatsapp_create_messages,base.group_user,1,1,1,1
-whatsapp_config,Config Whatsapp,model_bf_whatsapp_config,group_what_tecnico,1,1,1,0
+whatsapp_admin,Admin Whatsapp,model_bf_whatsapp_message,group_what_admin,1,1,1,0
+whatsapp_create_messages,Whatsapp Create Messages,model_bf_whatsapp_create_messages,base.group_user,1,1,1,0
+whatsapp_config,Config Whatsapp,model_bf_whatsapp_config,group_what_tecnico,1,1,1,1
 whatsapp_qrs,QRS Whatsapp,model_bf_whatsapp_qrs,group_what_tecnico,1,1,1,1
 whatsapp_user,User Whatsapp,model_bf_whatsapp_message,base.group_user,0,0,1,0
 access_display_error_message,access.display.error.message,model_display_error_message,base.group_user,1,1,1,1

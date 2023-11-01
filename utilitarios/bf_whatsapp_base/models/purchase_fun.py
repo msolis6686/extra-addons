@@ -8,9 +8,9 @@ class PurchaseOrderModule(models.Model):
     def purchase_whatsapp(self):
         record_phone = self.partner_id.wa_mobile
         if not record_phone:
-            return ValidationError("El socio no tiene un número de celular")
+            raise ValidationError("El socio no tiene un número de celular")
         if not record_phone[0] == "+":
-            return ValidationError("El socio no tiene bien configurado el codigo del pais en el telefono.")
+            raise ValidationError("El socio no tiene bien configurado el codigo del pais en el telefono.")
         else:
             return {'type': 'ir.actions.act_window',
                     'name': _('Whatsapp Message'),

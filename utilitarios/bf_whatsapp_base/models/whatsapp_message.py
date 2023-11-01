@@ -17,6 +17,7 @@ class bf_whatsapp_message(models.Model):
     _name = 'bf.whatsapp.message'
     _description = 'bf.whatsapp.message'
 
+    active = fields.Boolean(default=True)
     id_w = fields.Char(string = 'ID Whatsapp', copy=False, readonly=True)
     name = fields.Many2one(string="Cliente", comodel_name='res.partner')
     message = fields.Text(string = 'Message')

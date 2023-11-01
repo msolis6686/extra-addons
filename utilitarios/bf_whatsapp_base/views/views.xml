@@ -24,6 +24,7 @@
       <field name="arch" type="xml">
         <form string='Mensaje de WhatsApp'>
           <sheet>
+            <field name="active" invisible="1"/>
             <div class="oe_button_box" name="button_box">
               <button name="send_message" type="object" class="oe_stat_button" string="Enviar" icon="fa-play-circle"/>
             </div>
@@ -107,6 +108,22 @@
       </field>
     </record>
 
+    <record model="ir.actions.act_window" id="bf_whatsapp_base_mail_templates">
+      <field name="name">Plantillas</field>
+      <field name="res_model">mail.template</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('is_wa_template','=',True)]</field>
+      <field name="context">{'whats_app_module':True}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Listado de Plantillas de WhatsApp
+        </p>
+        <p>
+          Click 'Nuevo' para añadir nuevas plantillas.
+        </p>
+      </field>
+    </record>
+
     <record model="ir.actions.act_window" id="bf_whatsapp_config_action_windows">
       <field name="name">Configuración de WhatsApp</field>
       <field name="res_model">bf.whatsapp.config</field>
@@ -136,7 +153,7 @@
         <field name="inherit_id" ref="sale.view_order_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='action_cancel']" position="after">
-                <button name="sale_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatsApp"
+                <button name="sale_whatsapp" type="object" class="btn btn-success" string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -147,7 +164,7 @@
         <field name="inherit_id" ref="stock.view_picking_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='action_cancel']" position="after">
-                <button name="inventory_whatsapp" type="object" class="oe_highlight"
+                <button name="inventory_whatsapp" type="object" class="btn btn-success"
                         string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
@@ -159,7 +176,7 @@
         <field name="inherit_id" ref="account.view_move_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='button_draft']" position="after">
-                <button name="invoice_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatsApp"
+                <button name="invoice_whatsapp" type="object" class="btn btn-success" string="Enviar por WhatsApp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -170,7 +187,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//form/header/button[@name='button_cancel']" position="after">
-                <button name="purchase_whatsapp" type="object" class="oe_highlight" string="Enviar por WhatAapp"
+                <button name="purchase_whatsapp" type="object" class="btn btn-success" string="Enviar por WhatAapp"
                         icon="fa-whatsapp"/>
             </xpath>
         </field>
@@ -189,8 +206,8 @@
     <menuitem name="Mensajes enviados" id="bf_whatsapp_base.messages_list" parent="bf_whatsapp_base.messages"
               action="bf_whatsapp_base_messages_action_window"/>
     <menuitem name="Plantillas" id="bf_whatsapp_base.templates" parent="bf_whatsapp_base.menu_root"
-      action="mail.action_email_template_tree_all" sequence="22"/>
-    <menuitem name="Configuración de WhatsApp" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root" sequence="23"/>
+      action="bf_whatsapp_base_mail_templates" sequence="22"/>
+    <menuitem name="Configuración de WhatsApp" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root" sequence="23" groups="bf_whatsapp_base.group_what_tecnico"/>
     <menuitem name="Conectar Servidor" id="bf_whatsapp_base.config_setup" parent="bf_whatsapp_base.config" 
               action="bf_whatsapp_config_action_windows"/>
 
