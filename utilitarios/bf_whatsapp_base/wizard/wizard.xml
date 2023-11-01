@@ -13,6 +13,7 @@
                         <field name="user_id" string="Cliente" readonly="1" force_save="1"/>
                         <field name="mobile_number" string="N° de Celular" readonly="1" force_save="1"/>
                         <field name="message" string="Mensaje"/>
+                        <field name="attachment" string="Adjunto" widget="many2many_binary"/>
                     </group>
                     <footer>
                         <button name="prepare_messages" string="Enviar" type="object" class="oe_highlight"/>

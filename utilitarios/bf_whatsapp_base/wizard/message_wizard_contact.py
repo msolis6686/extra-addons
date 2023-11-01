@@ -36,8 +36,7 @@ class SendContactMessage(models.TransientModel):
                 'res_id': self.id,
             }
             return send_msg
-        
-    
+
     def prepare_messages(self):
         if self.message:
             mensaje = self.message
@@ -58,5 +57,3 @@ class SendContactMessage(models.TransientModel):
                     'phone':phone,
                     'attachment_ids': False                    
                 })
-                """ self.message_post(body="Se creo un mensaje de WhatsApp exitosamente para ser enviado.",
-                                    subject="WhatsApp")   """

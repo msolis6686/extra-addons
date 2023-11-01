@@ -65,17 +65,9 @@
           <sheet>
             <header>
               <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>
-              <!-- <button name="destroy_services" type="object" class="oe_stat_button" string="Desconectar" icon="fa-play-circle"/> -->
               <button name="initializing_services" type="object" class="oe_stat_button" string="Inicializar Servicio" icon="fa-play-circle"/>
               <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
-              <!-- <button name="active_config" type="object" class="oe_stat_button" string="Predeterminado" icon="fa-play-circle"/> -->
             </header>
-            <!-- <div class="oe_button_box" name="button_box">
-              <button name="status_services" type="object" class="oe_stat_button" string="Estado del Servicio" icon="fa-play-circle"/>
-              <button name="destroy_services" type="object" class="oe_stat_button" string="Desconectar" icon="fa-play-circle"/>
-              <button name="x_services" type="object" class="oe_stat_button" string="x function..." icon="fa-play-circle"/>
-              <button name="connected_services" type="object" class="oe_stat_button" string="Recuperar QR..." icon="fa-play-circle"/>
-            </div> -->
             <group name='group_top'>
               <field name="name" string="Nombre"/>
               <field name="link_api" string="Link de API"/>
@@ -95,8 +87,6 @@
                   <field name="qr_image" string="Imagen QR" widget="image" style="width:300px;"/>
                 </tree>
               </field>
-              
-              <!-- <field name='qr_image' widget="image" style="width:250px;"/> -->
             </group>
           </sheet>
         </form>
@@ -185,21 +175,9 @@
             </xpath>
         </field>
     </record>
-    <!-- <record model="ir.ui.view" id="whatsapp_button">
-        <field name="name">whatsapp_button_contacts</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"></field>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='wa_mobile']" position="after">
-                <button icon="fa-whatsapp" style="color:#25D366;border:none" help="Send WhatsApp Message" name="contact_whatsapp" type="object" attrs="{'invisible': [('mobile', '=', False)]}"/>
-            </xpath>
-        </field>
-    </record> -->
-    <!-- BUTTONS -->
 
-    <!-- Top menu item -->
+    <!-- MENUS -->
 
-    <!-- Top menu item -->
     <menuitem
         id="bf_whatsapp_base.menu_root"
         name="WhatsApp"
@@ -207,11 +185,12 @@
         sequence="20"
         groups="bf_whatsapp_base.group_what_admin"/>
 
-    <menuitem name="Mensajes de WhatsApp" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Mensajes de WhatsApp" id="bf_whatsapp_base.messages" parent="bf_whatsapp_base.menu_root" sequence="21"/>
     <menuitem name="Mensajes enviados" id="bf_whatsapp_base.messages_list" parent="bf_whatsapp_base.messages"
               action="bf_whatsapp_base_messages_action_window"/>
-
-    <menuitem name="Configuración de WhatsApp" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root"/>
+    <menuitem name="Plantillas" id="bf_whatsapp_base.templates" parent="bf_whatsapp_base.menu_root"
+      action="mail.action_email_template_tree_all" sequence="22"/>
+    <menuitem name="Configuración de WhatsApp" id="bf_whatsapp_base.config" parent="bf_whatsapp_base.menu_root" sequence="23"/>
     <menuitem name="Conectar Servidor" id="bf_whatsapp_base.config_setup" parent="bf_whatsapp_base.config" 
               action="bf_whatsapp_config_action_windows"/>
 

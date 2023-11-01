@@ -27,9 +27,6 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
-        #'views/templates.xml',
-        #'views/template.xml',
-        #'views/account_invoice.xml',
         'views/res_partner.xml',
         'wizard/create_message.xml',
         'wizard/massive_wa_send_wizard.xml',
@@ -39,8 +36,4 @@
         'data/template.xml',
         'data/registros.xml',
     ],
-    # only loaded in demonstration mode
-    #'demo': [
-    #    'demo/demo.xml',
-    #],
 }
