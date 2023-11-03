@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-from email.policy import default
-from odoo import models, fields, api,_
-import json
+from odoo import models, fields, _
 import requests
 import qrcode
-from PIL import Image
 import base64
 import io
-from odoo.exceptions import UserError
-from datetime import datetime
 
 class bf_whatsapp_qrs(models.Model):
     _name = 'bf.whatsapp.qrs'
@@ -59,9 +54,6 @@ class bf_whatsapp_config(models.Model):
         self.active_conf = True
     
     def connect_api(self):
-        """ config = self.env['bf.whatsapp.config'].search([("active_conf","=",True)])
-        for c in config:
-            api_link = c.link_api"""
         api_link = self.link_api       
         return(api_link)
         

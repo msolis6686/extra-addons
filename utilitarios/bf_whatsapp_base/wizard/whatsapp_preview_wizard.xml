@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bf_whatsapp_base_preview_wizard" model="ir.ui.view">
+        <field name="name">bf.whatsapp.base.preview.wizard</field>
+        <field name="model">bf.whats.app.base.wizard.preview</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="wa_template_id"/>
+                        <field name="text_preview"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="cancel" string="Cerrar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

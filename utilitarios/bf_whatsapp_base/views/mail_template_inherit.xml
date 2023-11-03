@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_bf_whatsapp_base_preview_template" model="ir.ui.view">
+        <field name="name">inherit.bf.whatsapp.base.preview.template</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="generate_wa_preview" type="object" string="Vista Previa WA" class="oe_stat_button"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

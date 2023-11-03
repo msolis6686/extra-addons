@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="whatsapp_contact_wizard" model="ir.ui.view">
+            <field name="name">whatsapp.wizard.contact.form</field>
+            <field name="model">whatsapp.wizard.contact</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Whatsapp Message">
+                    <group>
+                        <field name="user_id" string="Cliente" style="margin-bottom:20px;"/>
+                        <label for="mobile_number" string="Celular" style="margin-bottom:20px;"/>
+                        <field name="mobile_number" nolabel="1"/>
+                        <field name="message" string="Mensaje" widget="text_emojis"/>
+                    </group>
+                    <footer>
+                        <button name="prepare_messages" string="Enviar" type="object"
+                                class="oe_highlight"/>
+                        <button name="cancel" string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

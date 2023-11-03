@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<odoo>
-    <data>
-        <record id="bf_ofreser_res_partner_form_view" model="ir.ui.view">
-            <field name="name">bf.ofreser.res.partner.form.view</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"></field>
-            <field name="arch" type="xml">
-                <field name="mobile" position="after">
-                    <field name="mobile_2" widget="phone" string="Móvil 2"/>
-                </field>
-            </field>
-        </record>
-    </data>
-</odoo> -->
 <odoo>
     <data>
-        <record id="bf_res_partner_form_view" model="ir.ui.view">
+        <record id="bf_res_partner_form_view_mobile2" model="ir.ui.view">
             <field name="name">bf.res.partner.form.view</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"></field>
             <field name="arch" type="xml">
-                
-                <field name="category_id" position="after">
-                    <label for="wa_mobile"/>
-                    <div class="o_row">
-                        <field name="wa_mobile" widget="phone" string="Núm. Whatsapp"/>
-                    </div>
-                </field>
-
-                <field name="wa_mobile" position="after">
+                <field name="mobile" position="after">
                     <label for="mobile_2"/>
                     <div class="o_row">
                         <field name="mobile_2" widget="phone" string="Móvil 2"/>
                     </div>
                 </field>
-                
+            </field>
+        </record>
+
+        <record id="bf_res_partner_form_view" model="ir.ui.view">
+            <field name="name">bf.res.partner.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"></field>
+            <field name="arch" type="xml">                
+                <field name="category_id" position="after">
+                    <label for="wa_mobile"/>
+                    <div class="o_row">
+                        <field name="wa_mobile" widget="phone" string="Núm. Whatsapp"/>
+                        <button icon="fa-whatsapp" style="color:#25D366;border:none" help="Enviar mensaje Whatsapp" name="contact_whatsapp" type="object" attrs="{'invisible': [('wa_mobile', '=', False)]}"/>
+                    </div>
+                </field>
             </field>
         </record>
     </data>

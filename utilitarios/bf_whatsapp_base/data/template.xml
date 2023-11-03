@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="whatsapp_sales_template" model="mail.template">
+        <field name="name">WhatsApp Sale template</field>
+        <field name="subject">Plantilla de Ventas</field>
+        <field name="is_wa_template">True</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
+         <div>
+            Estimado *${object.partner_id.name or ''}*,
+         </div>
+         % if object.state == 'draft' or object.state == 'sent':
+            Su presupuesto *${object.name}* de la fecha *${object.date_order}* esta listo.
+            <div>
+            </div>
+         % else:
+            <div>
+                Su pedido de venta *${object.name}* esta confirmado.
+            </div>
+            <div>
+                Your order date and time is "${object.date_order}"
+            </div>
+         % endif
+        <div>
+            En caso de tener preguntas o consultas, no dude en contactarnos.
+        </div>
+        ]]>
+        </field>
+    </record>
+    <record id="whatsapp_inventory_template" model="mail.template">
+        <field name="name">Whatsapp Inventory template</field>
+        <field name="subject">Plantilla de Inventario</field>
+        <field name="is_wa_template">True</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
+         <p style="margin: 0px; padding: 0px; font-size: 13px;">
+         <div>
+            Sr/a, *${object.partner_id.name or ''}*,
+         </div>
+         <div>
+             % if object.state == 'draft':
+                Recibimos tu orden *${object.name}*. Sera enviada pronto.
+                <div>
+                    Detalles de la orden: <br>
+                    % for each in object:
+                        % for id in each.move_ids_without_package:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.product_uom_qty}* <br>
+                        % endfor
+                    % endfor
+                </div>
+             % endif
+             % if object.state == 'confirmed':
+                Su orden *${object.name}* esta lista y pronto sera despachada.
+                <div>
+                    Detalles de la orden: <br>
+                    % for each in object:
+                        % for id in each.move_line_ids_without_package:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.product_uom_qty}* <br>
+                        % endfor
+                    % endfor
+                </div>
+             % endif
+             % if object.state == 'assigned':
+                Su orden *${object.name}* esta lista y pronto sera despachada.
+                <div>
+                    Detalles de la orden: <br>
+                    % for each in object:
+                        % for id in each.move_line_ids_without_package:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.product_uom_qty}* <br>
+                        % endfor
+                    % endfor
+                </div>
+             % endif
+             % if object.state == 'done':
+                Su orden *${object.name}* ha sido despachada.
+                <div>
+                    Detalles de la orden: <br>
+                    % for each in object:
+                        % for id in each.move_line_ids_without_package:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.qty_done}* <br>
+                        % endfor
+                    % endfor
+                </div>
+             % endif
+         </div>
+         <div>
+            Si tiene preguntas o consultas, no dude en contactarnos.
+         </div>
+            </p>
+        ]]>
+        </field>
+    </record>
+    <record id="whatsapp_invoice_template" model="mail.template">
+        <field name="name">Whatsapp Invoice template</field>
+        <field name="subject">Plantilla de Facturación</field>
+        <field name="is_wa_template">True</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="body_html">
+            <![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
+        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                <div>
+                    Estimado/a *${object.partner_id.name}*,
+                </div>
+                <div>
+                    Se remite adjunta su documento *${object.name}* (con referencia: ${object.invoice_origin}) de *${object.company_id.name}*.
+                </div>
+                <div>
+                    Por consultas o sugerencias, comunicarse vía e-mail 👉 *carlos@elasticosmym.com.ar*
+                </div>
+        ]]>
+        </field>
+    </record>
+    <record id="whatsapp_purchase_template" model="mail.template">
+        <field name="name">Whatsapp Purchase template</field>
+        <field name="subject">Plantilla de Compras</field>
+        <field name="is_wa_template">True</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
+             <p style="margin: 0px; padding: 0px; font-size: 13px;">
+             <div>
+                Sr/a *${object.partner_id.name or ''}*,
+             </div>
+            % if object.state == 'draft' or object.state == 'sent':
+                Le hacemos llegar el pedido de presupuesto *${object.name}* con los siguientes detalles:
+                <div>
+                    % for each in object:
+                        % for id in each.order_line:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.product_qty}* <br>
+                            *Precio: ${id.price_subtotal}*<br>
+                        % endfor
+                    % endfor
+                </div>
+            % else:
+                <div>
+                    Pedido de compra *${object.name}* confirmado a la fecha "${object.date_approve}".
+                </div>
+                <div>
+                    Detalles del pedido: <br>
+                    % for each in object:
+                        % for id in each.order_line:
+                            *Producto: ${id.product_id.name}* <br>
+                            *Cantidad: ${id.product_qty}* <br>
+                            *Precio: ${id.price_subtotal}*<br>
+                        % endfor
+                    % endfor
+                </div>
+            % endif
+            <div>
+                Si tiene alguna pregunta o consulta, no dude en contactarnos.
+            </div>
+        ]]>
+        </field>
+    </record>
+    <record id="whatsapp_contacts_template" model="mail.template">
+        <field name="name">Whatsapp Contact template</field>
+        <field name="subject">Plantilla de Contacto</field>
+        <field name="is_wa_template">True</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="body_html"></field>
+    </record>
+</odoo>

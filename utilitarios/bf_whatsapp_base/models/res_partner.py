@@ -1,7 +1,5 @@
 # -*- coding: utf:8 -*-
-import string
 from odoo import api, models, fields, _
-from odoo.addons.phone_validation.tools import phone_validation
 
 
 class ResPartner(models.Model):
