@@ -1,10 +1,6 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
-from odoo.tools import html2plaintext, plaintext2html
-from odoo.tools.mimetypes import guess_mimetype
-from odoo.tools import config, human_size, ustr, html_escape
+from odoo.exceptions import ValidationError
 import html2text
-from odoo.tools import plaintext2html
 from odoo.tools.safe_eval import safe_eval
 #import urllib.parse as parse
 
@@ -15,16 +11,10 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class MessageError(models.TransientModel):
-    _name='display.error.message'
-    def get_message(self):
-        if self.env.context.get("message", False):
-            return self.env.context.get('message')
-        return False
-    name = fields.Text(string="Message", readonly=True, default=get_message)
 
 class SendMessage(models.TransientModel):
     _name = 'whatsapp.wizard'
+    _description = 'WhatsApp Message Wizard'
 
     user_id = fields.Many2one('res.partner', string="Recipient Name", default=lambda self: self.env[self._context.get('active_model')].browse(self.env.context.get('active_ids')).partner_id)
     mobile_number = fields.Char()
@@ -122,7 +112,7 @@ class SendMessage(models.TransientModel):
                 if cod_pais != "54":
                     phone = "54" + phone
                 if not phone:
-                    raise UserError(_(f"El cliente {self.user_id.name} no")
+                    raise ValidationError(_(f"El cliente {self.user_id.name} no")
                         ("tiene un numero de telefono de WhatsApp definido."))
                 wa_record = self.env['bf.whatsapp.message'].create({
                     'name':self.user_id.id,
@@ -151,10 +141,9 @@ class SendMessage(models.TransientModel):
         """ Check if a given model has chatter. Returns (bool). 
         model_to_check: (str). Model to check, example: 'account.move'."""
         model_has_mail = False
-        try:
-            self.env[model_to_check].message_ids
+        if "message_ids" in self.env[model_to_check]._fields:
             model_has_mail = True
-        except Exception as e:
+        else:
             _logger.info(f"The model {model_to_check} has no message_post attribute.")
             _logger.info("Skipping the creation of a message post.")
         return model_has_mail

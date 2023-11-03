@@ -1,7 +1,5 @@
-from odoo import models, fields, api, _
-import urllib.parse as parse
-from odoo.exceptions import UserError, ValidationError
-from itertools import groupby
+from odoo import models, _
+from odoo.exceptions import ValidationError
 
 class SaleOrderValidation(models.Model):
     _inherit = 'sale.order'

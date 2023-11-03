@@ -1,5 +1,4 @@
-from odoo import models, fields, api, _
-import urllib.parse as parse
+from odoo import models, _
 from odoo.exceptions import ValidationError
 
 class PurchaseOrderModule(models.Model):
