@@ -8,6 +8,8 @@ import random
 from odoo.tools import config
 from datetime import datetime
 import time
+import base64
+import json
 
 _logger = logging.getLogger(__name__)
 I_SERV = 0
@@ -110,6 +112,120 @@ class bf_whatsapp_message(models.Model):
         except:
             title = "SERVER OFFLINE"
             mess = "El servidor no responde."
+            message = self.notifications(title,mess)
+            return message
+
+    def send_message(self,reg=False):
+        if not reg:
+            reg = self
+        
+        #config = self.env['bf.whatsapp.config'].sudo().search([("active_conf","=",True)])
+        # SELECCIONO EL SERVER SECUENCIALMENTE
+        config = self.selectServer()
+
+        if config.header_message and config.footer_message:
+            mess = "*" + config.header_message + "* \n\n" +  reg.message + "\n\n" + config.footer_message
+        else:
+            mess = reg.message
+        
+        phone = reg.phone.replace(" ", "").replace("+","").replace("-","")
+        
+        #PREGUNTO SI EL NÚMERO TIENE EL CÓDIGO DEL PAIS, SINO LO TIENE LO AGREGA.
+        cod_pais = phone[:2]
+        if cod_pais != "54":
+            phone = "54" + phone
+        #media = False
+        if reg.attachment_ids:
+            media = []
+            attachment_new_ids = []
+            for attach in reg.attachment_ids:
+                full_path = self._full_path(attach.store_fname)
+                encoded_string = base64.b64encode(open(full_path, 'rb').read())
+                base64_message = encoded_string.decode('utf-8')
+                mimetype = attach.mimetype
+                if mimetype == 'application/octet-stream':
+                    mimetype = 'video/mp4'
+                vals = {
+                        'filename': attach.name,
+                        'type': mimetype,
+                        'data': base64_message                        
+                        }
+                media.append(vals)
+        else:
+            media = False
+        
+        data_message = json.dumps(media)
+        logo=False
+        logo_url=False
+        if config.logo:
+            binary = self.env["ir.attachment"].sudo().search([("res_model", "=", "bf.whatsapp.config"),("res_id", "=", config.id),("res_field", "=", "logo"),],limit=1)
+            if binary:
+                logo = []
+                full_path = self._full_path(binary.store_fname)
+                encoded_string = base64.b64encode(open(full_path, 'rb').read())
+                base64_message = encoded_string.decode('utf-8')
+                mimetype = binary.mimetype
+                if mimetype == 'application/octet-stream':
+                    mimetype = 'video/mp4'
+                vals = {
+                        'filename': config.logo_name,
+                        'type': mimetype,
+                        'data': base64_message                        
+                        }
+                logo.append(vals)
+        if config.logo_url:
+            logo_url = config.logo_url
+        data = {
+            'messages':
+                [{
+                    'id':reg.id,
+                    'message':mess,
+                    'phone':phone,
+                    'media':data_message,
+                    'logo':logo,
+                    'logo_url':logo_url,
+                }]
+            }
+        #print(media[:20])
+        if not reg.send_state:
+            try:
+                resp = self.send_command("send_message",data,config)
+                resp = resp.json()
+                band = True
+            except Exception as e:
+                print("Oops!", e.__class__, "occurred.")
+                title = "SERVER OFFLINE"
+                mess = "El servidor no responde."
+                message = self.notifications(title,mess)
+                band = False
+                return message
+        
+            logging.info("RESPUESTA DEL SERVIDOR")
+            logging.info(resp)
+            if resp!=[None] and band:
+                for item in resp:
+                    if item:
+                        reg = self.env['bf.whatsapp.message'].search([("id","=",item["id_externo"])])
+                        now = datetime.now()
+                        reg.id_w = item['id']
+                        reg.server_name = item['server_name']
+                        reg.server_phone = item['server_phone']
+                        reg.sent_date = now
+                        reg.send_state = True
+                        #reg.message = mess
+                
+                title = "Mensajes enviados"
+                mess = "Se envió su mensaje correctamente"
+                message = self.notifications(title,mess)
+                #return message
+            else:
+                title = "SERVIDOR DESCONECTADO"
+                mess = "El servidor no responde. Reintente mas tarde."
+                message = self.notifications(title,mess)
+                return message
+        else:
+            title = "Error al enviar"
+            mess = "No puede reenviar este mensaje.\nEn su lugar, intente duplicarlo."
             message = self.notifications(title,mess)
             return message
 
