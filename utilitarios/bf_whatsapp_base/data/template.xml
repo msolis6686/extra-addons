@@ -106,7 +106,7 @@
                     Estimado/a *${object.partner_id.name}*,
                 </div>
                 <div>
-                    Se remite adjunta su documento *${object.name}* (con referencia: ${object.invoice_origin}) de *${object.company_id.name}*.
+                    Se remite adjunto su documento *${object.name}* (con referencia: ${object.invoice_origin}) de *${object.company_id.name}*.
                 </div>
                 <div>
                     Por consultas o sugerencias, comunicarse vía e-mail 👉 *carlos@elasticosmym.com.ar*
