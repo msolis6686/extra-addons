@@ -25,8 +25,12 @@ class SendMessage(models.TransientModel):
 
     @api.onchange('template_id')
     def onchange_template_id_wrapper(self):
+        """ It is important to supply an active_id here. You can do it with
+        .with_context(active_id='your_id_here') """
         self.ensure_one()
-        res_id = self._context.get('active_id') or 1
+        if not self._context.get('active_id'):
+            raise ValidationError('No active_id supplied.')
+        res_id = self._context.get('active_id')
         values = self.onchange_template_id(self.template_id.id, self.model, res_id)['value']
         for fname, value in values.items():
             setattr(self, fname, value)
@@ -102,7 +106,7 @@ class SendMessage(models.TransientModel):
         if self.message:
             active_model = self.env.context.get('active_model')
             active_id = self.env.context.get('active_id')
-            model_has_mail = self.check_model_mail(self.env.context.get('active_model'))
+            model_has_mail = self.check_model_mail(active_model)
             phone = self.user_id.wa_mobile
             if phone and len(phone) >= 8:
                 phone = str(phone)
@@ -138,12 +142,14 @@ class SendMessage(models.TransientModel):
         self.env[model].browse(record_id).message_post(body=msg, subject=msg_subject)
 
     def check_model_mail(self, model_to_check):
-        """ Check if a given model has chatter. Returns (bool). 
+        """ Check if a given model has chatter. Defaults to False if 
+        no model_to_check is given. Returns (bool). 
         model_to_check: (str). Model to check, example: 'account.move'."""
         model_has_mail = False
-        if "message_ids" in self.env[model_to_check]._fields:
-            model_has_mail = True
-        else:
-            _logger.info(f"The model {model_to_check} has no message_post attribute.")
-            _logger.info("Skipping the creation of a message post.")
+        if model_to_check:
+            if "message_ids" in self.env[model_to_check]._fields:
+                model_has_mail = True
+            else:
+                _logger.info(f"The model {model_to_check} has no message_post attribute.")
+                _logger.info("Skipping the creation of a message post.")
         return model_has_mail
