@@ -19,4 +19,6 @@ class ResPartner(models.Model):
     def cron_copy_mobiles(self):
         partners = self.env['res.partner'].search([("mobile","!=",False)])
         for reg in partners:
-            reg.wa_mobile = reg.mobile            
+            reg.wa_mobile = reg.mobile
+        for reg_2 in partners:
+            reg_2.onchange_mobile_validation()
