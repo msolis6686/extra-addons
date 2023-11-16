@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import html2text
 from odoo.tools.safe_eval import safe_eval
+from odoo.tools import html2plaintext
 #import urllib.parse as parse
 
 #import os
@@ -120,7 +121,7 @@ class SendMessage(models.TransientModel):
                         ("tiene un numero de telefono de WhatsApp definido."))
                 wa_record = self.env['bf.whatsapp.message'].create({
                     'name':self.user_id.id,
-                    'message':self.message,
+                    'message': html2plaintext(self.message),
                     'phone':phone,
                     #'attachment_ids': atta
                     'attachment_ids': self.attachment
