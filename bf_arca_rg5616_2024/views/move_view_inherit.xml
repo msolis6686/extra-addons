@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_move_form_add_afip_button_and_field" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.add_afip_button_and_field</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_ar_afipws_fe.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add the 'Check rate' button after the 'Post' button -->
+            <!-- <xpath expr="//button[@name='action_post']" position="after">
+                <button name="get_pyafipws_currency_rate"
+                        type="object"
+                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('validation_type', '=', False), ('invoice_date', '=', False)]}"
+                        string="Consultar Tasa de Divisa"
+                        groups="account.group_account_invoice"/>
+            </xpath> -->
+            <xpath expr="//button[@name='action_post']" position="after">
+                <button name="get_pyafipws_currency_rate"
+                        invisible="1"
+                        type="object"
+                        string="Consultar Tasa de Divisa"
+                        groups="base.group_no_one"/>
+            </xpath>
+
+            <!-- Add foreign currency field after the concept field -->
+            <xpath expr="//field[@name='l10n_ar_afip_concept']" position="after">
+                <field name="l10n_ar_payment_foreign_currency" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
